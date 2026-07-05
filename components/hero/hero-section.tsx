@@ -51,20 +51,20 @@ export function HeroSection() {
           className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1 bg-[#FFB800]/15 border border-[#FFB800]/30 rounded-full text-sm font-semibold text-[#FFB800] mb-6 shadow-[0_0_15px_rgba(255,184,0,0.2)]">
-            <Star className="w-4 h-4 fill-current" />
-            💰 다른곳보다 더 비싸게 쳐드림
+            <Shield className="w-4 h-4" />
+            안전하고 빠른 거래
           </div>
 
           <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-foreground leading-tight">
-            급처템 팔면
+            메이플스토리
             <br />
-            <span className="text-gradient">저희가 제일 많이 쳐드림</span>
+            <span className="text-gradient">아이템 고가매입</span>
           </h1>
 
-          <p className="text-xl leading-relaxed text-foreground/80 mb-8 font-bold">
-            💸 다른 업체보다 더 높게 구매
+          <p className="text-xl leading-relaxed text-foreground/80 mb-8">
+            <span className="font-semibold">실시간 시세 확인</span>으로 정확한 가격 제시
             <br />
-            ⚡ 카톡으로 5분 안에 현금화
+            <span className="font-semibold">전서버 지원</span>, 빠른 거래 진행
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -80,7 +80,7 @@ export function HeroSection() {
                 as="span"
               >
                 <Star className="w-5 h-5 fill-current" />
-                급처템 판매하기
+                거래 문의하기
               </Button>
             </a>
             <Link href="/guide">
@@ -93,9 +93,9 @@ export function HeroSection() {
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-4">
-            <StatCard number="7-10" label="오늘 구매" />
-            <StatCard number="1,800+" label="총 구매" />
-            <StatCard number="100%" label="안전 구매" />
+            <StatCard number="15" label="전서버 지원" />
+            <StatCard number="1,800+" label="누적 거래" />
+            <StatCard number="0건" label="사기 피해" />
           </div>
         </MotionDiv>
 
@@ -117,7 +117,7 @@ export function HeroSection() {
             className="absolute bottom-8 right-8 glass-small rounded-2xl px-6 py-4 flex items-center gap-3 text-sm font-medium text-foreground"
           >
             <Shield className="w-6 h-6 text-[#FFD700]" />
-            <span>100% 안전 구매 보장</span>
+            <span>투명한 시세 · 안전한 거래</span>
           </MotionDiv>
         </MotionDiv>
       </div>
