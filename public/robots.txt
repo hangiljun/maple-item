@@ -1,0 +1,7 @@
+# robots.txt for mapleitem.co.kr
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+Sitemap: https://mapleitem.co.kr/sitemap.xml
