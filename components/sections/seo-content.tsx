@@ -74,19 +74,19 @@
             <ol className="space-y-4 text-muted-foreground">
               <li className="flex items-start">
                 <span className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold mr-4">1</span>
-                <span><strong className="text-foreground">회원가입</strong> - 간편하게 가입하고 로그인하세요</span>
+                <span><strong className="text-foreground">카카오톡 문의</strong> - 판매하실 아이템 스크린샷과 서버 정보를 전송하세요</span>
               </li>
               <li className="flex items-start">
                 <span className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold mr-4">2</span>
-                <span><strong className="text-foreground">서버 선택</strong> - 스카니아, 루나, 엘리시움, 오로라, 크로아 등 원하는 메이플 서버를 선택하세요</span>
+                <span><strong className="text-foreground">시세 확인</strong> - 실시간 경매장 시세를 확인하여 정확한 가격을 제시받으세요</span>
               </li>
               <li className="flex items-start">
                 <span className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold mr-4">3</span>
-                <span><strong className="text-foreground">아이템 검색</strong> - 원하는 무기, 방어구, 장비를 검색하고 시세를 확인하세요</span>
+                <span><strong className="text-foreground">가격 협의</strong> - 제시된 가격에 동의하시면 거래를 진행합니다</span>
               </li>
               <li className="flex items-start">
                 <span className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold mr-4">4</span>
-                <span><strong className="text-foreground">안전 거래</strong> - 안전결제 시스템으로 믿을 수 있는 거래를 완료하세요</span>
+                <span><strong className="text-foreground">거래 완료</strong> - 게임 내 직거래 후 즉시 대금을 지급받으세요</span>
               </li>
             </ol>
           </div>

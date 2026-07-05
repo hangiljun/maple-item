@@ -1,4 +1,4 @@
-﻿export const KAKAO_LINK = "https://open.kakao.com/o/sDRIr7Bi";
+﻿export const KAKAO_LINK = "https://open.kakao.com/o/sgGZ8ICi";
 export const KAKAO_ID = "메이플아이템";
 export const SITE_NAME = "메이플아이템";
 export const SITE_DESCRIPTION = "메이플스토리 급처템 고가매입 - 빠르고 안전한 아이템 판매";
