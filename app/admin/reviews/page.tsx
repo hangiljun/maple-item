@@ -37,19 +37,19 @@ export default function AdminReviewsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-white">
       {/* 헤더 */}
-      <div className="bg-gray-800/50 backdrop-blur-lg border-b border-gray-700">
+      <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 py-4">
           <Link
             href="/admin"
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition mb-4"
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition mb-4"
           >
             <ArrowLeft size={20} />
             <span>대시보드로</span>
           </Link>
-          <h1 className="text-2xl font-bold text-white">후기 관리</h1>
-          <p className="text-gray-400 text-sm">총 {reviews.length}개의 후기</p>
+          <h1 className="text-2xl font-bold text-gray-900">후기 관리</h1>
+          <p className="text-gray-600 text-sm">총 {reviews.length}개의 후기</p>
         </div>
       </div>
 
@@ -57,7 +57,7 @@ export default function AdminReviewsPage() {
         {/* 후기 목록 */}
         <div className="space-y-4">
           {reviews.map((review) => (
-            <div key={review.id} className="glass rounded-xl p-6">
+            <div key={review.id} className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-4 flex-1">
                   <div className="bg-gradient-to-br from-[#FFB800] to-[#FF9500] w-12 h-12 rounded-full flex items-center justify-center text-white font-bold">
@@ -65,8 +65,8 @@ export default function AdminReviewsPage() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-1">
-                      <span className="font-bold text-white">{review.author}</span>
-                      <span className="text-gray-400 text-sm">{review.server}</span>
+                      <span className="font-bold text-gray-900">{review.author}</span>
+                      <span className="text-gray-600 text-sm">{review.server}</span>
                       <span className="text-gray-500 text-sm">#{review.id}</span>
                     </div>
                   </div>
@@ -74,8 +74,8 @@ export default function AdminReviewsPage() {
               </div>
 
               {/* 내용 */}
-              <div className="bg-gray-800/30 rounded-lg p-4 mb-4">
-                <p className="text-gray-300">{review.content}</p>
+              <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                <p className="text-gray-700">{review.content}</p>
               </div>
 
               {/* 사진 */}

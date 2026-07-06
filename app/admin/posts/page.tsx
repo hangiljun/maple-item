@@ -191,21 +191,21 @@ export default function AdminPostsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-white">
       {/* 헤더 */}
-      <div className="bg-gray-800/50 backdrop-blur-lg border-b border-gray-700">
+      <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 py-4">
           <Link
             href="/admin"
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition mb-4"
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition mb-4"
           >
             <ArrowLeft size={20} />
             <span>대시보드로</span>
           </Link>
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-white">게시글 관리</h1>
-              <p className="text-gray-400 text-sm">총 {posts.length}개의 게시글</p>
+              <h1 className="text-2xl font-bold text-gray-900">게시글 관리</h1>
+              <p className="text-gray-600 text-sm">총 {posts.length}개의 게시글</p>
             </div>
             <Button
               onClick={() => setShowEditor(!showEditor)}
@@ -221,8 +221,8 @@ export default function AdminPostsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8">
         {/* 에디터 */}
         {showEditor && (
-          <div className="glass rounded-xl p-8 mb-8">
-            <h2 className="text-xl font-bold text-white mb-6">
+          <div className="bg-white rounded-xl p-8 mb-8 border border-gray-200 shadow-sm">
+            <h2 className="text-xl font-bold text-gray-900 mb-6">
               {editingPost ? "게시글 수정" : "새 게시글 작성"}
             </h2>
 
@@ -230,13 +230,13 @@ export default function AdminPostsPage() {
               {/* 카테고리 및 옵션 */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     카테고리
                   </label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800 text-white focus:border-[#FFB800] focus:ring-2 focus:ring-[#FFB800]/20 outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 focus:border-[#FFB800] focus:ring-2 focus:ring-[#FFB800]/20 outline-none"
                     required
                   >
                     <option value="공지">공지</option>
@@ -246,13 +246,13 @@ export default function AdminPostsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     태그
                   </label>
                   <select
                     value={tag}
                     onChange={(e) => setTag(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800 text-white focus:border-[#FFB800] focus:ring-2 focus:ring-[#FFB800]/20 outline-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 focus:border-[#FFB800] focus:ring-2 focus:ring-[#FFB800]/20 outline-none"
                   >
                     <option value="최신">최신</option>
                     <option value="진행중">진행중</option>
@@ -264,23 +264,23 @@ export default function AdminPostsPage() {
 
               {/* 옵션 체크박스 */}
               <div className="flex gap-6">
-                <label className="flex items-center gap-2 text-white cursor-pointer">
+                <label className="flex items-center gap-2 text-gray-900 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={featured}
                     onChange={(e) => setFeatured(e.target.checked)}
-                    className="w-5 h-5 rounded border-gray-600 bg-gray-800 text-[#FFB800] focus:ring-[#FFB800]"
+                    className="w-5 h-5 rounded border-gray-300 bg-white text-[#FFB800] focus:ring-[#FFB800]"
                   />
                   <Sparkles size={18} className="text-yellow-400" />
                   <span>추천 게시글</span>
                 </label>
 
-                <label className="flex items-center gap-2 text-white cursor-pointer">
+                <label className="flex items-center gap-2 text-gray-900 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={pinned}
                     onChange={(e) => setPinned(e.target.checked)}
-                    className="w-5 h-5 rounded border-gray-600 bg-gray-800 text-[#FFB800] focus:ring-[#FFB800]"
+                    className="w-5 h-5 rounded border-gray-300 bg-white text-[#FFB800] focus:ring-[#FFB800]"
                   />
                   <Pin size={18} className="text-red-400" />
                   <span>상단 고정</span>
@@ -289,7 +289,7 @@ export default function AdminPostsPage() {
 
               {/* 제목 */}
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   제목
                 </label>
                 <input
@@ -297,7 +297,7 @@ export default function AdminPostsPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="게시글 제목"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800 text-white focus:border-[#FFB800] focus:ring-2 focus:ring-[#FFB800]/20 outline-none"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 focus:border-[#FFB800] focus:ring-2 focus:ring-[#FFB800]/20 outline-none"
                   style={{ color: titleColor, fontSize: titleSize === "2xl" ? "24px" : titleSize === "xl" ? "20px" : titleSize === "lg" ? "18px" : "16px" }}
                   required
                 />
@@ -318,7 +318,7 @@ export default function AdminPostsPage() {
                     <select
                       value={titleSize}
                       onChange={(e) => setTitleSize(e.target.value as "sm" | "base" | "lg" | "xl" | "2xl")}
-                      className="px-3 py-1 rounded-lg border border-gray-600 bg-gray-800 text-white text-sm"
+                      className="px-3 py-1 rounded-lg border border-gray-300 bg-white text-gray-900 text-sm"
                     >
                       <option value="sm">작게</option>
                       <option value="base">보통</option>
@@ -341,7 +341,7 @@ export default function AdminPostsPage() {
 
               {/* 이미지 업로드 */}
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
                   📸 대표 이미지 (선택)
                 </label>
 
@@ -356,7 +356,7 @@ export default function AdminPostsPage() {
                     />
                     <label
                       htmlFor="post-image-upload"
-                      className="flex items-center justify-center gap-2 w-full px-4 py-8 border-2 border-dashed border-gray-600 rounded-xl cursor-pointer hover:border-[#FFB800] hover:bg-gray-800/30 transition"
+                      className="flex items-center justify-center gap-2 w-full px-4 py-8 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#FFB800] hover:bg-white/30 transition"
                     >
                       <ImageIcon size={24} className="text-gray-500" />
                       <span className="text-gray-400">클릭해서 이미지 업로드</span>
@@ -375,7 +375,7 @@ export default function AdminPostsPage() {
                     <button
                       type="button"
                       onClick={removeImage}
-                      className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition"
+                      className="absolute top-2 right-2 p-2 bg-red-500 text-gray-900 rounded-full hover:bg-red-600 transition"
                     >
                       <X size={20} />
                     </button>
@@ -407,21 +407,21 @@ export default function AdminPostsPage() {
             {sortedPosts.map((post) => (
               <div
                 key={post.id}
-                className={`glass rounded-xl p-6 ${post.pinned ? "border-2 border-red-500/50" : ""}`}
+                className={`bg-white border border-gray-200 rounded-xl p-6 shadow-sm ${post.pinned ? "border-2 border-red-500/50" : ""}`}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
                     {post.pinned && (
-                      <div className="inline-flex items-center gap-1 px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-xs font-bold mb-2">
+                      <div className="inline-flex items-center gap-1 px-3 py-1 bg-red-500/20 text-red-700 rounded-full text-xs font-bold mb-2">
                         <Pin size={12} />
                         고정됨
                       </div>
                     )}
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-lg text-sm font-semibold">
+                      <span className="px-3 py-1 bg-purple-500/20 text-purple-700 rounded-lg text-sm font-semibold">
                         {post.category}
                       </span>
-                      <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-lg text-xs">
+                      <span className="px-3 py-1 bg-blue-500/20 text-blue-700 rounded-lg text-xs">
                         {post.tag}
                       </span>
                       {post.featured && (
