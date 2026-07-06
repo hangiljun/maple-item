@@ -20,8 +20,8 @@ const sizeMap: { [key: string]: string } = {
 
 // 재귀적으로 중첩된 태그 파싱
 function parseNestedTags(text: string, key: string = "0"): React.ReactElement {
-  // 태그 정규식
-  const tagRegex = /\[(색|크기):([가-힣a-zA-Z0-9]+)\](.*?)\[\/(색|크기)\]/;
+  // 태그 정규식 - backreference로 여는 태그와 닫는 태그 매칭
+  const tagRegex = /\[(색|크기):([가-힣a-zA-Z0-9]+)\](.*?)\[\/\1\]/;
   const match = tagRegex.exec(text);
 
   if (!match) {
