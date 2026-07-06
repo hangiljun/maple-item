@@ -26,6 +26,7 @@ export interface NewsPost {
   titleSize?: "sm" | "base" | "lg" | "xl" | "2xl";
   contentColor?: string;
   contentSize?: "sm" | "base" | "lg" | "xl" | "2xl";
+  image?: string; // 대표 이미지 URL (선택)
 }
 
 export interface TextStyle {

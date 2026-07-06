@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { isAdmin } from "@/lib/auth";
-import { ArrowLeft, Plus, Edit, Trash2, Pin, PinOff, Sparkles } from "lucide-react";
+import { ArrowLeft, Plus, Edit, Trash2, Pin, PinOff, Sparkles, Image as ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/admin/rich-text-editor";
+import { uploadImage } from "@/lib/upload";
 import Link from "next/link";
 import type { NewsPost } from "@/lib/types";
 
@@ -26,6 +27,9 @@ export default function AdminPostsPage() {
   const [titleSize, setTitleSize] = useState<"sm" | "base" | "lg" | "xl" | "2xl">("base");
   const [contentColor, setContentColor] = useState("#2D2D2D");
   const [contentSize, setContentSize] = useState<"sm" | "base" | "lg" | "xl" | "2xl">("base");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const [uploading, setUploading] = useState(false);
 
   const loadPosts = () => {
     const saved = localStorage.getItem("posts");
@@ -47,40 +51,57 @@ export default function AdminPostsPage() {
     localStorage.setItem("posts", JSON.stringify(newPosts));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const now = new Date();
-    const newId = editingPost?.id || Math.floor(now.getTime() / 1000);
+    setUploading(true);
 
-    const postData: NewsPost = {
-      id: newId,
-      category,
-      icon: category === "이벤트" ? "Sparkles" : category === "시세정보" ? "TrendingUp" : "AlertCircle",
-      title,
-      date: now.toISOString().split('T')[0],
-      time: now.toTimeString().split(' ')[0].substring(0, 5),
-      featured,
-      pinned,
-      content,
-      details: content.split('\n').filter(line => line.trim()),
-      tag,
-      titleColor,
-      titleSize,
-      contentColor,
-      contentSize,
-    };
+    try {
+      const now = new Date();
+      const newId = editingPost?.id || Math.floor(now.getTime() / 1000);
 
-    if (editingPost) {
-      // 수정
-      const updated = posts.map(p => p.id === editingPost.id ? postData : p);
-      savePosts(updated);
-    } else {
-      // 새 작성
-      savePosts([postData, ...posts]);
+      let imageUrl = imagePreview;
+
+      // 새 이미지 파일이 있으면 Firebase에 업로드
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile, 'posts');
+      }
+
+      const postData: NewsPost = {
+        id: newId,
+        category,
+        icon: category === "이벤트" ? "Sparkles" : category === "시세정보" ? "TrendingUp" : "AlertCircle",
+        title,
+        date: now.toISOString().split('T')[0],
+        time: now.toTimeString().split(' ')[0].substring(0, 5),
+        featured,
+        pinned,
+        content,
+        details: content.split('\n').filter(line => line.trim()),
+        tag,
+        titleColor,
+        titleSize,
+        contentColor,
+        contentSize,
+        image: imageUrl || undefined,
+      };
+
+      if (editingPost) {
+        // 수정
+        const updated = posts.map(p => p.id === editingPost.id ? postData : p);
+        savePosts(updated);
+      } else {
+        // 새 작성
+        savePosts([postData, ...posts]);
+      }
+
+      resetForm();
+    } catch (error) {
+      console.error('게시글 등록 실패:', error);
+      alert('게시글 등록에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setUploading(false);
     }
-
-    resetForm();
   };
 
   const resetForm = () => {
@@ -94,6 +115,8 @@ export default function AdminPostsPage() {
     setTitleSize("base");
     setContentColor("#2D2D2D");
     setContentSize("base");
+    setImageFile(null);
+    setImagePreview("");
     setEditingPost(null);
     setShowEditor(false);
   };
@@ -110,7 +133,37 @@ export default function AdminPostsPage() {
     setTitleSize(post.titleSize || "base");
     setContentColor(post.contentColor || "#2D2D2D");
     setContentSize(post.contentSize || "base");
+    setImagePreview(post.image || "");
+    setImageFile(null);
     setShowEditor(true);
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert("이미지 크기는 5MB 이하만 가능합니다.");
+        return;
+      }
+
+      if (!file.type.startsWith('image/')) {
+        alert("이미지 파일만 업로드 가능합니다.");
+        return;
+      }
+
+      setImageFile(file);
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setImageFile(null);
+    setImagePreview("");
   };
 
   const handleDelete = (id: number) => {
@@ -281,10 +334,54 @@ export default function AdminPostsPage() {
                 label="내용"
               />
 
+              {/* 이미지 업로드 */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  📸 대표 이미지 (선택)
+                </label>
+
+                {!imagePreview ? (
+                  <div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      id="post-image-upload"
+                    />
+                    <label
+                      htmlFor="post-image-upload"
+                      className="flex items-center justify-center gap-2 w-full px-4 py-8 border-2 border-dashed border-gray-600 rounded-xl cursor-pointer hover:border-[#FFB800] hover:bg-gray-800/30 transition"
+                    >
+                      <ImageIcon size={24} className="text-gray-500" />
+                      <span className="text-gray-400">클릭해서 이미지 업로드</span>
+                    </label>
+                    <p className="text-xs text-gray-500 mt-2">
+                      * 최대 5MB, JPG/PNG 파일만 가능
+                    </p>
+                  </div>
+                ) : (
+                  <div className="relative">
+                    <img
+                      src={imagePreview}
+                      alt="미리보기"
+                      className="w-full h-64 object-cover rounded-xl"
+                    />
+                    <button
+                      type="button"
+                      onClick={removeImage}
+                      className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition"
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
+                )}
+              </div>
+
               {/* 제출 버튼 */}
               <div className="flex gap-4">
-                <Button type="submit" variant="primary" size="large" className="flex-1">
-                  {editingPost ? "수정 완료" : "게시글 등록"}
+                <Button type="submit" variant="primary" size="large" className="flex-1" disabled={uploading}>
+                  {uploading ? "업로드 중..." : editingPost ? "수정 완료" : "게시글 등록"}
                 </Button>
                 <Button
                   type="button"

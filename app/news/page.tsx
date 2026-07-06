@@ -143,6 +143,15 @@ export default function NewsPage() {
                     <div className="text-base mb-4 leading-relaxed whitespace-pre-wrap text-gray-700 max-h-96 overflow-y-auto">
                       {parseStyledText(latestPost.content)}
                     </div>
+                    {latestPost.image && (
+                      <div className="mb-4">
+                        <img
+                          src={latestPost.image}
+                          alt={latestPost.title}
+                          className="w-full max-h-96 object-cover rounded-xl shadow-lg"
+                        />
+                      </div>
+                    )}
                     <div className="flex items-center gap-4 text-sm text-gray-500 mt-4 pt-4 border-t border-gray-200">
                       <div className="flex items-center gap-2">
                         <Calendar size={16} />
