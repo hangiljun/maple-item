@@ -36,7 +36,6 @@ export function ReviewsSection() {
               <p className="text-lg mb-4 leading-relaxed text-gray-800">&ldquo;{review.content}&rdquo;</p>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600">{review.author}</span>
-                <span className="text-xs text-[#FFB800]">⚡ {review.server}</span>
               </div>
             </div>
           ))}
