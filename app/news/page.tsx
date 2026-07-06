@@ -138,8 +138,14 @@ export default function NewsPage() {
                           {item.title}
                         </h3>
                         <p
-                          className="text-sm mb-3"
-                          style={{ color: item.contentColor || "#4B5563" }}
+                          className="text-sm mb-3 whitespace-pre-wrap"
+                          style={{
+                            color: item.contentColor || "#4B5563",
+                            fontSize: item.contentSize === "sm" ? "14px" :
+                                     item.contentSize === "lg" ? "18px" :
+                                     item.contentSize === "xl" ? "20px" :
+                                     item.contentSize === "2xl" ? "24px" : "14px"
+                          }}
                         >
                           {item.content}
                         </p>
@@ -225,8 +231,14 @@ export default function NewsPage() {
                         {item.title}
                       </h3>
                       <p
-                        className="text-sm"
-                        style={{ color: item.contentColor || "#6B7280" }}
+                        className="text-sm whitespace-pre-wrap"
+                        style={{
+                          color: item.contentColor || "#6B7280",
+                          fontSize: item.contentSize === "sm" ? "14px" :
+                                   item.contentSize === "lg" ? "18px" :
+                                   item.contentSize === "xl" ? "20px" :
+                                   item.contentSize === "2xl" ? "24px" : "14px"
+                        }}
                       >
                         {item.content}
                       </p>

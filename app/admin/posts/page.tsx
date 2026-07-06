@@ -25,6 +25,7 @@ export default function AdminPostsPage() {
   const [titleColor, setTitleColor] = useState("#2D2D2D");
   const [titleSize, setTitleSize] = useState<"sm" | "base" | "lg" | "xl" | "2xl">("base");
   const [contentColor, setContentColor] = useState("#2D2D2D");
+  const [contentSize, setContentSize] = useState<"sm" | "base" | "lg" | "xl" | "2xl">("base");
 
   const loadPosts = () => {
     const saved = localStorage.getItem("posts");
@@ -67,6 +68,7 @@ export default function AdminPostsPage() {
       titleColor,
       titleSize,
       contentColor,
+      contentSize,
     };
 
     if (editingPost) {
@@ -91,6 +93,7 @@ export default function AdminPostsPage() {
     setTitleColor("#2D2D2D");
     setTitleSize("base");
     setContentColor("#2D2D2D");
+    setContentSize("base");
     setEditingPost(null);
     setShowEditor(false);
   };
@@ -106,6 +109,7 @@ export default function AdminPostsPage() {
     setTitleColor(post.titleColor || "#2D2D2D");
     setTitleSize(post.titleSize || "base");
     setContentColor(post.contentColor || "#2D2D2D");
+    setContentSize(post.contentSize || "base");
     setShowEditor(true);
   };
 
@@ -273,6 +277,7 @@ export default function AdminPostsPage() {
                 value={content}
                 onChange={setContent}
                 onColorChange={setContentColor}
+                onSizeChange={(size) => setContentSize(size as "sm" | "base" | "lg" | "xl" | "2xl")}
                 label="내용"
               />
 
@@ -331,8 +336,14 @@ export default function AdminPostsPage() {
                       {post.title}
                     </h3>
                     <p
-                      className="text-sm mb-2"
-                      style={{ color: post.contentColor || "#9CA3AF" }}
+                      className="text-sm mb-2 whitespace-pre-wrap"
+                      style={{
+                        color: post.contentColor || "#9CA3AF",
+                        fontSize: post.contentSize === "sm" ? "14px" :
+                                 post.contentSize === "lg" ? "18px" :
+                                 post.contentSize === "xl" ? "20px" :
+                                 post.contentSize === "2xl" ? "24px" : "16px"
+                      }}
                     >
                       {post.content.substring(0, 100)}...
                     </p>

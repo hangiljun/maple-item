@@ -25,6 +25,7 @@ export interface NewsPost {
   titleColor?: string;
   titleSize?: "sm" | "base" | "lg" | "xl" | "2xl";
   contentColor?: string;
+  contentSize?: "sm" | "base" | "lg" | "xl" | "2xl";
 }
 
 export interface TextStyle {

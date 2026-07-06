@@ -100,7 +100,7 @@ export default function ReviewsPage() {
               </div>
 
               {/* 후기 내용 */}
-              <p className="text-gray-700 leading-relaxed mb-4">{review.content}</p>
+              <p className="text-gray-700 leading-relaxed mb-4 whitespace-pre-wrap">{review.content}</p>
 
               {/* 사진 */}
               {review.image && (

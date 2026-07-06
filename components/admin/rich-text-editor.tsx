@@ -114,7 +114,7 @@ export function RichTextEditor({
       <div className="mt-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
         <div className="text-xs text-gray-600 mb-2">미리보기:</div>
         <div
-          className="leading-relaxed"
+          className="leading-relaxed whitespace-pre-wrap"
           style={{
             color: selectedColor,
             fontSize: selectedSize === "sm" ? "14px" :
