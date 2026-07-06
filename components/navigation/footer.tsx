@@ -1,8 +1,18 @@
-﻿import { MessageCircle, Mail, Share2 } from "lucide-react";
+﻿"use client";
+
+import { MessageCircle, Mail, Share2 } from "lucide-react";
 import { SITE_NAME, KAKAO_LINK, KAKAO_ID } from "@/lib/constants";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // Admin 페이지에서는 Footer 숨기기
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <footer className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white py-16">
       <div className="max-w-7xl mx-auto px-4">

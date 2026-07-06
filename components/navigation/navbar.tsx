@@ -5,11 +5,18 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { KAKAO_LINK } from "@/lib/constants";
 
 export function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Admin 페이지에서는 Navbar 숨기기
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   useEffect(() => {
     const handleScroll = () => {
