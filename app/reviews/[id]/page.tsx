@@ -1,42 +1,45 @@
-"use client";
+import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
+import { getReview, getAllReviews } from '@/lib/posts';
+import { Star, Calendar, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
-import { useEffect, useState } from "react";
-import { notFound } from "next/navigation";
-import { Calendar, ArrowLeft, Share2, Copy, Check } from "lucide-react";
-import Link from "next/link";
-import type { Review } from "@/lib/types";
-import { Button } from "@/components/ui/button";
+type Props = {
+  params: Promise<{ id: string }>;
+};
 
-export default function ReviewDetailPage({ params }: { params: { id: string } }) {
-  const [review, setReview] = useState<Review | null>(null);
-  const [copied, setCopied] = useState(false);
-  const [mounted, setMounted] = useState(false);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const review = await getReview(id);
 
-  useEffect(() => {
-    setMounted(true);
-    const saved = localStorage.getItem("reviews");
-    if (saved) {
-      const reviews: Review[] = JSON.parse(saved);
-      const found = reviews.find((r) => r.id === parseInt(params.id));
-      if (found) {
-        setReview(found);
-      }
-    }
-  }, [params.id]);
-
-  const copyUrl = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  if (!mounted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin w-12 h-12 border-4 border-[#FFB800] border-t-transparent rounded-full"></div>
-      </div>
-    );
+  if (!review) {
+    return {
+      title: '후기를 찾을 수 없습니다',
+    };
   }
+
+  return {
+    title: `${review.author}님의 후기 | 메이플아이템`,
+    description: review.content.substring(0, 160),
+    openGraph: {
+      title: `${review.author}님의 거래 후기`,
+      description: review.content.substring(0, 160),
+      images: review.image ? [review.image] : [],
+      type: 'article',
+    },
+  };
+}
+
+export async function generateStaticParams() {
+  const reviews = await getAllReviews();
+  return reviews.map((review) => ({
+    id: review.id,
+  }));
+}
+
+export default async function ReviewPage({ params }: Props) {
+  const { id } = await params;
+  const review = await getReview(id);
 
   if (!review) {
     notFound();
@@ -45,79 +48,80 @@ export default function ReviewDetailPage({ params }: { params: { id: string } })
   return (
     <div className="min-h-screen py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-8">
-        {/* 뒤로가기 */}
         <Link
           href="/reviews"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-[#FFB800] transition mb-8"
+          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition"
         >
           <ArrowLeft size={20} />
           <span>후기 목록으로</span>
         </Link>
 
-        {/* 후기 상세 */}
-        <div className="glass rounded-2xl p-8 mb-8">
-          <div className="flex items-start justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <div className="bg-gradient-to-br from-[#FFB800] to-[#FF9500] w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-2xl">
+        <article className="glass rounded-3xl p-8 border-2 border-[#FFB800]/40 shadow-2xl">
+          <header className="mb-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="bg-gradient-to-br from-[#FFB800] to-[#FF9500] w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                 {review.author[0]}
               </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">{review.author}</h1>
-                <div className="text-gray-600">{review.server}</div>
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <h1 className="text-2xl font-bold text-gray-900">{review.author}</h1>
+                  {review.server && (
+                    <span className="px-3 py-1 bg-purple-500/20 text-purple-700 rounded-lg text-sm font-semibold border border-purple-300">
+                      {review.server}
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <Calendar size={16} />
+                  <span className="font-medium">{review.date}</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* 후기 내용 */}
-          <div className="bg-white/50 rounded-xl p-6 mb-6">
-            <p className="text-lg text-gray-800 leading-relaxed whitespace-pre-wrap">
+            <div className="flex items-center gap-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Star
+                  key={star}
+                  className="text-[#FFB800] fill-[#FFB800]"
+                  size={24}
+                />
+              ))}
+            </div>
+          </header>
+
+          <div className="prose prose-lg max-w-none">
+            <div className="text-lg leading-relaxed text-gray-700 mb-6 whitespace-pre-wrap">
               {review.content}
-            </p>
+            </div>
+
+            {review.image && (
+              <div className="my-8">
+                <img
+                  src={review.image}
+                  alt={`${review.author}님의 후기`}
+                  className="w-full max-h-[600px] object-cover rounded-xl shadow-lg"
+                />
+              </div>
+            )}
           </div>
 
-          {/* 사진 */}
-          {review.image && (
-            <div className="mb-6">
-              <img
-                src={review.image}
-                alt="거래 인증"
-                className="w-full max-h-96 object-cover rounded-xl"
-              />
+          {review.helpful && (
+            <div className="mt-8 pt-8 border-t border-gray-200">
+              <div className="flex items-center gap-2 text-green-600">
+                <span className="text-lg font-semibold">✓ 도움이 되는 후기</span>
+              </div>
             </div>
           )}
+        </article>
 
-          {/* 메타 정보 */}
-          <div className="flex items-center justify-between text-sm text-gray-500">
-            <div className="flex items-center gap-2">
-              <Calendar size={16} />
-              <span>{review.date}</span>
-            </div>
-            <div>도움돼요 {review.likes}명</div>
-          </div>
-        </div>
-
-        {/* 공유하기 */}
-        <div className="glass-small rounded-xl p-6 text-center">
-          <Share2 className="mx-auto text-[#FFB800] mb-3" size={32} />
-          <h3 className="font-bold text-gray-900 mb-2">이 후기가 도움이 되셨나요?</h3>
-          <p className="text-sm text-gray-600 mb-4">친구에게 공유해보세요</p>
-          <Button
-            onClick={copyUrl}
-            variant="primary"
-            className="mx-auto"
+        <div className="mt-8 text-center">
+          <Link
+            href="/reviews"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#FFB800] text-white rounded-xl hover:bg-[#FF9500] transition font-semibold shadow-lg"
           >
-            {copied ? (
-              <>
-                <Check size={18} />
-                복사됨!
-              </>
-            ) : (
-              <>
-                <Copy size={18} />
-                URL 복사
-              </>
-            )}
-          </Button>
+            <ArrowLeft size={20} />
+            후기 목록으로
+          </Link>
         </div>
       </div>
     </div>

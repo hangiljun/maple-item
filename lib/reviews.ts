@@ -2,7 +2,7 @@
 
 export const initialReviews: Review[] = [
   {
-    id: 1,
+    id: "1",
     author: "메린이★",
     server: "스카니아",
     date: "2026-06-29",
@@ -11,7 +11,7 @@ export const initialReviews: Review[] = [
     helpful: true
   },
   {
-    id: 2,
+    id: "2",
     author: "불독전사",
     server: "루나",
     date: "2026-06-28",
@@ -20,7 +20,7 @@ export const initialReviews: Review[] = [
     helpful: true
   },
   {
-    id: 3,
+    id: "3",
     author: "달빛궁수",
     server: "엘리시움",
     date: "2026-06-27",

@@ -11,7 +11,7 @@ import type { Review } from "@/lib/types";
 export default function AdminReviewsPage() {
   const router = useRouter();
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
   const loadReviews = () => {
     const saved = localStorage.getItem("reviews");
@@ -29,7 +29,7 @@ export default function AdminReviewsPage() {
     }
   }, [router]);
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     const updated = reviews.filter(r => r.id !== id);
     setReviews(updated);
     localStorage.setItem("reviews", JSON.stringify(updated));

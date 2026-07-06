@@ -1,5 +1,5 @@
 ﻿export interface Review {
-  id: number;
+  id: string;
   author: string;
   server?: string; // 선택 필드로 변경
   date: string;

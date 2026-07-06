@@ -12,7 +12,7 @@ import {
   serverTimestamp
 } from 'firebase/firestore';
 import { db } from './firebase';
-import type { NewsPost } from './types';
+import type { NewsPost, Review } from './types';
 
 const POSTS_COLLECTION = 'posts';
 
@@ -68,4 +68,44 @@ export async function togglePinPost(id: string, currentPinned: boolean): Promise
     pinned: !currentPinned,
     updatedAt: serverTimestamp()
   });
+}
+
+// Reviews CRUD
+const REVIEWS_COLLECTION = 'reviews';
+
+export async function createReview(review: Omit<Review, 'id'>): Promise<string> {
+  const docRef = await addDoc(collection(db, REVIEWS_COLLECTION), {
+    ...review,
+    createdAt: serverTimestamp()
+  });
+  return docRef.id;
+}
+
+export async function deleteReview(id: string): Promise<void> {
+  const docRef = doc(db, REVIEWS_COLLECTION, id);
+  await deleteDoc(docRef);
+}
+
+export async function getReview(id: string): Promise<Review | null> {
+  const docRef = doc(db, REVIEWS_COLLECTION, id);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return {
+      id: docSnap.id,
+      ...docSnap.data()
+    } as Review;
+  }
+
+  return null;
+}
+
+export async function getAllReviews(): Promise<Review[]> {
+  const q = query(collection(db, REVIEWS_COLLECTION), orderBy('createdAt', 'desc'));
+  const querySnapshot = await getDocs(q);
+
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  })) as Review[];
 }

@@ -10,7 +10,7 @@ import type { Review } from "@/lib/types";
 
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [copiedId, setCopiedId] = useState<number | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
   // 로컬 스토리지에서 후기 불러오기
@@ -22,7 +22,7 @@ export default function ReviewsPage() {
   const handleSubmitReview = (newReview: Omit<Review, "id" | "date" | "likes" | "helpful" | "server">) => {
     const review: Review = {
       ...newReview,
-      id: Date.now(),
+      id: Date.now().toString(),
       date: new Date().toISOString().split('T')[0],
       likes: 0,
       helpful: false,
@@ -34,8 +34,8 @@ export default function ReviewsPage() {
     alert("후기가 등록되었습니다! 감사합니다 😊");
   };
 
-  const copyReviewUrl = (reviewId: number) => {
-    const url = `${window.location.origin}/reviews#review-${reviewId}`;
+  const copyReviewUrl = (reviewId: string) => {
+    const url = `${window.location.origin}/reviews/${reviewId}`;
     navigator.clipboard.writeText(url);
     setCopiedId(reviewId);
     setTimeout(() => setCopiedId(null), 2000);
