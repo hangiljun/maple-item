@@ -140,10 +140,10 @@ export default function NewsPage() {
                     >
                       {latestPost.title}
                     </h3>
-                    <p className="text-base mb-4 leading-relaxed whitespace-pre-wrap text-gray-700">
+                    <div className="text-base mb-4 leading-relaxed whitespace-pre-wrap text-gray-700 max-h-96 overflow-y-auto">
                       {parseStyledText(latestPost.content)}
-                    </p>
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                    </div>
+                    <div className="flex items-center gap-4 text-sm text-gray-500 mt-4 pt-4 border-t border-gray-200">
                       <div className="flex items-center gap-2">
                         <Calendar size={16} />
                         <span className="font-medium">{latestPost.date}</span>
@@ -155,19 +155,6 @@ export default function NewsPage() {
                     </div>
                   </div>
                 </div>
-
-                {latestPost.details && latestPost.details.length > 0 && (
-                  <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 border border-gray-200">
-                    <ul className="space-y-3">
-                      {latestPost.details.map((detail, i) => (
-                        <li key={i} className="flex items-start gap-3 text-sm text-gray-800">
-                          <span className="text-[#FFB800] text-lg mt-0.5">•</span>
-                          <span className="flex-1">{detail}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
               </div>
             </div>
           </div>
