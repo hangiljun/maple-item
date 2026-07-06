@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Send, Image, X } from "lucide-react";
+import { uploadImage } from "@/lib/upload";
 
 interface ReviewFormProps {
   onSubmit: (review: {
@@ -18,9 +19,11 @@ interface ReviewFormProps {
 export function ReviewForm({ onSubmit }: ReviewFormProps) {
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
+  const [uploading, setUploading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!author || !content) {
@@ -28,16 +31,33 @@ export function ReviewForm({ onSubmit }: ReviewFormProps) {
       return;
     }
 
-    onSubmit({
-      author,
-      content,
-      image: imagePreview || undefined,
-    });
+    setUploading(true);
 
-    // 폼 초기화
-    setAuthor("");
-    setContent("");
-    setImagePreview("");
+    try {
+      let imageUrl: string | undefined;
+
+      // 이미지가 있으면 Firebase Storage에 업로드
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile, 'reviews');
+      }
+
+      onSubmit({
+        author,
+        content,
+        image: imageUrl,
+      });
+
+      // 폼 초기화
+      setAuthor("");
+      setContent("");
+      setImageFile(null);
+      setImagePreview("");
+    } catch (error) {
+      console.error('후기 등록 실패:', error);
+      alert('후기 등록에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +69,15 @@ export function ReviewForm({ onSubmit }: ReviewFormProps) {
         return;
       }
 
+      // 이미지 파일 타입 체크
+      if (!file.type.startsWith('image/')) {
+        alert("이미지 파일만 업로드 가능합니다.");
+        return;
+      }
+
+      setImageFile(file);
+
+      // 미리보기 생성
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
@@ -58,6 +87,7 @@ export function ReviewForm({ onSubmit }: ReviewFormProps) {
   };
 
   const removeImage = () => {
+    setImageFile(null);
     setImagePreview("");
   };
 
@@ -144,9 +174,15 @@ export function ReviewForm({ onSubmit }: ReviewFormProps) {
           </div>
 
           {/* 제출 버튼 */}
-          <Button type="submit" variant="primary" size="large" className="w-full">
+          <Button
+            type="submit"
+            variant="primary"
+            size="large"
+            className="w-full"
+            disabled={uploading}
+          >
             <Send size={20} />
-            후기 등록하기
+            {uploading ? "업로드 중..." : "후기 등록하기"}
           </Button>
         </form>
       </CardContent>
