@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Newspaper, TrendingUp, AlertCircle, Sparkles, Calendar, Clock, Pin } from "lucide-react";
 import { NewsSEOContent } from "@/components/sections/news-seo-content";
+import { parseStyledText } from "@/lib/text-parser";
 import type { NewsPost } from "@/lib/types";
 
 const defaultNews: NewsPost[] = [
@@ -137,17 +138,8 @@ export default function NewsPage() {
                         >
                           {item.title}
                         </h3>
-                        <p
-                          className="text-sm mb-3 whitespace-pre-wrap"
-                          style={{
-                            color: item.contentColor || "#4B5563",
-                            fontSize: item.contentSize === "sm" ? "14px" :
-                                     item.contentSize === "lg" ? "18px" :
-                                     item.contentSize === "xl" ? "20px" :
-                                     item.contentSize === "2xl" ? "24px" : "14px"
-                          }}
-                        >
-                          {item.content}
+                        <p className="text-sm mb-3 whitespace-pre-wrap">
+                          {parseStyledText(item.content)}
                         </p>
                         <div className="flex items-center gap-3 text-xs text-gray-500">
                           <div className="flex items-center gap-1">
@@ -230,17 +222,8 @@ export default function NewsPage() {
                       >
                         {item.title}
                       </h3>
-                      <p
-                        className="text-sm whitespace-pre-wrap"
-                        style={{
-                          color: item.contentColor || "#6B7280",
-                          fontSize: item.contentSize === "sm" ? "14px" :
-                                   item.contentSize === "lg" ? "18px" :
-                                   item.contentSize === "xl" ? "20px" :
-                                   item.contentSize === "2xl" ? "24px" : "14px"
-                        }}
-                      >
-                        {item.content}
+                      <p className="text-sm whitespace-pre-wrap">
+                        {parseStyledText(item.content)}
                       </p>
                     </div>
                   </div>
