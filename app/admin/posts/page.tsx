@@ -7,6 +7,7 @@ import { ArrowLeft, Plus, Edit, Trash2, Pin, PinOff, Sparkles, Image as ImageIco
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/admin/rich-text-editor";
 import { uploadImage } from "@/lib/upload";
+import { getAllPosts, createPost, updatePost, deletePost, togglePinPost } from "@/lib/posts";
 import Link from "next/link";
 import type { NewsPost } from "@/lib/types";
 
@@ -31,10 +32,12 @@ export default function AdminPostsPage() {
   const [imagePreview, setImagePreview] = useState<string>("");
   const [uploading, setUploading] = useState(false);
 
-  const loadPosts = () => {
-    const saved = localStorage.getItem("posts");
-    if (saved) {
-      setPosts(JSON.parse(saved));
+  const loadPosts = async () => {
+    try {
+      const posts = await getAllPosts();
+      setPosts(posts);
+    } catch (error) {
+      console.error('게시글 로드 실패:', error);
     }
   };
 
@@ -46,11 +49,6 @@ export default function AdminPostsPage() {
     }
   }, [router]);
 
-  const savePosts = (newPosts: NewsPost[]) => {
-    setPosts(newPosts);
-    localStorage.setItem("posts", JSON.stringify(newPosts));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -58,7 +56,6 @@ export default function AdminPostsPage() {
 
     try {
       const now = new Date();
-      const newId = editingPost?.id || Math.floor(now.getTime() / 1000);
 
       let imageUrl = imagePreview;
 
@@ -67,8 +64,7 @@ export default function AdminPostsPage() {
         imageUrl = await uploadImage(imageFile, 'posts');
       }
 
-      const postData: NewsPost = {
-        id: newId,
+      const postData = {
         category,
         icon: category === "이벤트" ? "Sparkles" : category === "시세정보" ? "TrendingUp" : "AlertCircle",
         title,
@@ -88,13 +84,13 @@ export default function AdminPostsPage() {
 
       if (editingPost) {
         // 수정
-        const updated = posts.map(p => p.id === editingPost.id ? postData : p);
-        savePosts(updated);
+        await updatePost(editingPost.id, postData);
       } else {
         // 새 작성
-        savePosts([postData, ...posts]);
+        await createPost(postData);
       }
 
+      await loadPosts();
       resetForm();
     } catch (error) {
       console.error('게시글 등록 실패:', error);
@@ -166,23 +162,32 @@ export default function AdminPostsPage() {
     setImagePreview("");
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: string) => {
     if (confirm("정말 삭제하시겠습니까?")) {
-      savePosts(posts.filter(p => p.id !== id));
+      try {
+        await deletePost(id);
+        await loadPosts();
+      } catch (error) {
+        console.error('게시글 삭제 실패:', error);
+        alert('게시글 삭제에 실패했습니다.');
+      }
     }
   };
 
-  const togglePin = (id: number) => {
-    const updated = posts.map(p =>
-      p.id === id ? { ...p, pinned: !p.pinned } : p
-    );
-    savePosts(updated);
+  const handleTogglePin = async (id: string, currentPinned: boolean) => {
+    try {
+      await togglePinPost(id, currentPinned);
+      await loadPosts();
+    } catch (error) {
+      console.error('고정 상태 변경 실패:', error);
+      alert('고정 상태 변경에 실패했습니다.');
+    }
   };
 
   const sortedPosts = [...posts].sort((a, b) => {
     if (a.pinned && !b.pinned) return -1;
     if (!a.pinned && b.pinned) return 1;
-    return b.id - a.id;
+    return 0; // Firestore에서 이미 createdAt으로 정렬됨
   });
 
   return (
@@ -452,7 +457,7 @@ export default function AdminPostsPage() {
                   {/* 액션 버튼 */}
                   <div className="flex gap-2">
                     <Button
-                      onClick={() => togglePin(post.id)}
+                      onClick={() => handleTogglePin(post.id, post.pinned)}
                       className={post.pinned ? "bg-red-500/20 text-red-400 border-red-500/30" : "bg-gray-700/50 text-gray-400"}
                       size="default"
                     >

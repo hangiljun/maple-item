@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { Newspaper, TrendingUp, AlertCircle, Sparkles, Calendar, Clock, Pin } from "lucide-react";
 import { NewsSEOContent } from "@/components/sections/news-seo-content";
 import { parseStyledText } from "@/lib/text-parser";
+import { getAllPosts } from "@/lib/posts";
+import Link from "next/link";
 import type { NewsPost } from "@/lib/types";
 
 const defaultNews: NewsPost[] = [
   {
-    id: 1,
+    id: "default-1",
     category: "이벤트",
     icon: "Sparkles",
     title: "7월 거래 이벤트 - 추가 5% 보너스 지급!",
@@ -26,7 +28,7 @@ const defaultNews: NewsPost[] = [
     tag: "진행중"
   },
   {
-    id: 2,
+    id: "default-2",
     category: "시세정보",
     icon: "TrendingUp",
     title: "6월 4주차 주요 아이템 시세 동향",
@@ -46,20 +48,29 @@ const defaultNews: NewsPost[] = [
 
 export default function NewsPage() {
   const [news, setNews] = useState<NewsPost[]>([]);
-  const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setMounted(true);
-    const adminPosts = localStorage.getItem("posts");
-    if (adminPosts) {
-      const posts = JSON.parse(adminPosts);
-      setNews([...posts, ...defaultNews]);
-    } else {
-      setNews(defaultNews);
+    async function loadPosts() {
+      try {
+        const posts = await getAllPosts();
+        if (posts.length > 0) {
+          setNews(posts);
+        } else {
+          // Firestore에 게시글이 없으면 기본 게시글 표시
+          setNews(defaultNews);
+        }
+      } catch (error) {
+        console.error('게시글 로드 실패:', error);
+        setNews(defaultNews);
+      } finally {
+        setLoading(false);
+      }
     }
+    loadPosts();
   }, []);
 
-  if (!mounted) return null;
+  if (loading) return null;
 
   const sortedNews = [...news].sort((a, b) => {
     if (a.pinned && !b.pinned) return -1;
@@ -99,9 +110,10 @@ export default function NewsPage() {
               <Sparkles className="text-[#FFB800]" size={24} />
               <h2 className="text-2xl font-bold text-gray-900">최신 소식</h2>
             </div>
-            <div className="glass rounded-3xl p-8 border-2 border-[#FFB800]/40 shadow-2xl relative overflow-hidden">
-              {/* 배경 장식 */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#FFB800]/10 to-transparent rounded-full blur-3xl -z-0" />
+            <Link href={`/news/${latestPost.id}`} className="block">
+              <div className="glass rounded-3xl p-8 border-2 border-[#FFB800]/40 shadow-2xl relative overflow-hidden hover:border-[#FFB800] transition cursor-pointer">
+                {/* 배경 장식 */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#FFB800]/10 to-transparent rounded-full blur-3xl -z-0" />
 
               {latestPost.pinned && (
                 <div className="absolute top-6 right-6">
@@ -165,7 +177,8 @@ export default function NewsPage() {
                   </div>
                 </div>
               </div>
-            </div>
+              </div>
+            </Link>
           </div>
         )}
 
@@ -192,8 +205,9 @@ export default function NewsPage() {
               {restPosts.map((item, index) => {
                 const IconComponent = getIcon(item.icon);
                 return (
-                  <div
+                  <Link
                     key={item.id}
+                    href={`/news/${item.id}`}
                     className={`grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-4 hover:bg-gray-50 transition cursor-pointer ${
                       item.pinned ? "bg-yellow-50/50" : ""
                     }`}
@@ -252,7 +266,7 @@ export default function NewsPage() {
                         {item.tag}
                       </span>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

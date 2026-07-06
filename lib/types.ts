@@ -10,7 +10,7 @@
 }
 
 export interface NewsPost {
-  id: number;
+  id: string;
   category: string;
   icon: string;
   title: string;
