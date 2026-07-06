@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const SLIDER_IMAGES = [
+const SLIDER_IMAGES: { src: string; alt: string }[] = [
   // 거래 사진을 여기에 추가하세요
 ];
 
