@@ -5,21 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const SLIDER_IMAGES = [
-  { src: "/노바.png", alt: "노바 서버" },
-  { src: "/레드.png", alt: "레드 서버" },
-  { src: "/루나.png", alt: "루나 서버" },
-  { src: "/베라.png", alt: "베라 서버" },
-  { src: "/스카니아.png", alt: "스카니아 서버" },
-  { src: "/아케인.png", alt: "아케인 서버" },
-  { src: "/에오스.png", alt: "에오스 서버" },
-  { src: "/엘리시움.png", alt: "엘리시움 서버" },
-  { src: "/오로라.png", alt: "오로라 서버" },
-  { src: "/유니온.png", alt: "유니온 서버" },
-  { src: "/이노시스.png", alt: "이노시스 서버" },
-  { src: "/제니스.png", alt: "제니스 서버" },
-  { src: "/챌린저스.png", alt: "챌린저스 서버" },
-  { src: "/크로아.png", alt: "크로아 서버" },
-  { src: "/헬리오스.png", alt: "헬리오스 서버" },
+  // 거래 사진을 여기에 추가하세요
 ];
 
 export function ImageSlider() {
@@ -45,6 +31,15 @@ export function ImageSlider() {
     const interval = setInterval(nextSlide, 4000);
     return () => clearInterval(interval);
   }, [isAutoPlaying, nextSlide]);
+
+  // 이미지가 없을 때 플레이스홀더 표시
+  if (SLIDER_IMAGES.length === 0) {
+    return (
+      <div className="relative rounded-2xl overflow-hidden aspect-[3/4] bg-gradient-to-br from-[#FFB800]/20 to-[#FF9500]/20 flex items-center justify-center">
+        <p className="text-gray-400 text-center px-8">거래 사진 준비 중</p>
+      </div>
+    );
+  }
 
   return (
     <div
