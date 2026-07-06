@@ -18,69 +18,47 @@ const sizeMap: { [key: string]: string } = {
   "매우크게": "28px",
 };
 
+// 재귀적으로 중첩된 태그 파싱
+function parseNestedTags(text: string, key: string = "0"): React.ReactElement {
+  // 태그 정규식
+  const tagRegex = /\[(색|크기):([가-힣a-zA-Z0-9]+)\](.*?)\[\/(색|크기)\]/;
+  const match = tagRegex.exec(text);
+
+  if (!match) {
+    // 태그가 없으면 텍스트 그대로 반환
+    return <span key={key}>{text}</span>;
+  }
+
+  const [fullMatch, tagType, tagValue, innerText] = match;
+  const beforeTag = text.substring(0, match.index);
+  const afterTag = text.substring(match.index + fullMatch.length);
+
+  const style: React.CSSProperties = {};
+  if (tagType === '색') {
+    style.color = colorMap[tagValue] || "#2D2D2D";
+  } else if (tagType === '크기') {
+    style.fontSize = sizeMap[tagValue] || "16px";
+  }
+
+  return (
+    <span key={key}>
+      {beforeTag && parseNestedTags(beforeTag, `${key}-before`)}
+      <span style={style}>
+        {parseNestedTags(innerText, `${key}-inner`)}
+      </span>
+      {afterTag && parseNestedTags(afterTag, `${key}-after`)}
+    </span>
+  );
+}
+
 export function parseStyledText(content: string): React.ReactElement[] {
   if (!content) return [];
 
   const lines = content.split('\n');
-  const result: React.ReactElement[] = [];
-
-  lines.forEach((line, lineIndex) => {
-    const parts: React.ReactElement[] = [];
-    let currentPos = 0;
-    let partKey = 0;
-
-    // [색:태그]텍스트[/색] 및 [크기:태그]텍스트[/크기] 패턴 찾기
-    const tagRegex = /\[(색|크기):([가-힣a-zA-Z0-9]+)\](.*?)\[\/(색|크기)\]/g;
-    const matches: { start: number; end: number; type: string; value: string; text: string }[] = [];
-
-    let match;
-    while ((match = tagRegex.exec(line)) !== null) {
-      matches.push({
-        start: match.index,
-        end: match.index + match[0].length,
-        type: match[1],
-        value: match[2],
-        text: match[3]
-      });
-    }
-
-    if (matches.length === 0) {
-      // 태그가 없으면 그냥 텍스트 추가
-      result.push(<span key={`line-${lineIndex}`}>{line}{lineIndex < lines.length - 1 ? '\n' : ''}</span>);
-    } else {
-      // 태그가 있으면 파싱
-      matches.forEach((tag, tagIndex) => {
-        // 태그 이전의 일반 텍스트
-        if (currentPos < tag.start) {
-          parts.push(<span key={`${lineIndex}-${partKey++}`}>{line.substring(currentPos, tag.start)}</span>);
-        }
-
-        // 태그 적용된 텍스트
-        const style: React.CSSProperties = {};
-        if (tag.type === '색') {
-          style.color = colorMap[tag.value] || "#2D2D2D";
-        } else if (tag.type === '크기') {
-          style.fontSize = sizeMap[tag.value] || "16px";
-        }
-
-        parts.push(<span key={`${lineIndex}-${partKey++}`} style={style}>{tag.text}</span>);
-
-        currentPos = tag.end;
-      });
-
-      // 마지막 태그 이후의 일반 텍스트
-      if (currentPos < line.length) {
-        parts.push(<span key={`${lineIndex}-${partKey++}`}>{line.substring(currentPos)}</span>);
-      }
-
-      result.push(
-        <span key={`line-${lineIndex}`}>
-          {parts}
-          {lineIndex < lines.length - 1 ? '\n' : ''}
-        </span>
-      );
-    }
-  });
-
-  return result;
+  return lines.map((line, index) => (
+    <span key={`line-${index}`}>
+      {parseNestedTags(line, `line-${index}`)}
+      {index < lines.length - 1 ? '\n' : ''}
+    </span>
+  ));
 }

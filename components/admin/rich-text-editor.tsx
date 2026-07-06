@@ -105,7 +105,7 @@ export function RichTextEditor({
     }, 0);
   };
 
-  // 미리보기용 파싱 함수
+  // 미리보기용 파싱 함수 - 중첩 태그 지원
   const parseContent = (content: string) => {
     if (!content) return [];
 
@@ -126,90 +126,44 @@ export function RichTextEditor({
       "매우크게": "28px",
     };
 
-    // 줄바꿈으로 분할
-    const lines = content.split('\n');
-    const result: React.ReactElement[] = [];
+    // 재귀적으로 중첩된 태그 파싱
+    const parseNestedTags = (text: string, key: string = "0"): React.ReactElement => {
+      const tagRegex = /\[(색|크기):([가-힣a-zA-Z0-9]+)\](.*?)\[\/(색|크기)\]/;
+      const match = tagRegex.exec(text);
 
-    lines.forEach((line, lineIndex) => {
-      const parts: React.ReactElement[] = [];
-      let lastIndex = 0;
-      let partKey = 0;
-
-      // [색:태그]텍스트[/색] 패턴 찾기
-      const colorRegex = /\[색:([가-힣a-zA-Z0-9]+)\](.*?)\[\/색\]/g;
-      const sizeRegex = /\[크기:([가-힣a-zA-Z0-9]+)\](.*?)\[\/크기\]/g;
-
-      let tempLine = line;
-      let offset = 0;
-
-      // 모든 태그 찾기 및 위치 저장
-      const tags: { start: number; end: number; type: 'color' | 'size'; value: string; text: string }[] = [];
-
-      let match;
-      while ((match = colorRegex.exec(line)) !== null) {
-        tags.push({
-          start: match.index,
-          end: match.index + match[0].length,
-          type: 'color',
-          value: match[1],
-          text: match[2]
-        });
+      if (!match) {
+        return <span key={key}>{text}</span>;
       }
 
-      while ((match = sizeRegex.exec(line)) !== null) {
-        tags.push({
-          start: match.index,
-          end: match.index + match[0].length,
-          type: 'size',
-          value: match[1],
-          text: match[2]
-        });
+      const [fullMatch, tagType, tagValue, innerText] = match;
+      const beforeTag = text.substring(0, match.index);
+      const afterTag = text.substring(match.index + fullMatch.length);
+
+      const style: React.CSSProperties = {};
+      if (tagType === '색') {
+        style.color = colorMap[tagValue] || "#2D2D2D";
+      } else if (tagType === '크기') {
+        style.fontSize = sizeMap[tagValue] || "16px";
       }
 
-      // 위치순으로 정렬
-      tags.sort((a, b) => a.start - b.start);
-
-      if (tags.length === 0) {
-        // 태그가 없으면 그냥 텍스트 추가
-        result.push(<span key={`line-${lineIndex}`}>{line}{lineIndex < lines.length - 1 ? '\n' : ''}</span>);
-      } else {
-        // 태그가 있으면 파싱
-        let currentPos = 0;
-
-        tags.forEach((tag, tagIndex) => {
-          // 태그 이전의 일반 텍스트
-          if (currentPos < tag.start) {
-            parts.push(<span key={`${lineIndex}-${partKey++}`}>{line.substring(currentPos, tag.start)}</span>);
-          }
-
-          // 태그 적용된 텍스트
-          const style: React.CSSProperties = {};
-          if (tag.type === 'color') {
-            style.color = colorMap[tag.value] || "#2D2D2D";
-          } else if (tag.type === 'size') {
-            style.fontSize = sizeMap[tag.value] || "16px";
-          }
-
-          parts.push(<span key={`${lineIndex}-${partKey++}`} style={style}>{tag.text}</span>);
-
-          currentPos = tag.end;
-        });
-
-        // 마지막 태그 이후의 일반 텍스트
-        if (currentPos < line.length) {
-          parts.push(<span key={`${lineIndex}-${partKey++}`}>{line.substring(currentPos)}</span>);
-        }
-
-        result.push(
-          <span key={`line-${lineIndex}`}>
-            {parts}
-            {lineIndex < lines.length - 1 ? '\n' : ''}
+      return (
+        <span key={key}>
+          {beforeTag && parseNestedTags(beforeTag, `${key}-before`)}
+          <span style={style}>
+            {parseNestedTags(innerText, `${key}-inner`)}
           </span>
-        );
-      }
-    });
+          {afterTag && parseNestedTags(afterTag, `${key}-after`)}
+        </span>
+      );
+    };
 
-    return result;
+    const lines = content.split('\n');
+    return lines.map((line, index) => (
+      <span key={`line-${index}`}>
+        {parseNestedTags(line, `line-${index}`)}
+        {index < lines.length - 1 ? '\n' : ''}
+      </span>
+    ));
   };
 
   return (
