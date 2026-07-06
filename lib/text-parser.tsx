@@ -11,11 +11,11 @@ const colorMap: { [key: string]: string } = {
 };
 
 const sizeMap: { [key: string]: string } = {
-  "작게": "14px",
+  "작게": "12px",
   "보통": "16px",
-  "크게": "18px",
-  "더크게": "20px",
-  "매우크게": "24px",
+  "크게": "20px",
+  "더크게": "24px",
+  "매우크게": "28px",
 };
 
 export function parseStyledText(content: string): React.ReactElement[] {
