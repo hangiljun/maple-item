@@ -5,33 +5,49 @@ import { MessageSquare, ThumbsUp, Calendar, TrendingUp, Share2, Check, Star } fr
 import { KAKAO_LINK } from "@/lib/constants";
 import { ReviewForm } from "@/components/reviews/review-form";
 import { ReviewsSEOContent } from "@/components/sections/reviews-seo-content";
-import { getReviews } from "@/lib/reviews";
+import { getAllReviews, createReview } from "@/lib/posts";
 import type { Review } from "@/lib/types";
 
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // 로컬 스토리지에서 후기 불러오기
+  // Firestore에서 후기 불러오기
   useEffect(() => {
     setMounted(true);
-    setReviews(getReviews());
+    loadReviews();
   }, []);
 
-  const handleSubmitReview = (newReview: Omit<Review, "id" | "date" | "likes" | "helpful" | "server">) => {
-    const review: Review = {
-      ...newReview,
-      id: Date.now().toString(),
-      date: new Date().toISOString().split('T')[0],
-      likes: 0,
-      helpful: false,
-    };
+  const loadReviews = async () => {
+    try {
+      const data = await getAllReviews();
+      setReviews(data);
+    } catch (error) {
+      console.error("후기 불러오기 실패:", error);
+    }
+  };
 
-    const updatedReviews = [review, ...reviews];
-    setReviews(updatedReviews);
-    localStorage.setItem("reviews", JSON.stringify(updatedReviews));
-    alert("후기가 등록되었습니다! 감사합니다 😊");
+  const handleSubmitReview = async (newReview: Omit<Review, "id" | "date" | "likes" | "helpful" | "server">) => {
+    setLoading(true);
+    try {
+      const review: Omit<Review, "id"> = {
+        ...newReview,
+        date: new Date().toISOString().split('T')[0],
+        likes: 0,
+        helpful: false,
+      };
+
+      await createReview(review);
+      await loadReviews();
+      alert("후기가 등록되었습니다! 감사합니다 😊");
+    } catch (error) {
+      console.error("후기 등록 실패:", error);
+      alert("후기 등록에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const copyReviewUrl = (reviewId: string) => {

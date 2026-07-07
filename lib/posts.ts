@@ -109,3 +109,8 @@ export async function getAllReviews(): Promise<Review[]> {
     ...doc.data()
   })) as Review[];
 }
+
+export async function getLatestReviews(count: number = 3): Promise<Review[]> {
+  const reviews = await getAllReviews();
+  return reviews.slice(0, count);
+}

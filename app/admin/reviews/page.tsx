@@ -6,17 +6,21 @@ import { isAdmin } from "@/lib/auth";
 import { ArrowLeft, Trash2, AlertTriangle, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { getAllReviews, deleteReview } from "@/lib/posts";
 import type { Review } from "@/lib/types";
 
 export default function AdminReviewsPage() {
   const router = useRouter();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const loadReviews = () => {
-    const saved = localStorage.getItem("reviews");
-    if (saved) {
-      setReviews(JSON.parse(saved));
+  const loadReviews = async () => {
+    try {
+      const data = await getAllReviews();
+      setReviews(data);
+    } catch (error) {
+      console.error("후기 불러오기 실패:", error);
     }
   };
 
@@ -24,16 +28,23 @@ export default function AdminReviewsPage() {
     if (!isAdmin()) {
       router.push("/admin");
     } else {
-      // 로컬 스토리지에서 후기 불러오기
+      // Firestore에서 후기 불러오기
       loadReviews();
     }
   }, [router]);
 
-  const handleDelete = (id: string) => {
-    const updated = reviews.filter(r => r.id !== id);
-    setReviews(updated);
-    localStorage.setItem("reviews", JSON.stringify(updated));
-    setDeleteConfirm(null);
+  const handleDelete = async (id: string) => {
+    setLoading(true);
+    try {
+      await deleteReview(id);
+      await loadReviews();
+      setDeleteConfirm(null);
+    } catch (error) {
+      console.error("후기 삭제 실패:", error);
+      alert("후기 삭제에 실패했습니다.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

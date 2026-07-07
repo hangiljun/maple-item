@@ -3,14 +3,22 @@
 import { useState, useEffect } from "react";
 import { Star, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { getLatestReviews } from "@/lib/reviews";
+import { getLatestReviews } from "@/lib/posts";
 import type { Review } from "@/lib/types";
 
 export function ReviewsSection() {
   const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
-    setReviews(getLatestReviews(3));
+    const loadReviews = async () => {
+      try {
+        const data = await getLatestReviews(3);
+        setReviews(data);
+      } catch (error) {
+        console.error("후기 불러오기 실패:", error);
+      }
+    };
+    loadReviews();
   }, []);
 
   return (
