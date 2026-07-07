@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useState, useEffect } from "react";
-import { MessageSquare, ThumbsUp, Calendar, TrendingUp, Share2, Check, Star } from "lucide-react";
+import { MessageSquare, ThumbsUp, Calendar, TrendingUp, Share2, Check, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { KAKAO_LINK } from "@/lib/constants";
 import { ReviewForm } from "@/components/reviews/review-form";
@@ -9,11 +9,14 @@ import { ReviewsSEOContent } from "@/components/sections/reviews-seo-content";
 import { getAllReviews, createReview } from "@/lib/posts";
 import type { Review } from "@/lib/types";
 
+const REVIEWS_PER_PAGE = 5;
+
 export default function ReviewsPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Firestore에서 후기 불러오기
   useEffect(() => {
@@ -107,7 +110,7 @@ export default function ReviewsPage() {
         <div className="space-y-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">전체 후기 ({reviews.length})</h2>
 
-          {reviews.map((review) => (
+          {reviews.slice((currentPage - 1) * REVIEWS_PER_PAGE, currentPage * REVIEWS_PER_PAGE).map((review) => (
             <Link
               key={review.id}
               href={`/reviews/${review.id}`}
@@ -177,6 +180,43 @@ export default function ReviewsPage() {
               </div>
             </Link>
           ))}
+
+          {/* 페이지네이션 */}
+          {reviews.length > REVIEWS_PER_PAGE && (
+            <div className="flex justify-center items-center gap-2 mt-8">
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+                className="flex items-center gap-1 px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              >
+                <ChevronLeft size={20} />
+                이전
+              </button>
+
+              {Array.from({ length: Math.ceil(reviews.length / REVIEWS_PER_PAGE) }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`px-4 py-2 rounded-lg transition ${
+                    currentPage === page
+                      ? 'bg-[#FFB800] text-white font-bold'
+                      : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(Math.ceil(reviews.length / REVIEWS_PER_PAGE), prev + 1))}
+                disabled={currentPage === Math.ceil(reviews.length / REVIEWS_PER_PAGE)}
+                className="flex items-center gap-1 px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              >
+                다음
+                <ChevronRight size={20} />
+              </button>
+            </div>
+          )}
         </div>
 
         {/* CTA */}
