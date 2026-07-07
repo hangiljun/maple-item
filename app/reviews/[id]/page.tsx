@@ -1,63 +1,78 @@
-import { notFound } from 'next/navigation';
-import { Metadata } from 'next';
-import { getReview, getAllReviews } from '@/lib/posts';
-import { Star, Calendar, ArrowLeft } from 'lucide-react';
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Star, Calendar, ArrowLeft } from 'lucide-react';
 
-type Props = {
-  params: Promise<{ id: string }>;
-};
+interface Review {
+  id: string;
+  author: string;
+  server?: string;
+  date: string;
+  content: string;
+  image?: string;
+  likes: number;
+  helpful: boolean;
+}
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  try {
-    const { id } = await params;
-    const review = await getReview(id);
+export default function ReviewPage() {
+  const params = useParams();
+  const router = useRouter();
+  const [review, setReview] = useState<Review | null>(null);
+  const [loading, setLoading] = useState(true);
 
-    if (!review) {
-      return {
-        title: '후기를 찾을 수 없습니다',
-      };
+  useEffect(() => {
+    if (params.id) {
+      fetchReview(params.id as string);
     }
+  }, [params.id]);
 
-    // 메타데이터 문자열 정리 (BOM, 특수문자 제거)
-    const cleanText = (text: string) => text.replace(/[﻿​-‍￾￿]/g, '').trim();
+  const fetchReview = async (id: string) => {
+    try {
+      const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+      const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+      const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/reviews/${id}?key=${apiKey}`;
 
-    return {
-      title: `${cleanText(review.author)}님의 후기 | 메이플아이템`,
-      description: cleanText(review.content.substring(0, 160)),
-      openGraph: {
-        title: `${cleanText(review.author)}님의 거래 후기`,
-        description: cleanText(review.content.substring(0, 160)),
-        images: review.image ? [review.image] : [],
-        type: 'article',
-      },
-    };
-  } catch (error) {
-    console.error('Failed to generate metadata:', error);
-    return {
-      title: '메이플아이템 후기',
-    };
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error('후기를 찾을 수 없습니다.');
+      }
+
+      const data = await response.json();
+
+      setReview({
+        id: data.name.split('/').pop(),
+        author: data.fields.author?.stringValue || '',
+        server: data.fields.server?.stringValue || undefined,
+        content: data.fields.content?.stringValue || '',
+        image: data.fields.image?.stringValue || undefined,
+        date: data.fields.date?.stringValue || '',
+        likes: parseInt(data.fields.likes?.integerValue || '0'),
+        helpful: data.fields.helpful?.booleanValue || false,
+      });
+
+      setLoading(false);
+    } catch (error) {
+      console.error('후기 불러오기 실패:', error);
+      alert('후기를 불러올 수 없습니다.');
+      router.push('/reviews');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-8 text-center">
+          <p className="text-gray-600">불러오는 중...</p>
+        </div>
+      </div>
+    );
   }
-}
-
-export async function generateStaticParams() {
-  try {
-    const reviews = await getAllReviews();
-    return reviews.map((review) => ({
-      id: review.id,
-    }));
-  } catch (error) {
-    console.error('Failed to generate static params:', error);
-    return [];
-  }
-}
-
-export default async function ReviewPage({ params }: Props) {
-  const { id } = await params;
-  const review = await getReview(id);
 
   if (!review) {
-    notFound();
+    return null;
   }
 
   return (
