@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { MessageSquare, ThumbsUp, Calendar, TrendingUp, Share2, Check, Star } from "lucide-react";
+import Link from "next/link";
 import { KAKAO_LINK } from "@/lib/constants";
 import { ReviewForm } from "@/components/reviews/review-form";
 import { ReviewsSEOContent } from "@/components/sections/reviews-seo-content";
@@ -107,10 +108,10 @@ export default function ReviewsPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6">전체 후기 ({reviews.length})</h2>
 
           {reviews.map((review) => (
-            <div
+            <Link
               key={review.id}
-              id={`review-${review.id}`}
-              className="glass-small rounded-2xl p-6 hover:shadow-lg transition scroll-mt-24"
+              href={`/reviews/${review.id}`}
+              className="glass-small rounded-2xl p-6 hover:shadow-lg transition scroll-mt-24 block cursor-pointer"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-4">
@@ -153,7 +154,11 @@ export default function ReviewsPage() {
 
                 {/* URL 공유 버튼 */}
                 <button
-                  onClick={() => copyReviewUrl(review.id)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    copyReviewUrl(review.id);
+                  }}
                   className="flex items-center gap-2 text-gray-500 hover:text-[#FFB800] transition-colors"
                   title="후기 URL 복사"
                 >
@@ -170,7 +175,7 @@ export default function ReviewsPage() {
                   )}
                 </button>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
