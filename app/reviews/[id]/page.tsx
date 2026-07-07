@@ -9,32 +9,47 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
-  const review = await getReview(id);
+  try {
+    const { id } = await params;
+    const review = await getReview(id);
 
-  if (!review) {
+    if (!review) {
+      return {
+        title: '후기를 찾을 수 없습니다',
+      };
+    }
+
+    // 메타데이터 문자열 정리 (BOM, 특수문자 제거)
+    const cleanText = (text: string) => text.replace(/[﻿​-‍￾￿]/g, '').trim();
+
     return {
-      title: '후기를 찾을 수 없습니다',
+      title: `${cleanText(review.author)}님의 후기 | 메이플아이템`,
+      description: cleanText(review.content.substring(0, 160)),
+      openGraph: {
+        title: `${cleanText(review.author)}님의 거래 후기`,
+        description: cleanText(review.content.substring(0, 160)),
+        images: review.image ? [review.image] : [],
+        type: 'article',
+      },
+    };
+  } catch (error) {
+    console.error('Failed to generate metadata:', error);
+    return {
+      title: '메이플아이템 후기',
     };
   }
-
-  return {
-    title: `${review.author}님의 후기 | 메이플아이템`,
-    description: review.content.substring(0, 160),
-    openGraph: {
-      title: `${review.author}님의 거래 후기`,
-      description: review.content.substring(0, 160),
-      images: review.image ? [review.image] : [],
-      type: 'article',
-    },
-  };
 }
 
 export async function generateStaticParams() {
-  const reviews = await getAllReviews();
-  return reviews.map((review) => ({
-    id: review.id,
-  }));
+  try {
+    const reviews = await getAllReviews();
+    return reviews.map((review) => ({
+      id: review.id,
+    }));
+  } catch (error) {
+    console.error('Failed to generate static params:', error);
+    return [];
+  }
 }
 
 export default async function ReviewPage({ params }: Props) {
