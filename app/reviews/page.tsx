@@ -29,17 +29,26 @@ export default function ReviewsPage() {
     }
   };
 
-  const handleSubmitReview = async (newReview: Omit<Review, "id" | "date" | "likes" | "helpful" | "server">) => {
+  const handleSubmitReview = async (newReview: any) => {
     setLoading(true);
     try {
-      const review: Omit<Review, "id"> = {
-        ...newReview,
+      const reviewData: any = {
+        author: newReview.author,
+        content: newReview.content,
         date: new Date().toISOString().split('T')[0],
         likes: 0,
         helpful: false,
       };
 
-      await createReview(review);
+      // undefined 필드 제거 (Firestore는 undefined를 허용하지 않음)
+      if (newReview.image) {
+        reviewData.image = newReview.image;
+      }
+      if (newReview.server) {
+        reviewData.server = newReview.server;
+      }
+
+      await createReview(reviewData);
       await loadReviews();
       alert("후기가 등록되었습니다! 감사합니다 😊");
     } catch (error) {
