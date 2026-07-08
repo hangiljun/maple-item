@@ -1,82 +1,45 @@
-﻿"use client";
-
-import { useState, useEffect } from "react";
-import { MessageSquare, ThumbsUp, Calendar, TrendingUp, Share2, Check, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { MessageSquare, ThumbsUp, Calendar, TrendingUp, Star } from "lucide-react";
 import Link from "next/link";
+import { Metadata } from "next";
 import { KAKAO_LINK } from "@/lib/constants";
 import { ReviewForm } from "@/components/reviews/review-form";
 import { ReviewsSEOContent } from "@/components/sections/reviews-seo-content";
-import { getAllReviews, createReview } from "@/lib/posts";
-import type { Review } from "@/lib/types";
+import { getAllReviews } from "@/lib/posts";
+import { ReviewsPagination } from "@/components/reviews/reviews-pagination";
+import { ReviewsList } from "@/components/reviews/reviews-list";
 
 const REVIEWS_PER_PAGE = 5;
 
-export default function ReviewsPage() {
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+export const metadata: Metadata = {
+  title: "거래 후기 | 메이플아이템 - 실제 고객 후기",
+  description: "메이플스토리 아이템 거래 실제 고객 후기. 빠르고 안전한 거래 경험을 확인하세요. 스카니아, 루나, 엘리시움 등 전서버 지원.",
+  keywords: ["메이플 후기", "메이플아이템 후기", "거래 후기", "메이플스토리 후기", "아이템 매입 후기"],
+  openGraph: {
+    title: "메이플아이템 거래 후기",
+    description: "실제 고객들의 생생한 거래 후기",
+    type: "website",
+  },
+};
 
-  // Firestore에서 후기 불러오기
-  useEffect(() => {
-    setMounted(true);
-    loadReviews();
-  }, []);
+type Props = {
+  searchParams: Promise<{ page?: string }>;
+};
 
-  const loadReviews = async () => {
-    try {
-      const data = await getAllReviews();
-      setReviews(data);
-    } catch (error) {
-      console.error("후기 불러오기 실패:", error);
-    }
-  };
+export default async function ReviewsPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const currentPage = Number(params.page) || 1;
+  const reviews = await getAllReviews();
 
-  const handleSubmitReview = async (newReview: any) => {
-    setLoading(true);
-    try {
-      const reviewData: any = {
-        author: newReview.author,
-        content: newReview.content,
-        date: new Date().toISOString().split('T')[0],
-        likes: 0,
-        helpful: false,
-      };
-
-      // undefined 필드 제거 (Firestore는 undefined를 허용하지 않음)
-      if (newReview.image) {
-        reviewData.image = newReview.image;
-      }
-      if (newReview.server) {
-        reviewData.server = newReview.server;
-      }
-
-      await createReview(reviewData);
-      await loadReviews();
-      alert("후기가 등록되었습니다! 감사합니다 😊");
-    } catch (error) {
-      console.error("후기 등록 실패:", error);
-      alert("후기 등록에 실패했습니다. 다시 시도해주세요.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const copyReviewUrl = (reviewId: string) => {
-    const url = `${window.location.origin}/reviews/${reviewId}`;
-    navigator.clipboard.writeText(url);
-    setCopiedId(reviewId);
-    setTimeout(() => setCopiedId(null), 2000);
-  };
+  const totalPages = Math.ceil(reviews.length / REVIEWS_PER_PAGE);
+  const startIndex = (currentPage - 1) * REVIEWS_PER_PAGE;
+  const endIndex = startIndex + REVIEWS_PER_PAGE;
+  const currentReviews = reviews.slice(startIndex, endIndex);
 
   const stats = [
     { label: "총 후기", value: `${reviews.length}`, icon: MessageSquare },
     { label: "총 거래", value: "1,800+", icon: TrendingUp },
     { label: "사기", value: "0건", icon: Star },
   ];
-
-  if (!mounted) return null;
 
   return (
     <div className="min-h-screen py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
@@ -103,119 +66,18 @@ export default function ReviewsPage() {
 
         {/* 후기 작성 폼 */}
         <div className="mb-12">
-          <ReviewForm onSubmit={handleSubmitReview} />
+          <ReviewForm />
         </div>
 
         {/* 후기 목록 */}
         <div className="space-y-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">전체 후기 ({reviews.length})</h2>
 
-          {reviews.slice((currentPage - 1) * REVIEWS_PER_PAGE, currentPage * REVIEWS_PER_PAGE).map((review) => (
-            <Link
-              key={review.id}
-              href={`/reviews/${review.id}`}
-              className="glass-small rounded-2xl p-6 hover:shadow-lg transition scroll-mt-24 block cursor-pointer"
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-4">
-                  <div className="bg-gradient-to-br from-[#FFB800] to-[#FF9500] w-12 h-12 rounded-full flex items-center justify-center text-white font-bold">
-                    {review.author[0]}
-                  </div>
-                  <div>
-                    <div className="font-bold text-gray-900">{review.author}</div>
-                    {review.server && <div className="text-sm text-gray-500">{review.server}</div>}
-                  </div>
-                </div>
-              </div>
-
-              {/* 후기 내용 */}
-              <p className="text-gray-700 leading-relaxed mb-4 whitespace-pre-wrap">{review.content}</p>
-
-              {/* 사진 */}
-              {review.image && (
-                <div className="mb-4">
-                  <img
-                    src={review.image}
-                    alt="거래 인증"
-                    className="w-full max-h-96 object-cover rounded-xl"
-                  />
-                </div>
-              )}
-
-              {/* 하단 정보 */}
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-4 text-gray-500">
-                  <div className="flex items-center gap-1">
-                    <Calendar size={14} />
-                    <span>{review.date}</span>
-                  </div>
-                  <button className="flex items-center gap-2 text-gray-500 hover:text-[#FFB800] transition-colors">
-                    <ThumbsUp size={14} />
-                    <span>도움돼요 {review.likes}</span>
-                  </button>
-                </div>
-
-                {/* URL 공유 버튼 */}
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    copyReviewUrl(review.id);
-                  }}
-                  className="flex items-center gap-2 text-gray-500 hover:text-[#FFB800] transition-colors"
-                  title="후기 URL 복사"
-                >
-                  {copiedId === review.id ? (
-                    <>
-                      <Check size={16} />
-                      <span className="text-[#FFB800]">복사됨!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Share2 size={16} />
-                      <span>공유</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </Link>
-          ))}
+          <ReviewsList reviews={currentReviews} />
 
           {/* 페이지네이션 */}
-          {reviews.length > REVIEWS_PER_PAGE && (
-            <div className="flex justify-center items-center gap-2 mt-8">
-              <button
-                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                disabled={currentPage === 1}
-                className="flex items-center gap-1 px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
-              >
-                <ChevronLeft size={20} />
-                이전
-              </button>
-
-              {Array.from({ length: Math.ceil(reviews.length / REVIEWS_PER_PAGE) }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`px-4 py-2 rounded-lg transition ${
-                    currentPage === page
-                      ? 'bg-[#FFB800] text-white font-bold'
-                      : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-
-              <button
-                onClick={() => setCurrentPage(prev => Math.min(Math.ceil(reviews.length / REVIEWS_PER_PAGE), prev + 1))}
-                disabled={currentPage === Math.ceil(reviews.length / REVIEWS_PER_PAGE)}
-                className="flex items-center gap-1 px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
-              >
-                다음
-                <ChevronRight size={20} />
-              </button>
-            </div>
+          {totalPages > 1 && (
+            <ReviewsPagination currentPage={currentPage} totalPages={totalPages} />
           )}
         </div>
 

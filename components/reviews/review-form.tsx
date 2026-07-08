@@ -7,16 +7,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Send, Image, X } from "lucide-react";
 import { uploadImage } from "@/lib/upload";
+import { submitReview } from "@/app/reviews/actions";
+import { useRouter } from "next/navigation";
 
-interface ReviewFormProps {
-  onSubmit: (review: {
-    author: string;
-    content: string;
-    image?: string;
-  }) => void;
-}
-
-export function ReviewForm({ onSubmit }: ReviewFormProps) {
+export function ReviewForm() {
+  const router = useRouter();
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -41,17 +36,26 @@ export function ReviewForm({ onSubmit }: ReviewFormProps) {
         imageUrl = await uploadImage(imageFile, 'reviews');
       }
 
-      onSubmit({
+      const result = await submitReview({
         author,
         content,
         image: imageUrl,
       });
 
-      // 폼 초기화
-      setAuthor("");
-      setContent("");
-      setImageFile(null);
-      setImagePreview("");
+      if (result.success) {
+        alert("후기가 등록되었습니다! 감사합니다 😊");
+
+        // 폼 초기화
+        setAuthor("");
+        setContent("");
+        setImageFile(null);
+        setImagePreview("");
+
+        // 페이지 새로고침
+        router.refresh();
+      } else {
+        alert(result.error || '후기 등록에 실패했습니다.');
+      }
     } catch (error) {
       console.error('후기 등록 실패:', error);
       alert('후기 등록에 실패했습니다. 다시 시도해주세요.');
