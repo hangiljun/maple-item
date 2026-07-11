@@ -1,7 +1,6 @@
 ﻿"use client";
 
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -109,11 +108,11 @@ export function Navbar() {
           </a>
 
           <button
-            className="md:hidden text-foreground"
+            className="md:hidden text-foreground text-2xl"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="메뉴"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? '✕' : '☰'}
           </button>
         </div>
       </div>

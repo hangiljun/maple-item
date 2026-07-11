@@ -1,7 +1,6 @@
 ﻿"use client";
 
 import { useState, useEffect } from "react";
-import { Star, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { getLatestReviews } from "@/lib/posts";
 import type { Review } from "@/lib/types";
@@ -38,7 +37,7 @@ export function ReviewsSection() {
             >
               <div className="flex text-[#FFB800] mb-3">
                 {[1, 2, 3, 4, 5].map(s => (
-                  <Star key={s} size={16} fill="currentColor" />
+                  <span key={s}>★</span>
                 ))}
               </div>
               <p className="text-lg mb-4 leading-relaxed text-gray-800">&ldquo;{review.content}&rdquo;</p>
@@ -54,7 +53,7 @@ export function ReviewsSection() {
             href="/reviews"
             className="inline-flex items-center gap-2 text-[#FFB800] font-bold hover:text-[#FF9500] transition"
           >
-            후기 전체보기 <ArrowRight size={20} />
+            후기 전체보기 →
           </Link>
         </div>
       </div>

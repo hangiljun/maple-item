@@ -1,6 +1,5 @@
 ﻿"use client";
 
-import { MessageCircle, Mail, Share2 } from "lucide-react";
 import { SITE_NAME, KAKAO_LINK, KAKAO_ID } from "@/lib/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -83,31 +82,25 @@ export function Footer() {
           <div>
             <h3 className="font-heading font-bold text-lg mb-4">고객지원</h3>
             <ul className="space-y-3 text-sm">
-              <li className="flex items-start gap-2">
-                <MessageCircle className="w-4 h-4 mt-0.5 text-[#FFB800] flex-shrink-0" />
-                <div>
-                  <div className="text-slate-300">카카오톡</div>
-                  <a
-                    href={KAKAO_LINK}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-slate-400 hover:text-[#FFB800] transition"
-                  >
-                    {KAKAO_ID}
-                  </a>
-                </div>
+              <li>
+                <div className="text-slate-300">카카오톡</div>
+                <a
+                  href={KAKAO_LINK}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-slate-400 hover:text-[#FFB800] transition"
+                >
+                  {KAKAO_ID}
+                </a>
               </li>
-              <li className="flex items-start gap-2">
-                <Mail className="w-4 h-4 mt-0.5 text-[#FFB800] flex-shrink-0" />
-                <div>
-                  <div className="text-slate-300">이메일</div>
-                  <a
-                    href="mailto:support@mapleitem.co.kr"
-                    className="text-slate-400 hover:text-[#FFB800] transition"
-                  >
-                    support@mapleitem.co.kr
-                  </a>
-                </div>
+              <li>
+                <div className="text-slate-300">이메일</div>
+                <a
+                  href="mailto:support@mapleitem.co.kr"
+                  className="text-slate-400 hover:text-[#FFB800] transition"
+                >
+                  support@mapleitem.co.kr
+                </a>
               </li>
             </ul>
           </div>
@@ -134,15 +127,9 @@ export function Footer() {
                 href={KAKAO_LINK}
                 target="_blank"
                 rel="noreferrer"
-                className="w-10 h-10 rounded-full bg-slate-800 hover:bg-[#FFB800] flex items-center justify-center transition"
+                className="px-4 py-2 rounded-full bg-slate-800 hover:bg-[#FFB800] transition text-sm"
               >
-                <MessageCircle className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-slate-800 hover:bg-[#FFB800] flex items-center justify-center transition"
-              >
-                <Share2 className="w-5 h-5" />
+                카카오톡
               </a>
             </div>
           </div>

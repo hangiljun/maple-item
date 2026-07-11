@@ -1,12 +1,10 @@
-﻿import { MessageCircle, Target, Trophy } from "lucide-react";
 
 export function ProcessSection() {
   const steps = [
     {
       step: "01",
-      title: "📱 카톡 문의",
+      title: "카톡 문의",
       desc: "스샷 한장만 보내면 됨",
-      icon: MessageCircle,
       details: ["카톡 열기", "템 스샷 보내기", "서버 알려주기"],
       color: "purple",
       bgColor: "from-purple-500 to-purple-600",
@@ -15,9 +13,8 @@ export function ProcessSection() {
     },
     {
       step: "02",
-      title: "💰 시세 알려줌",
+      title: "시세 알려줌",
       desc: "바로 경매장 보고 가격 알려줌",
-      icon: Target,
       details: ["경매장 지금 바로 확인", "얼마 쳐줄지 말해줌", "속이는거 없음"],
       color: "blue",
       bgColor: "from-blue-500 to-blue-600",
@@ -26,9 +23,8 @@ export function ProcessSection() {
     },
     {
       step: "03",
-      title: "✅ 5분컷",
+      title: "5분컷",
       desc: "게임 접속하면 바로 끝",
-      icon: Trophy,
       details: ["게임에서 만남", "거래 ㄱㄱ", "돈 바로 입금"],
       color: "cyan",
       bgColor: "from-cyan-500 to-cyan-600",
@@ -57,17 +53,6 @@ export function ProcessSection() {
               } md:w-1/2`}
             >
               <div className="glass rounded-2xl shadow-xl p-8 hover:shadow-2xl transition border-2 border-[#FFB800]/20 hover:border-[#FFB800]/40">
-                {/* Icon badge */}
-                <div
-                  className={`absolute top-8 ${
-                    item.align === 'right' ? '-left-6' : '-right-6'
-                  } hidden md:block`}
-                >
-                  <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${item.bgColor} flex items-center justify-center text-white font-black shadow-lg`}>
-                    <item.icon size={24} />
-                  </div>
-                </div>
-
                 <div className={`text-6xl font-black ${item.textColor} mb-2`}>{item.step}</div>
                 <h3 className="text-2xl font-black text-gray-900 mb-2">{item.title}</h3>
                 <p className="text-gray-600 mb-4 text-lg">{item.desc}</p>
