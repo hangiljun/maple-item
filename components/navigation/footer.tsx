@@ -18,28 +18,7 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           {/* 브랜드 */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 40 40"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M20 5L23 15H33L25 21L28 31L20 25L12 31L15 21L7 15H17L20 5Z"
-                  fill="url(#footerLogoGradient)"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="text-[#FFB800]"
-                />
-                <defs>
-                  <linearGradient id="footerLogoGradient" x1="7" y1="5" x2="33" y2="31">
-                    <stop offset="0%" style={{ stopColor: "#FFD700" }} />
-                    <stop offset="100%" style={{ stopColor: "#FFA500" }} />
-                  </linearGradient>
-                </defs>
-              </svg>
+            <div className="mb-4">
               <span className="font-heading text-xl font-semibold text-[#FFB800]">
                 {SITE_NAME}
               </span>
