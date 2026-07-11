@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
-import { Star, Shield } from "lucide-react";
 import { StatCard } from "../stats/stat-card";
 import { KAKAO_LINK } from "@/lib/constants";
 import Link from "next/link";
@@ -51,7 +50,6 @@ export function HeroSection() {
           className="glass rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1 bg-[#FFB800]/15 border border-[#FFB800]/30 rounded-full text-sm font-semibold text-[#FFB800] mb-6 shadow-[0_0_15px_rgba(255,184,0,0.2)]">
-            <Shield className="w-4 h-4" />
             안전하고 빠른 거래
           </div>
 
@@ -79,13 +77,11 @@ export function HeroSection() {
                 size="large"
                 as="span"
               >
-                <Star className="w-5 h-5 fill-current" />
                 거래 문의하기
               </Button>
             </a>
             <Link href="/guide">
               <Button variant="secondary" size="large" as="span">
-                <Shield className="w-5 h-5" />
                 구매 가이드
               </Button>
             </Link>
@@ -114,10 +110,9 @@ export function HeroSection() {
           <MotionDiv
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-8 right-8 glass-small rounded-2xl px-6 py-4 flex items-center gap-3 text-sm font-medium text-foreground"
+            className="absolute bottom-8 right-8 glass-small rounded-2xl px-6 py-4 text-sm font-medium text-foreground"
           >
-            <Shield className="w-6 h-6 text-[#FFD700]" />
-            <span>투명한 시세 · 안전한 거래</span>
+            투명한 시세 · 안전한 거래
           </MotionDiv>
         </MotionDiv>
       </div>
