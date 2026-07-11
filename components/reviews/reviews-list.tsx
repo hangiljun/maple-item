@@ -57,7 +57,7 @@ export function ReviewsList({ reviews }: Props) {
             <div className="flex items-center gap-4 text-gray-500">
               <span>{review.date}</span>
               <button className="text-gray-500 hover:text-[#FFB800] transition-colors">
-                👍 도움돼요 {review.likes}
+                도움돼요 {review.likes}
               </button>
             </div>
 
@@ -72,9 +72,9 @@ export function ReviewsList({ reviews }: Props) {
               title="후기 URL 복사"
             >
               {copiedId === review.id ? (
-                <span className="text-[#FFB800]">✓ 복사됨!</span>
+                <span className="text-[#FFB800]">복사됨</span>
               ) : (
-                <span>🔗 공유</span>
+                <span>공유</span>
               )}
             </button>
           </div>

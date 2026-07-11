@@ -136,7 +136,7 @@ export function ReviewForm() {
           {/* 사진 업로드 */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              📸 판매 인증샷 (선택)
+              판매 인증샷 (선택)
             </label>
 
             {!imagePreview ? (
@@ -152,7 +152,7 @@ export function ReviewForm() {
                   htmlFor="image-upload"
                   className="flex items-center justify-center gap-2 w-full px-4 py-8 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#FFB800] hover:bg-gray-50 transition"
                 >
-                  <span className="text-gray-600">📷 클릭해서 이미지 업로드</span>
+                  <span className="text-gray-600">클릭해서 이미지 업로드</span>
                 </label>
                 <p className="text-xs text-gray-500 mt-2">
                   * 최대 5MB, JPG/PNG 파일만 가능
@@ -170,7 +170,7 @@ export function ReviewForm() {
                   onClick={removeImage}
                   className="absolute top-2 right-2 px-3 py-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition text-sm"
                 >
-                  ✕ 삭제
+                  삭제
                 </button>
               </div>
             )}
@@ -184,7 +184,7 @@ export function ReviewForm() {
             className="w-full"
             disabled={uploading}
           >
-            {uploading ? "📤 업로드 중..." : "✍️ 후기 등록하기"}
+            {uploading ? "업로드 중..." : "후기 등록하기"}
           </Button>
         </form>
       </CardContent>

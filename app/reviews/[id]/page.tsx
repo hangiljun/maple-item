@@ -111,13 +111,13 @@ export default async function ReviewPage({ params }: Props) {
                     )}
                   </div>
                   <div className="text-sm text-gray-500">
-                    📅 {review.date}
+                    {review.date}
                   </div>
                 </div>
               </div>
 
-              <div className="text-2xl">
-                ⭐⭐⭐⭐⭐
+              <div className="flex gap-1 text-[#FFB800] text-xl">
+                ★★★★★
               </div>
             </header>
 

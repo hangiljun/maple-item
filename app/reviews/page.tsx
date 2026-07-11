@@ -46,7 +46,7 @@ export default async function ReviewsPage({ searchParams }: Props) {
         {/* 헤더 */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-3">
-            💬 후기 게시판
+            후기 게시판
           </h1>
           <p className="text-gray-600 text-lg">실제 이용자분들의 생생한 판매 후기</p>
         </div>
