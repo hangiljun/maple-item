@@ -1,4 +1,3 @@
-import { MessageSquare, ThumbsUp, Calendar, TrendingUp, Star } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
 import { KAKAO_LINK } from "@/lib/constants";
@@ -36,9 +35,9 @@ export default async function ReviewsPage({ searchParams }: Props) {
   const currentReviews = reviews.slice(startIndex, endIndex);
 
   const stats = [
-    { label: "총 후기", value: `${reviews.length}`, icon: MessageSquare },
-    { label: "총 거래", value: "1,800+", icon: TrendingUp },
-    { label: "사기", value: "0건", icon: Star },
+    { label: "총 후기", value: `${reviews.length}` },
+    { label: "총 거래", value: "1,800+" },
+    { label: "사기", value: "0건" },
   ];
 
   return (
@@ -46,9 +45,8 @@ export default async function ReviewsPage({ searchParams }: Props) {
       <div className="max-w-6xl mx-auto px-4 sm:px-8">
         {/* 헤더 */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-3 flex items-center justify-center gap-3">
-            <MessageSquare className="text-[#FFB800]" size={36} />
-            후기 게시판
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">
+            💬 후기 게시판
           </h1>
           <p className="text-gray-600 text-lg">실제 이용자분들의 생생한 판매 후기</p>
         </div>
@@ -57,7 +55,6 @@ export default async function ReviewsPage({ searchParams }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {stats.map((stat, i) => (
             <div key={i} className="glass-small rounded-xl p-6 text-center">
-              <stat.icon className="mx-auto text-[#FFB800] mb-3" size={32} />
               <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
               <div className="text-sm text-gray-600">{stat.label}</div>
             </div>
@@ -83,7 +80,6 @@ export default async function ReviewsPage({ searchParams }: Props) {
 
         {/* CTA */}
         <div className="mt-12 glass rounded-2xl p-8 text-center border-2 border-[#FFB800]/30">
-          <MessageSquare className="mx-auto text-[#FFB800] mb-4" size={48} />
           <h3 className="text-2xl font-bold text-gray-900 mb-3">
             지금 바로 거래해보세요
           </h3>
@@ -96,7 +92,6 @@ export default async function ReviewsPage({ searchParams }: Props) {
             rel="noreferrer"
             className="inline-flex items-center gap-2 bg-[#FEE500] text-[#3A1D1D] px-8 py-4 rounded-full font-black text-lg hover:bg-yellow-400 transition shadow-xl"
           >
-            <MessageSquare size={20} fill="#3A1D1D" />
             카카오톡으로 문의하기
           </a>
         </div>

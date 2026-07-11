@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { getReview } from '@/lib/posts';
-import { Star, Calendar, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 type Props = {
@@ -93,8 +92,7 @@ export default async function ReviewPage({ params }: Props) {
             href="/reviews"
             className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition"
           >
-            <ArrowLeft size={20} />
-            <span>후기 목록으로</span>
+            ← 후기 목록으로
           </Link>
 
           <article className="glass rounded-3xl p-8 border-2 border-[#FFB800]/40 shadow-2xl">
@@ -112,21 +110,14 @@ export default async function ReviewPage({ params }: Props) {
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <Calendar size={16} />
-                    <span className="font-medium">{review.date}</span>
+                  <div className="text-sm text-gray-500">
+                    📅 {review.date}
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    className="text-[#FFB800] fill-[#FFB800]"
-                    size={24}
-                  />
-                ))}
+              <div className="text-2xl">
+                ⭐⭐⭐⭐⭐
               </div>
             </header>
 
@@ -158,10 +149,9 @@ export default async function ReviewPage({ params }: Props) {
           <div className="mt-8 text-center">
             <Link
               href="/reviews"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#FFB800] text-white rounded-xl hover:bg-[#FF9500] transition font-semibold shadow-lg"
+              className="inline-block px-6 py-3 bg-[#FFB800] text-white rounded-xl hover:bg-[#FF9500] transition font-semibold shadow-lg"
             >
-              <ArrowLeft size={20} />
-              후기 목록으로
+              ← 후기 목록으로
             </Link>
           </div>
         </div>

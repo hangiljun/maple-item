@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ThumbsUp, Calendar, Share2, Check } from 'lucide-react';
 import type { Review } from '@/lib/types';
 
 type Props = {
@@ -56,13 +55,9 @@ export function ReviewsList({ reviews }: Props) {
           {/* 하단 정보 */}
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-4 text-gray-500">
-              <div className="flex items-center gap-1">
-                <Calendar size={14} />
-                <span>{review.date}</span>
-              </div>
-              <button className="flex items-center gap-2 text-gray-500 hover:text-[#FFB800] transition-colors">
-                <ThumbsUp size={14} />
-                <span>도움돼요 {review.likes}</span>
+              <span>{review.date}</span>
+              <button className="text-gray-500 hover:text-[#FFB800] transition-colors">
+                👍 도움돼요 {review.likes}
               </button>
             </div>
 
@@ -73,19 +68,13 @@ export function ReviewsList({ reviews }: Props) {
                 e.stopPropagation();
                 copyReviewUrl(review.id);
               }}
-              className="flex items-center gap-2 text-gray-500 hover:text-[#FFB800] transition-colors"
+              className="text-gray-500 hover:text-[#FFB800] transition-colors"
               title="후기 URL 복사"
             >
               {copiedId === review.id ? (
-                <>
-                  <Check size={16} />
-                  <span className="text-[#FFB800]">복사됨!</span>
-                </>
+                <span className="text-[#FFB800]">✓ 복사됨!</span>
               ) : (
-                <>
-                  <Share2 size={16} />
-                  <span>공유</span>
-                </>
+                <span>🔗 공유</span>
               )}
             </button>
           </div>
