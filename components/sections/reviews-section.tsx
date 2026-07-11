@@ -35,11 +35,6 @@ export function ReviewsSection() {
               key={review.id}
               className="glass-small rounded-2xl p-6 hover:shadow-lg transition"
             >
-              <div className="flex text-[#FFB800] mb-3">
-                {[1, 2, 3, 4, 5].map(s => (
-                  <span key={s}>★</span>
-                ))}
-              </div>
               <p className="text-lg mb-4 leading-relaxed text-gray-800">&ldquo;{review.content}&rdquo;</p>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600">{review.author}</span>
