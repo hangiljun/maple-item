@@ -78,9 +78,18 @@ export function HeroSection() {
           </div>
 
           <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-foreground leading-tight">
-            <span className="text-gradient">급하게 팔아야 하는 아이템,</span>
-            <br />
-            <span className="text-gradient">지금 바로 구매합니다</span>
+            {/* 모바일: 짧은 버전 */}
+            <span className="block sm:hidden">
+              <span className="text-gradient">급처템,</span>
+              <br />
+              <span className="text-gradient">지금 바로 구매합니다</span>
+            </span>
+            {/* 데스크톱: 긴 버전 */}
+            <span className="hidden sm:block">
+              <span className="text-gradient">급하게 팔아야 하는 아이템,</span>
+              <br />
+              <span className="text-gradient">지금 바로 구매합니다</span>
+            </span>
           </h1>
 
           <p className="text-xl leading-relaxed text-foreground/80 mb-8">
