@@ -135,14 +135,14 @@ export function AdvantagesSection() {
               {/* Row 2: 구매가 */}
               <div className="text-center py-4 border-b border-gray-100">
                 <div className="text-gray-600 text-sm mb-1">구매가</div>
-                <div className="font-medium text-gray-700">시세 -20%</div>
+                <div className="font-medium text-gray-700">시세 70% 구매</div>
               </div>
               <div className="text-center py-4 border-b border-gray-100 bg-[#FFB800]/5">
                 <div className="text-gray-600 text-sm mb-1">구매가</div>
-                <div className="font-bold text-[#FFB800] text-lg">시세 100%</div>
+                <div className="font-bold text-[#FFB800] text-lg">시세 85% 구매</div>
               </div>
               <div className="text-center py-4 border-b border-gray-100">
-                <div className="text-green-600 font-bold">+20% 이득</div>
+                <div className="text-green-600 font-bold">+15% 이득</div>
               </div>
 
               {/* Row 3: 응답 속도 */}
