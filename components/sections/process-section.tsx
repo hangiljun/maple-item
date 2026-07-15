@@ -15,7 +15,7 @@ export function ProcessSection() {
     },
     {
       step: "02",
-      title: "시세 알려줌",
+      title: "아이템 구매 가격 제공",
       desc: "바로 경매장 보고 가격 알려줌",
       details: ["경매장 지금 바로 확인", "얼마 쳐줄지 말해줌", "속이는거 없음"],
       time: "1분",
@@ -28,7 +28,7 @@ export function ProcessSection() {
       step: "03",
       title: "5분컷",
       desc: "게임 접속하면 바로 끝",
-      details: ["게임에서 만남", "거래 ㄱㄱ", "돈 바로 입금"],
+      details: ["게임에서 만남", "거래 ㄱㄱ", "바로 정산"],
       time: "3분",
       color: "cyan",
       bgColor: "from-cyan-500 to-cyan-600",
@@ -43,7 +43,7 @@ export function ProcessSection() {
         <div className="text-center mb-12">
           <span className="text-[#FFB800] font-bold text-sm uppercase tracking-wider">진짜 쉬움</span>
           <h2 className="text-4xl font-black text-gray-900 mt-2 mb-4">3단계로 끝남</h2>
-          <p className="text-gray-600 text-lg">총 소요 시간: <span className="font-bold text-[#FFB800]">약 5분</span></p>
+          <p className="text-gray-600 text-lg">총 소요 시간: <span className="font-bold text-[#FFB800]">약 10분</span></p>
         </div>
 
         {/* Timeline Progress Bar */}

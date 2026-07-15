@@ -16,22 +16,22 @@ export function AdvantagesSection() {
             
             <h3 className="text-3xl font-black mb-4 relative z-10">진짜 빠름</h3>
             <p className="text-[#FFF8ED] mb-6 text-lg leading-relaxed relative z-10">
-              카톡 보내면 5분 안에 현금 입금
+              카톡 보내면 10분 안에 정산 완료
               <br />
               복잡한거 없이 바로 구매
             </p>
             <ul className="space-y-3 relative z-10">
               <li className="flex items-center gap-3">
-                
+
                 <span>답장 1초컷</span>
               </li>
               <li className="flex items-center gap-3">
-                
+
                 <span>시세 바로 알려줌</span>
               </li>
               <li className="flex items-center gap-3">
-                
-                <span>입금도 바로됨</span>
+
+                <span>정산도 바로됨</span>
               </li>
             </ul>
           </div>
@@ -87,7 +87,7 @@ export function AdvantagesSection() {
                 </div>
                 <div className="glass-small rounded-xl p-4">
                   <div className="text-green-600 font-bold mb-1 text-lg">즉시 입금</div>
-                  <div className="text-sm text-gray-600">현금화 빠름</div>
+                  <div className="text-sm text-gray-600">정산이 빠름</div>
                 </div>
               </div>
             </div>

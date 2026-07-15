@@ -24,9 +24,9 @@ export function Footer() {
               </span>
             </div>
             <p className="text-slate-400 text-sm leading-relaxed">
-              메이플스토리 급처템 거래의 새로운 기준.
+              메이플아이템은 메이플스토리 유저들이 급처템을 안전하고 빠르게 처분할 수 있는 사이트 입니다.
               <br />
-              빠르고 안전한 직거래 플랫폼
+              안전한 시스템으로 사기 걱정 없이 안심하고 아이템을 구매할 수 있습니다.
             </p>
           </div>
 
@@ -88,9 +88,9 @@ export function Footer() {
           <div>
             <h3 className="font-heading font-bold text-lg mb-4">운영시간</h3>
             <ul className="space-y-2 text-sm text-slate-400">
-              <li>평일: 오전 10시 ~ 밤 12시</li>
-              <li>주말: 오전 11시 ~ 밤 11시</li>
-              <li>공휴일: 오전 11시 ~ 밤 10시</li>
+              <li className="text-[#FFB800] font-bold text-lg">365일 24시간</li>
+              <li className="mt-3">연중무휴</li>
+              <li>언제든지 문의 가능</li>
               <li className="text-[#FFB800] font-semibold mt-3">빠른 응답 보장</li>
             </ul>
           </div>
