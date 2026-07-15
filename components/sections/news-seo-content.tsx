@@ -28,22 +28,18 @@
 
           <div className="bg-card rounded-lg p-8 mb-12 shadow-sm">
             <h3 className="text-2xl font-semibold mb-6 text-card-foreground">메이플 아이템 시세 카테고리</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
               <div className="p-4 bg-muted/50 rounded-lg">
                 <p className="font-semibold text-primary">무기 시세</p>
-                <p className="text-sm text-muted-foreground mt-1">제네시스/에테르넬</p>
+                <p className="text-sm text-muted-foreground mt-1">아케인 무기, 보조무기 등</p>
               </div>
               <div className="p-4 bg-muted/50 rounded-lg">
                 <p className="font-semibold text-primary">방어구 시세</p>
-                <p className="text-sm text-muted-foreground mt-1">22성 장비</p>
-              </div>
-              <div className="p-4 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">큐브 시세</p>
-                <p className="text-sm text-muted-foreground mt-1">잠재능력</p>
+                <p className="text-sm text-muted-foreground mt-1">에테르넬 장비, 아케인 장비 등</p>
               </div>
               <div className="p-4 bg-muted/50 rounded-lg">
                 <p className="font-semibold text-primary">악세 시세</p>
-                <p className="text-sm text-muted-foreground mt-1">고급 악세서리</p>
+                <p className="text-sm text-muted-foreground mt-1">드메템 등</p>
               </div>
             </div>
           </div>

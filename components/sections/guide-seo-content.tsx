@@ -27,23 +27,53 @@
           </div>
 
           <div className="bg-card rounded-lg p-8 mb-12 shadow-sm">
-            <h3 className="text-2xl font-semibold mb-6 text-card-foreground">메이플 서버별 거래 가능</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-              <div className="p-4 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">엘리시움 서버</p>
-                <p className="text-sm text-muted-foreground mt-1">장비 거래</p>
+            <h3 className="text-2xl font-semibold mb-6 text-card-foreground text-center">전서버 아이템 모두 구매</h3>
+            <p className="text-center text-lg font-medium text-primary mb-6">메이플스토리 모든 서버의 아이템을 구매합니다</p>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-center">
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">스카니아</p>
               </div>
-              <div className="p-4 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">스카니아/루나</p>
-                <p className="text-sm text-muted-foreground mt-1">급처템 거래</p>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">베라</p>
               </div>
-              <div className="p-4 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">오로라/크로아</p>
-                <p className="text-sm text-muted-foreground mt-1">무기 거래</p>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">루나</p>
               </div>
-              <div className="p-4 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">전 서버</p>
-                <p className="text-sm text-muted-foreground mt-1">아이템 시세 확인</p>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">제니스</p>
+              </div>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">크로아</p>
+              </div>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">아케인</p>
+              </div>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">노바</p>
+              </div>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">레드</p>
+              </div>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">이노시스</p>
+              </div>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">유니온</p>
+              </div>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">엘리시움</p>
+              </div>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">오로라</p>
+              </div>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">챌린저스</p>
+              </div>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">에오스</p>
+              </div>
+              <div className="p-3 bg-muted/50 rounded-lg">
+                <p className="font-semibold text-primary">헬리오스</p>
               </div>
             </div>
           </div>

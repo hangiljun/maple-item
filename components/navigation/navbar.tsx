@@ -84,7 +84,7 @@ export function Navbar() {
           </li>
           <li>
             <Link
-              href="#contact"
+              href="/contact"
               className="font-medium text-foreground hover:text-[#FFB800] transition-colors"
             >
               문의하기
@@ -150,7 +150,7 @@ export function Navbar() {
             </li>
             <li>
               <Link
-                href="#contact"
+                href="/contact"
                 className="block py-2 font-medium text-foreground hover:text-[#FFB800] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >

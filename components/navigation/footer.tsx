@@ -50,9 +50,9 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="#contact" className="text-slate-400 hover:text-[#FFB800] transition">
+                <Link href="/contact" className="text-slate-400 hover:text-[#FFB800] transition">
                   문의하기
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
