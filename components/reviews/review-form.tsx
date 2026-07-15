@@ -98,7 +98,7 @@ export function ReviewForm() {
   return (
     <Card className="border-2 border-[#FFB800]/30">
       <CardHeader>
-        <CardTitle>💬 판매 후기 남기기</CardTitle>
+        <CardTitle>판매 후기 남기기</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">

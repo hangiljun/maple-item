@@ -2,6 +2,7 @@
 import { Fredoka, Nunito } from "next/font/google";
 import { Navbar } from "@/components/navigation/navbar";
 import { Footer } from "@/components/navigation/footer";
+import { FloatingKakaoButton } from "@/components/floating-kakao-button";
 import "./globals.css";
 
 const fredoka = Fredoka({
@@ -66,6 +67,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <FloatingKakaoButton />
       </body>
     </html>
   );

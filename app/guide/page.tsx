@@ -104,7 +104,7 @@ export default function GuidePage() {
         </h1>
         <p className="text-gray-600 text-lg">메이플아이템에서 안전하고 빠르게 거래하는 방법을 알려드립니다</p>
         <div className="mt-6 inline-block bg-gradient-to-r from-[#FFB800]/20 to-[#FF9500]/20 rounded-full px-6 py-2">
-          <span className="text-[#FFB800] font-bold">⚡ 평균 거래 완료 시간: 5분</span>
+          <span className="text-[#FFB800] font-bold">평균 거래 완료 시간: 5분</span>
         </div>
       </div>
 
