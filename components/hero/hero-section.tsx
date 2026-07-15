@@ -77,10 +77,10 @@ export function HeroSection() {
             </div>
           </div>
 
-          <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-foreground leading-tight">
-            <span className="text-gradient">급하게 팔아야 하는 메이플 아이템,</span>
+          <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-foreground leading-tight">
+            <span className="text-gradient">급하게 팔아야 하는 아이템,</span>
             <br />
-            <span className="text-gradient">지금 바로 구매해드립니다</span>
+            <span className="text-gradient">지금 바로 구매합니다</span>
           </h1>
 
           <p className="text-xl leading-relaxed text-foreground/80 mb-8">
