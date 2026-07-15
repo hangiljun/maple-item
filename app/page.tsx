@@ -4,11 +4,11 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: '메이플아이템 - 메이플스토리 급처템 고가매입',
-  description: '메이플스토리 급처템을 빠르고 안전하게 고가로 매입합니다. 전서버 지원, 즉시 현금화, 카카오톡 간편 거래.',
+  description: '메이플스토리 급처템을 빠르고 안전하게 고가로 매입합니다. 전서버 지원, 즉시 정산, 카카오톡 간편 거래.',
   keywords: ['메이플스토리', '메이플', '급처템', '아이템 매입', '메이플 급처', '아이템 판매', '메소', '고가매입', '메이플아이템'],
   openGraph: {
     title: '메이플아이템 - 메이플스토리 급처템 고가매입',
-    description: '메이플스토리 급처템을 빠르고 안전하게 고가로 매입합니다. 전서버 지원, 즉시 현금화, 카카오톡 간편 거래.',
+    description: '메이플스토리 급처템을 빠르고 안전하게 고가로 매입합니다. 전서버 지원, 즉시 정산, 카카오톡 간편 거래.',
     type: 'website',
     locale: 'ko_KR',
     siteName: '메이플아이템',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: '메이플아이템 - 메이플스토리 급처템 고가매입',
-    description: '메이플스토리 급처템을 빠르고 안전하게 고가로 매입합니다. 전서버 지원, 즉시 현금화, 카카오톡 간편 거래.'
+    description: '메이플스토리 급처템을 빠르고 안전하게 고가로 매입합니다. 전서버 지원, 즉시 정산, 카카오톡 간편 거래.'
   }
 };
 
@@ -45,8 +45,43 @@ const SEOContent = dynamic(() => import("@/components/sections/seo-content").the
 });
 
 export default function Home() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: '메이플아이템',
+    description: '메이플스토리 급처템 고가매입 전문 업체',
+    url: 'https://mapleitem.co.kr',
+    telephone: 'kakao:han8246',
+    priceRange: '₩₩₩',
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'KR',
+      addressLocality: '대한민국'
+    },
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      opens: '00:00',
+      closes: '23:59'
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      bestRating: '5',
+      ratingCount: '47'
+    },
+    areaServed: {
+      '@type': 'Country',
+      name: 'South Korea'
+    }
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <HeroSection />
       <AdvantagesSection />
       <ProcessSection />

@@ -95,7 +95,25 @@ export default function GuidePage() {
     }
   ];
 
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a
+      }
+    }))
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
     <div className="max-w-5xl mx-auto px-4 py-12 pt-24">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-3 flex items-center justify-center gap-3">
@@ -220,5 +238,6 @@ export default function GuidePage() {
 
       <GuideSEOContent />
     </div>
+    </>
   );
 }
