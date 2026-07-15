@@ -60,6 +60,14 @@ export function Navbar() {
         <ul className="hidden md:flex list-none gap-8 flex-1 justify-center">
           <li>
             <Link
+              href="/"
+              className="font-medium text-foreground hover:text-[#FFB800] transition-colors"
+            >
+              홈
+            </Link>
+          </li>
+          <li>
+            <Link
               href="/guide"
               className="font-medium text-foreground hover:text-[#FFB800] transition-colors"
             >
@@ -121,6 +129,15 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden bg-white/95 backdrop-blur-[20px] border-t border-[#FFB800]/20">
           <ul className="flex flex-col p-4 space-y-3">
+            <li>
+              <Link
+                href="/"
+                className="block py-2 font-medium text-foreground hover:text-[#FFB800] transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                홈
+              </Link>
+            </li>
             <li>
               <Link
                 href="/guide"

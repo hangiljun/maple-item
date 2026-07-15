@@ -35,6 +35,11 @@ export function Footer() {
             <h3 className="font-heading font-bold text-lg mb-4">빠른 링크</h3>
             <ul className="space-y-2 text-sm">
               <li>
+                <Link href="/" className="text-slate-400 hover:text-[#FFB800] transition">
+                  홈
+                </Link>
+              </li>
+              <li>
                 <Link href="/guide" className="text-slate-400 hover:text-[#FFB800] transition">
                   이용가이드
                 </Link>
