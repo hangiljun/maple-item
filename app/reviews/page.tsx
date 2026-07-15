@@ -12,7 +12,7 @@ const REVIEWS_PER_PAGE = 5;
 export const metadata: Metadata = {
   title: "거래 후기 | 메이플아이템 - 실제 고객 후기",
   description: "메이플스토리 아이템 거래 실제 고객 후기. 빠르고 안전한 거래 경험을 확인하세요. 스카니아, 루나, 엘리시움 등 전서버 지원.",
-  keywords: ["메이플 후기", "메이플아이템 후기", "거래 후기", "메이플스토리 후기", "아이템 매입 후기"],
+  keywords: ["메이플 후기", "메이플아이템 후기", "거래 후기", "메이플스토리 후기", "아이템 구매 후기"],
   openGraph: {
     title: "메이플아이템 거래 후기",
     description: "실제 고객들의 생생한 거래 후기",

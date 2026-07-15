@@ -2,9 +2,9 @@
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: '메이플아이템 - 메이플스토리 급처템 고가매입',
+    name: '메이플아이템 - 메이플스토리 급처템 고가구매',
     short_name: '메이플아이템',
-    description: '메이플스토리 급처템 빠르고 안전한 고가매입 플랫폼',
+    description: '메이플스토리 급처템 빠르고 안전한 고가구매 플랫폼',
     start_url: '/',
     display: 'standalone',
     background_color: '#FFFBF5',

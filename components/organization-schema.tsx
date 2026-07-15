@@ -5,7 +5,7 @@ export function OrganizationSchema() {
     name: '메이플아이템',
     url: 'https://mapleitem.co.kr',
     logo: 'https://mapleitem.co.kr/logo.png',
-    description: '메이플스토리 급처템 고가매입 전문 업체',
+    description: '메이플스토리 급처템 고가구매 전문 업체',
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
