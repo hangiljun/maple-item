@@ -57,9 +57,41 @@ export default async function NewsPostPage({ params }: Props) {
 
   const Icon = getIcon(post.icon);
 
+  // Article Schema.org 구조화 데이터
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    datePublished: post.date,
+    dateModified: post.date,
+    image: post.image || 'https://mapleitem.co.kr/logo.png',
+    author: {
+      '@type': 'Organization',
+      name: '메이플아이템'
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: '메이플아이템',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://mapleitem.co.kr/logo.png'
+      }
+    },
+    description: post.content.substring(0, 160),
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://mapleitem.co.kr/news/${post.id}`
+    }
+  };
+
   return (
-    <div className="min-h-screen py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-8">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <div className="min-h-screen py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-8">
         {/* 뒤로가기 */}
         <Link
           href="/news"
@@ -152,6 +184,7 @@ export default async function NewsPostPage({ params }: Props) {
           </Link>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
