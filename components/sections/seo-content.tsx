@@ -1,4 +1,4 @@
-﻿export function SEOContent() {
+export function SEOContent() {
   return (
     <section className="py-16 bg-gradient-to-b from-background to-muted/20">
       <div className="container mx-auto px-4 max-w-6xl">
@@ -22,21 +22,21 @@
               <p className="text-muted-foreground leading-relaxed">
                 게임 내 자유시장에서 시간 낭비하지 마세요.
                 메이플아이템에서는 실시간 시세 정보를 제공하여 합리적인 가격에 거래할 수 있으며,
-                안전결제 시스템으로 사기 걱정 없이 안심하고 아이템을 구매할 수 있습니다.
+                안전한 거래 시스템으로 걱정 없이 아이템을 구매할 수 있습니다.
               </p>
             </div>
           </div>
 
           <div className="bg-card rounded-lg p-8 mb-12 shadow-sm">
-            <h3 className="text-2xl font-semibold mb-6 text-card-foreground">메이플 아이템 거래 주요 키워드</h3>
+            <h3 className="text-2xl font-semibold mb-6 text-card-foreground">거래 가능 아이템</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div className="p-4 bg-muted/50 rounded-lg">
                 <p className="font-semibold text-primary">급처템</p>
-                <p className="text-sm text-muted-foreground mt-1">시세보다 저렴한 아이템</p>
+                <p className="text-sm text-muted-foreground mt-1">빠른 거래 필요 아이템</p>
               </div>
               <div className="p-4 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">무기 강화</p>
-                <p className="text-sm text-muted-foreground mt-1">고성능 장비 거래</p>
+                <p className="font-semibold text-primary">무기·방어구</p>
+                <p className="text-sm text-muted-foreground mt-1">강화 장비 거래</p>
               </div>
               <div className="p-4 bg-muted/50 rounded-lg">
                 <p className="font-semibold text-primary">시세 확인</p>
@@ -44,28 +44,8 @@
               </div>
               <div className="p-4 bg-muted/50 rounded-lg">
                 <p className="font-semibold text-primary">안전거래</p>
-                <p className="text-sm text-muted-foreground mt-1">사기 방지 시스템</p>
+                <p className="text-sm text-muted-foreground mt-1">게임 내 직거래</p>
               </div>
-            </div>
-          </div>
-
-          <div className="mb-12">
-            <h3 className="text-2xl font-semibold mb-6 text-foreground">인기 검색 키워드</h3>
-            <div className="flex flex-wrap gap-3">
-              {[
-                "메이플 급처템", "메이플스토리 거래소", "메이플 아이템 시세",
-                "스카니아 서버 거래", "메이플 장비 거래", "메이플 무기 거래",
-                "메이플 방어구", "메이플 악세서리", "메이플 큐브",
-                "메이플 스타포스", "메이플 잠재능력", "메이플아이템",
-                "메이플 자유시장", "메이플 안전거래", "메이플 아이템 거래"
-              ].map((keyword) => (
-                <span
-                  key={keyword}
-                  className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm hover:bg-primary/20 transition-colors"
-                >
-                  {keyword}
-                </span>
-              ))}
             </div>
           </div>
 

@@ -40,10 +40,10 @@ export const metadata: Metadata = {
     url: "https://mapleitem.co.kr",
     images: [
       {
-        url: "/logo.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "메이플아이템 로고",
+        alt: "메이플아이템 - 급처템 고가구매",
       },
     ],
   },
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "메이플아이템 - 급처템 고가구매",
     description: "빠르고 안전한 거래! 전서버 즉시 구매",
-    images: ["/logo.png"],
+    images: ["/og-image.png"],
   },
 };
 

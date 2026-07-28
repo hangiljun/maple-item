@@ -37,7 +37,7 @@ export function CTASection() {
             </div>
 
             <p className="mt-4 text-base text-[#FFF8ED]/90 font-semibold">
-              답장 빠름 · 정산이 빠름 · 시세 제일 높음
+              답장 빠름 · 정산이 빠름 · 합리적인 가격
             </p>
           </div>
         </div>

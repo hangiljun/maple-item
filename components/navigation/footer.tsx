@@ -104,7 +104,7 @@ export function Footer() {
         <div className="border-t border-slate-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-500 text-sm">
-              © 2024 {SITE_NAME}. All rights reserved.
+              © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
             </p>
             <div className="flex gap-4">
               <a
