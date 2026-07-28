@@ -41,8 +41,8 @@
                 <p className="text-sm text-muted-foreground mt-1">사기 피해 0건</p>
               </div>
               <div className="p-4 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">즉시 입금</p>
-                <p className="text-sm text-muted-foreground mt-1">거래 후 바로 지급</p>
+                <p className="font-semibold text-primary">즉시 정산</p>
+                <p className="text-sm text-muted-foreground mt-1">거래 후 바로 처리</p>
               </div>
             </div>
           </div>

@@ -83,7 +83,7 @@ export function AdvantagesSection() {
                 </div>
                 <div className="glass-small rounded-xl p-4">
                   <div className="text-green-600 font-bold mb-1 text-lg">즉시 정산</div>
-                  <div className="text-sm text-gray-600">빠른 입금</div>
+                  <div className="text-sm text-gray-600">빠른 처리</div>
                 </div>
                 <div className="glass-small rounded-xl p-4">
                   <div className="text-green-600 font-bold mb-1 text-lg">투명한 시세</div>
