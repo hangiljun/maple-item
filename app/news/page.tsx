@@ -8,44 +8,6 @@ import { getAllPosts } from "@/lib/posts";
 import Link from "next/link";
 import type { NewsPost } from "@/lib/types";
 
-const defaultNews: NewsPost[] = [
-  {
-    id: "default-1",
-    category: "이벤트",
-    icon: "Sparkles",
-    title: "7월 거래 이벤트 - 추가 5% 보너스 지급!",
-    date: "2026-07-01",
-    time: "09:00",
-    featured: true,
-    pinned: false,
-    content: "7월 한 달간 모든 거래 건에 대해 거래 금액의 5%를 추가로 보너스 지급해드립니다! 이 기회를 놓치지 마세요.",
-    details: [
-      "기간: 2026년 7월 1일 ~ 7월 31일",
-      "대상: 전 서버 모든 아이템 거래",
-      "보너스: 거래 금액의 5% 추가 지급",
-      "조건: 거래 완료 시 자동 적용"
-    ],
-    tag: "진행중"
-  },
-  {
-    id: "default-2",
-    category: "시세정보",
-    icon: "TrendingUp",
-    title: "6월 4주차 주요 아이템 시세 동향",
-    date: "2026-06-30",
-    time: "14:30",
-    featured: true,
-    pinned: false,
-    content: "6월 마지막 주 주요 아이템의 시세 변동 현황을 안내드립니다.",
-    details: [
-      "에테르넬 플레임 무기: 평균 15% 상승",
-      "22성 장비: 수요 증가로 10% 상승",
-      "제네시스 무기: 안정적 유지"
-    ],
-    tag: "최신"
-  },
-];
-
 export default function NewsPage() {
   const [news, setNews] = useState<NewsPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,15 +16,10 @@ export default function NewsPage() {
     async function loadPosts() {
       try {
         const posts = await getAllPosts();
-        if (posts.length > 0) {
-          setNews(posts);
-        } else {
-          // Firestore에 게시글이 없으면 기본 게시글 표시
-          setNews(defaultNews);
-        }
+        setNews(posts);
       } catch (error) {
         console.error('게시글 로드 실패:', error);
-        setNews(defaultNews);
+        setNews([]);
       } finally {
         setLoading(false);
       }

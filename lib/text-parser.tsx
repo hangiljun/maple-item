@@ -1,5 +1,7 @@
 // 텍스트 파싱 유틸리티
 import React from "react";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const colorMap: { [key: string]: string } = {
   "기본": "#2D2D2D",
@@ -18,7 +20,7 @@ const sizeMap: { [key: string]: string } = {
   "매우크게": "28px",
 };
 
-// 재귀적으로 중첩된 태그 파싱
+// 재귀적으로 중첩된 태그 파싱 (기존 커스텀 태그용)
 function parseNestedTags(text: string, key: string = "0"): React.ReactElement {
   // 태그 정규식 - backreference로 여는 태그와 닫는 태그 매칭
   const tagRegex = /\[(색|크기):([가-힣a-zA-Z0-9]+)\](.*?)\[\/\1\]/;
@@ -51,9 +53,8 @@ function parseNestedTags(text: string, key: string = "0"): React.ReactElement {
   );
 }
 
-export function parseStyledText(content: string): React.ReactElement[] {
-  if (!content) return [];
-
+// 기존 커스텀 태그 파싱 (하위 호환용)
+function parseCustomTags(content: string): React.ReactElement[] {
   const lines = content.split('\n');
   return lines.map((line, index) => (
     <span key={`line-${index}`}>
@@ -61,4 +62,26 @@ export function parseStyledText(content: string): React.ReactElement[] {
       {index < lines.length - 1 ? '\n' : ''}
     </span>
   ));
+}
+
+// 하이브리드 파서: 커스텀 태그가 있으면 기존 파서, 없으면 마크다운 파서
+export function parseStyledText(content: string): React.ReactElement | React.ReactElement[] {
+  if (!content) return [];
+
+  // 커스텀 태그 감지
+  const hasCustomTags = /\[(색|크기):[^\]]+\].*?\[\/\1\]/.test(content);
+
+  if (hasCustomTags) {
+    // 기존 커스텀 태그 파서 사용 (하위 호환)
+    return parseCustomTags(content);
+  }
+
+  // 마크다운 파서 사용 (새 글 지원)
+  return (
+    <div className="markdown-content">
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+        {content}
+      </ReactMarkdown>
+    </div>
+  );
 }
