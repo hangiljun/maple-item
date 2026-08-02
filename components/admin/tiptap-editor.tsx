@@ -57,7 +57,13 @@ export function TipTapEditor({ value, onChange, label = "본문" }: TipTapEditor
     ],
     content: value,
     onUpdate: ({ editor }) => {
-      const html = editor.getHTML();
+      let html = editor.getHTML();
+
+      // 빈 블록 정리: 내용 없는 <h2></h2>, <h3></h3>, <p></p> 등 제거
+      html = html.replace(/<h2>\s*<\/h2>/g, '');
+      html = html.replace(/<h3>\s*<\/h3>/g, '');
+      html = html.replace(/<p>\s*<\/p>/g, '');
+      html = html.replace(/<li>\s*<\/li>/g, '');
 
       // DOMPurify로 sanitize
       const sanitized = DOMPurify.sanitize(html, {
@@ -141,6 +147,7 @@ export function TipTapEditor({ value, onChange, label = "본문" }: TipTapEditor
     <button
       type="button"
       onClick={onClick}
+      onMouseDown={(e) => e.preventDefault()}
       disabled={disabled}
       title={title}
       className={`p-2 rounded transition ${

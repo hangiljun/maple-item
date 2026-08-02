@@ -53,6 +53,19 @@ export default function AdminPostsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validation: 제목 필수
+    if (!title.trim()) {
+      alert('제목을 입력해주세요.');
+      return;
+    }
+
+    // Validation: 본문 필수 (빈 태그만 있는 경우 제외)
+    const contentText = content.replace(/<[^>]*>/g, '').trim();
+    if (!contentText) {
+      alert('본문 내용을 입력해주세요.');
+      return;
+    }
+
     setUploading(true);
 
     try {
