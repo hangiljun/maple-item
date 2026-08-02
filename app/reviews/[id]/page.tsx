@@ -86,7 +86,7 @@ export default async function ReviewPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
       />
 
-      <div className="min-h-screen py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+      <div className="min-h-screen py-24 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-8">
           <Link
             href="/reviews"
@@ -98,14 +98,14 @@ export default async function ReviewPage({ params }: Props) {
           <article className="glass rounded-3xl p-8 border-2 border-[#FFB800]/40 shadow-2xl">
             <header className="mb-8">
               <div className="flex items-center gap-4 mb-6">
-                <div className="bg-gradient-to-br from-[#FFB800] to-[#FF9500] w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+                <div className="bg-[#FFB800] w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-sm">
                   {review.author[0]}
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <h1 className="text-2xl font-bold text-gray-900">{review.author}님의 거래 후기</h1>
                     {review.server && (
-                      <span className="px-3 py-1 bg-purple-500/20 text-purple-700 rounded-lg text-sm font-semibold border border-purple-300">
+                      <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm font-semibold border border-gray-300">
                         {review.server}
                       </span>
                     )}
@@ -139,7 +139,7 @@ export default async function ReviewPage({ params }: Props) {
 
             {review.helpful && (
               <div className="mt-8 pt-8 border-t border-gray-200">
-                <div className="flex items-center gap-2 text-green-600">
+                <div className="flex items-center gap-2 text-[#FFB800]">
                   <span className="text-lg font-semibold">✓ 도움이 되는 후기</span>
                 </div>
               </div>

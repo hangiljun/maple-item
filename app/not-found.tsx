@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="text-center">
         {/* 404 애니메이션 */}
         <div className="mb-8">
-          <div className="text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FFB800] via-[#FF9500] to-[#FFB6C1] mb-4">
+          <div className="text-9xl font-black text-[#FFB800] mb-4">
             404
           </div>
           <Search className="mx-auto text-gray-400 animate-bounce" size={48} />

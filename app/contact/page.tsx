@@ -29,15 +29,15 @@ export default function ContactPage() {
       </div>
 
       {/* Main Contact Card */}
-      <div className="bg-gradient-to-br from-[#FFB800] to-[#FF9500] rounded-3xl p-8 md:p-12 text-white mb-12 shadow-2xl">
+      <div className="bg-white rounded-3xl p-8 md:p-12 mb-12 shadow-sm border-2 border-[#FFB800]">
         <div className="text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full mb-6">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-sm font-medium">실시간 상담 가능</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FFB800]/10 border border-[#FFB800] rounded-full mb-6">
+            <div className="w-2 h-2 bg-[#FFB800] rounded-full animate-pulse"></div>
+            <span className="text-sm font-medium text-[#FFB800]">실시간 상담 가능</span>
           </div>
 
-          <h2 className="text-3xl font-black mb-4">카카오톡으로 간편하게 문의하세요</h2>
-          <p className="text-[#FFF8ED] text-lg mb-8">
+          <h2 className="text-3xl font-black mb-4 text-gray-900">카카오톡으로 간편하게 문의하세요</h2>
+          <p className="text-gray-600 text-lg mb-8">
             아이템 스크린샷과 서버 정보만 보내주시면<br />
             바로 시세 확인 후 가격을 안내드립니다
           </p>
@@ -46,13 +46,13 @@ export default function ContactPage() {
             href={KAKAO_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-white text-[#FF9500] px-10 py-4 rounded-full font-black text-xl hover:bg-[#FFF8ED] transition shadow-2xl transform hover:scale-105 mb-6"
+            className="inline-block bg-[#FFB800] text-white px-10 py-4 rounded-full font-black text-xl hover:bg-[#FF9500] transition shadow-sm mb-6"
           >
             카카오톡 문의하기
           </a>
 
-          <div className="text-[#FFF8ED] text-sm">
-            카카오톡 ID: <span className="font-bold text-white">{KAKAO_ID}</span>
+          <div className="text-gray-600 text-sm">
+            카카오톡 ID: <span className="font-bold text-gray-900">{KAKAO_ID}</span>
           </div>
         </div>
       </div>
@@ -75,11 +75,11 @@ export default function ContactPage() {
                   <span className="font-bold text-lg text-[#FFB800]">365일 24시간</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
                   <span>연중무휴 운영</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
                   <span>평균 응답: 1분 이내</span>
                 </div>
               </div>
@@ -90,8 +90,8 @@ export default function ContactPage() {
         {/* 문의 방법 */}
         <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-[#FFB800]/20">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center flex-shrink-0">
-              <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <div className="w-12 h-12 bg-[#FFB800]/10 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg className="w-6 h-6 text-[#FFB800]" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
               </svg>
@@ -100,15 +100,15 @@ export default function ContactPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">문의 방법</h3>
               <div className="space-y-2 text-gray-700">
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
                   <span>아이템 스크린샷 전송</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
                   <span>서버 정보 알려주기</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
                   <span>시세 확인 및 가격 안내</span>
                 </div>
               </div>
