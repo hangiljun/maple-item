@@ -121,7 +121,7 @@ export default function GuidePage() {
           이용가이드
         </h1>
         <p className="text-gray-600 text-lg">메이플아이템에서 안전하고 빠르게 거래하는 방법을 알려드립니다</p>
-        <div className="mt-6 inline-block bg-gradient-to-r from-[#FFB800]/20 to-[#FF9500]/20 rounded-full px-6 py-2">
+        <div className="mt-6 inline-block bg-[#FFB800]/10 border border-[#FFB800] rounded-full px-6 py-2">
           <span className="text-[#FFB800] font-bold">평균 거래 완료 시간: 약 10분</span>
         </div>
       </div>
@@ -139,10 +139,10 @@ export default function GuidePage() {
             {steps.map((item, i) => (
               <div key={i} className="relative">
                 <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 border-2 border-[#FFB800]/20 hover:border-[#FFB800]/40 transition-all hover:shadow-lg h-full">
-                  <div className="absolute -top-4 -left-4 bg-gradient-to-r from-[#FFB800] to-[#FF9500] text-white w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold shadow-lg">
+                  <div className="absolute -top-4 -left-4 bg-[#FFB800] text-white w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold shadow-lg">
                     {i + 1}
                   </div>
-                  <div className="bg-gradient-to-br from-[#FFB800]/10 to-[#FF9500]/10 p-4 rounded-xl inline-block mb-4 mt-2">
+                  <div className="bg-[#FFB800]/10 p-4 rounded-xl inline-block mb-4 mt-2">
                     <item.icon className="text-[#FFB800]" size={32} />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
@@ -150,7 +150,7 @@ export default function GuidePage() {
                   <ul className="space-y-2">
                     {item.details.map((detail, j) => (
                       <li key={j} className="flex items-start gap-2 text-sm text-gray-600">
-                        <CheckCircle className="text-green-500 flex-shrink-0 mt-0.5" size={16} />
+                        <CheckCircle className="text-[#FFB800] flex-shrink-0 mt-0.5" size={16} />
                         <span>{detail}</span>
                       </li>
                     ))}
@@ -167,9 +167,8 @@ export default function GuidePage() {
         </section>
 
         {/* 거래 문의 */}
-        <section className="relative overflow-hidden glass rounded-2xl p-8 border-2 border-[#FFB800]/30 bg-gradient-to-br from-white to-yellow-50/30">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#FFB800]/10 to-transparent rounded-full blur-3xl"></div>
-          <div className="relative z-10">
+        <section className="glass rounded-2xl p-8 border-2 border-[#FFB800]/30">
+          <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
               <MessageCircle className="text-[#FFB800]" size={28} />
               지금 바로 거래 문의하기
@@ -187,7 +186,7 @@ export default function GuidePage() {
               >
                 <MessageCircle size={20} fill="#3A1D1D" /> 카카오톡으로 문의하기
               </a>
-              <div className="bg-white/80 backdrop-blur px-4 py-2 rounded-full border border-gray-200">
+              <div className="bg-white px-4 py-2 rounded-full border border-gray-200">
                 <span className="text-gray-600">
                   카카오톡 ID: <strong className="text-gray-900">{KAKAO_ID}</strong>
                 </span>

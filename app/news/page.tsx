@@ -92,7 +92,7 @@ export default function NewsPage() {
   const LatestIcon = latestPost ? getIcon(latestPost.icon) : Newspaper;
 
   return (
-    <div className="min-h-screen py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+    <div className="min-h-screen py-24 bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-8">
         {/* 헤더 */}
         <div className="text-center mb-12">
@@ -111,10 +111,7 @@ export default function NewsPage() {
               <h2 className="text-2xl font-bold text-gray-900">최신 소식</h2>
             </div>
             <Link href={`/news/${latestPost.id}`} className="block">
-              <div className="glass rounded-3xl p-8 border-2 border-[#FFB800]/40 shadow-2xl relative overflow-hidden hover:border-[#FFB800] transition cursor-pointer">
-                {/* 배경 장식 */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#FFB800]/10 to-transparent rounded-full blur-3xl -z-0" />
-
+              <div className="glass rounded-3xl p-8 border-2 border-[#FFB800]/40 shadow-lg hover:border-[#FFB800] transition cursor-pointer">
               {latestPost.pinned && (
                 <div className="absolute top-6 right-6">
                   <div className="flex items-center gap-1 px-4 py-2 bg-red-500 text-white rounded-full text-sm font-bold shadow-lg">
@@ -124,21 +121,21 @@ export default function NewsPage() {
                 </div>
               )}
 
-              <div className="relative z-10">
+              <div>
                 <div className="flex items-start gap-6 mb-6">
-                  <div className="bg-gradient-to-br from-[#FFB800] to-[#FF9500] p-4 rounded-2xl shadow-lg">
+                  <div className="bg-[#FFB800] p-4 rounded-2xl shadow-lg">
                     <LatestIcon className="text-white" size={32} />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-3">
-                      <span className="px-4 py-1.5 bg-purple-500/20 text-purple-700 rounded-lg text-sm font-bold border border-purple-300">
+                      <span className="px-4 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-sm font-bold border border-gray-300">
                         {latestPost.category}
                       </span>
                       <span className={`px-4 py-1.5 rounded-lg text-sm font-bold border ${
-                        latestPost.tag === "진행중" ? "bg-green-500/20 text-green-700 border-green-300" :
-                        latestPost.tag === "최신" ? "bg-blue-500/20 text-blue-700 border-blue-300" :
-                        latestPost.tag === "중요" ? "bg-red-500/20 text-red-700 border-red-300" :
-                        "bg-gray-500/20 text-gray-700 border-gray-300"
+                        latestPost.tag === "진행중" ? "bg-[#FFB800]/10 text-[#FFB800] border-[#FFB800]" :
+                        latestPost.tag === "최신" ? "bg-gray-100 text-gray-700 border-gray-300" :
+                        latestPost.tag === "중요" ? "bg-[#FFB800]/10 text-[#FFB800] border-[#FFB800]" :
+                        "bg-gray-100 text-gray-700 border-gray-300"
                       }`}>
                         {latestPost.tag}
                       </span>
@@ -219,16 +216,8 @@ export default function NewsPage() {
 
                     {/* 분류 */}
                     <div className="md:col-span-2 flex items-center gap-2">
-                      <div className={`p-2 rounded-lg ${
-                        item.category === "이벤트" ? "bg-purple-500/10" :
-                        item.category === "시세정보" ? "bg-blue-500/10" :
-                        "bg-orange-500/10"
-                      }`}>
-                        <IconComponent className={
-                          item.category === "이벤트" ? "text-purple-600" :
-                          item.category === "시세정보" ? "text-blue-600" :
-                          "text-orange-600"
-                        } size={16} />
+                      <div className="p-2 rounded-lg bg-gray-100">
+                        <IconComponent className="text-gray-700" size={16} />
                       </div>
                       <span className="text-sm font-medium text-gray-700">{item.category}</span>
                     </div>
@@ -258,10 +247,10 @@ export default function NewsPage() {
                     {/* 상태 */}
                     <div className="md:col-span-2 flex items-center justify-center">
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        item.tag === "진행중" ? "bg-green-500/20 text-green-700" :
-                        item.tag === "최신" ? "bg-blue-500/20 text-blue-700" :
-                        item.tag === "중요" ? "bg-red-500/20 text-red-700" :
-                        "bg-gray-500/20 text-gray-700"
+                        item.tag === "진행중" ? "bg-[#FFB800]/10 text-[#FFB800]" :
+                        item.tag === "최신" ? "bg-gray-100 text-gray-700" :
+                        item.tag === "중요" ? "bg-[#FFB800]/10 text-[#FFB800]" :
+                        "bg-gray-100 text-gray-700"
                       }`}>
                         {item.tag}
                       </span>

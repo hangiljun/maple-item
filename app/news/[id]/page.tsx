@@ -90,7 +90,7 @@ export default async function NewsPostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
-      <div className="min-h-screen py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+      <div className="min-h-screen py-24 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-8">
         {/* 뒤로가기 */}
         <Link
@@ -106,19 +106,19 @@ export default async function NewsPostPage({ params }: Props) {
           {/* 헤더 */}
           <header className="mb-8">
             <div className="flex items-center gap-3 mb-4">
-              <div className="bg-gradient-to-br from-[#FFB800] to-[#FF9500] p-3 rounded-xl shadow-lg">
+              <div className="bg-[#FFB800] p-3 rounded-xl shadow-lg">
                 <Icon className="text-white" size={24} />
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <span className="px-4 py-1.5 bg-purple-500/20 text-purple-700 rounded-lg text-sm font-bold border border-purple-300">
+                  <span className="px-4 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-sm font-bold border border-gray-300">
                     {post.category}
                   </span>
                   <span className={`px-4 py-1.5 rounded-lg text-sm font-bold border ${
-                    post.tag === "진행중" ? "bg-green-500/20 text-green-700 border-green-300" :
-                    post.tag === "최신" ? "bg-blue-500/20 text-blue-700 border-blue-300" :
-                    post.tag === "중요" ? "bg-red-500/20 text-red-700 border-red-300" :
-                    "bg-gray-500/20 text-gray-700 border-gray-300"
+                    post.tag === "진행중" ? "bg-[#FFB800]/10 text-[#FFB800] border-[#FFB800]" :
+                    post.tag === "최신" ? "bg-gray-100 text-gray-700 border-gray-300" :
+                    post.tag === "중요" ? "bg-[#FFB800]/10 text-[#FFB800] border-[#FFB800]" :
+                    "bg-gray-100 text-gray-700 border-gray-300"
                   }`}>
                     {post.tag}
                   </span>
