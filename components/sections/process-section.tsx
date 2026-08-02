@@ -38,9 +38,9 @@ export function ProcessSection() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
+    <section className="py-20 bg-white">
       <div className="max-w-5xl mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-left mb-12">
           <span className="text-[#FFB800] font-bold text-sm uppercase tracking-wider">간편한 거래 프로세스</span>
           <h2 className="text-4xl font-black text-gray-900 mt-2 mb-4">3단계 거래 프로세스</h2>
           <p className="text-gray-600 text-lg">투명하고 안전한 거래, <span className="font-bold text-[#FFB800]">평균 10분 소요</span></p>
@@ -48,12 +48,12 @@ export function ProcessSection() {
 
         {/* Timeline Progress Bar */}
         <div className="max-w-3xl mx-auto mb-16">
-          <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-[#FFB800]/20">
+          <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
             <div className="flex items-center justify-between mb-4">
               {steps.map((item, i) => (
                 <div key={i} className="flex-1 flex items-center">
                   <div className="flex flex-col items-center flex-1">
-                    <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${item.bgColor} flex items-center justify-center text-white font-bold shadow-lg mb-2`}>
+                    <div className="w-12 h-12 rounded-full bg-[#FFB800] flex items-center justify-center text-white font-bold mb-2">
                       {item.step}
                     </div>
                     <div className="text-xs font-medium text-gray-600 text-center">
@@ -74,7 +74,7 @@ export function ProcessSection() {
 
         <div className="relative">
           {/* Center line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-purple-300 via-blue-300 to-cyan-300 hidden md:block"></div>
+          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gray-200 hidden md:block"></div>
 
           {steps.map((item, i) => (
             <div
@@ -83,16 +83,16 @@ export function ProcessSection() {
                 item.align === 'right' ? 'md:ml-auto md:pl-12' : 'md:mr-auto md:pr-12'
               } md:w-1/2`}
             >
-              <div className="glass rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300 border-2 border-[#FFB800]/20 hover:border-[#FFB800]/40 hover:scale-[1.02]">
+              <div className="glass rounded-xl p-8 border-2 border-gray-200">
                 {/* Time Badge */}
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#FFB800]/10 border border-[#FFB800]/30 rounded-full mb-3">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#FFB800]/10 border border-[#FFB800] rounded-full mb-3">
                   <svg className="w-4 h-4 text-[#FFB800]" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
                   </svg>
                   <span className="text-xs font-bold text-[#FFB800]">약 {item.time}</span>
                 </div>
 
-                <div className={`text-6xl font-black bg-gradient-to-br ${item.bgColor} bg-clip-text text-transparent mb-2`}>{item.step}</div>
+                <div className="text-6xl font-black text-gray-900 mb-2">{item.step}</div>
                 <h3 className="text-2xl font-black text-gray-900 mb-2">{item.title}</h3>
                 <p className="text-gray-600 mb-4 text-lg">{item.desc}</p>
 

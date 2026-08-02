@@ -13,7 +13,7 @@ export function FloatingKakaoButton() {
     >
       <div className="relative">
         {/* Main Button */}
-        <div className="w-16 h-16 bg-[#FFB800] rounded-full shadow-2xl flex items-center justify-center transform transition-all duration-300 hover:scale-110 hover:bg-[#FF9500] animate-bounce-slow">
+        <div className="w-16 h-16 bg-[#FFB800] rounded-full shadow-lg flex items-center justify-center transform transition-all duration-300 hover:scale-110 hover:bg-[#FF9500] animate-bounce-slow">
           {/* Kakao Talk Icon */}
           <svg
             className="w-9 h-9 text-white"

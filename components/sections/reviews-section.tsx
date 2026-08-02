@@ -21,7 +21,7 @@ export function ReviewsSection() {
   }, []);
 
   return (
-    <section className="py-20 bg-gradient-to-br from-[#FFB800]/10 via-[#FF9500]/10 to-[#FFB6C1]/10">
+    <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-12">
           <span className="text-[#FFB800] font-bold text-sm uppercase tracking-wider">Reviews</span>

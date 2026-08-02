@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* 청결하고 투명한 느낌 - 메이플 테마 */
-  --color-background: #FFFBF5;
-  --color-foreground: #2D2D2D;
+  /* 밝은 뉴트럴 배경 + 주황 포인트 */
+  --color-background: #FAFAF9;
+  --color-background-alt: #F1F5F9;
+  --color-foreground: #1A1A1A;
+  --color-foreground-muted: #57534E;
 
-  /* 브랜드 컬러 시스템 */
+  /* 브랜드 컬러 시스템 (주황 포인트 유지) */
   --color-primary: #FFB800;
   --color-primary-dark: #FF9500;
   --color-primary-light: #FFD700;
-  --color-accent: #FFB6C1;
+  --color-accent: #F59E0B;
 
   /* 기능적 컬러 */
   --color-success: #10B981;
@@ -20,6 +22,7 @@
   /* 중립 컬러 */
   --color-gray-50: #F9FAFB;
   --color-gray-100: #F3F4F6;
+  --color-gray-200: #E5E7EB;
   --color-gray-600: #4B5563;
   --color-gray-900: #111827;
 
@@ -45,18 +48,17 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Fredoka', sans-serif;
 }
 
-/* 피부과 UI 스타일 - 청결하고 투명한 글래스모피즘 */
+/* 밝은 뉴트럴 카드 스타일 */
 .glass {
-  @apply bg-white/40 backdrop-blur-[16px] border border-[#FFB800]/25 shadow-[0_8px_32px_0_rgba(255,184,0,0.15)];
+  @apply bg-white border border-gray-200 shadow-sm;
 }
 
 .glass-small {
-  @apply bg-white/50 backdrop-blur-[12px] border border-[#FFB800]/25 shadow-[0_4px_16px_0_rgba(255,184,0,0.12)];
+  @apply bg-white border border-gray-200 shadow-sm;
 }
 
 .text-gradient {
-  @apply bg-gradient-to-r from-[#FFB800] via-[#FF9500] to-[#FFB6C1] bg-clip-text text-transparent;
-  filter: drop-shadow(0 0 10px rgba(255, 184, 0, 0.5));
+  @apply text-gray-900 font-bold;
 }
 
 /* Custom animations */

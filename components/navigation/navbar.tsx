@@ -41,8 +41,8 @@ export function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-shadow duration-200 ${
-        scrolled ? "shadow-[0_4px_20px_rgba(255,184,0,0.15)]" : ""
-      } bg-white/30 backdrop-blur-[20px] border-b border-[#FFB800]/20`}
+        scrolled ? "shadow-sm" : ""
+      } bg-white/95 backdrop-blur-sm border-b border-gray-200`}
     >
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-4 flex items-center justify-between gap-4 sm:gap-8">
         <Link href="/" className="flex items-center gap-3" aria-label="메이플아이템 홈으로 이동">
@@ -127,7 +127,7 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-[20px] border-t border-[#FFB800]/20">
+        <div className="md:hidden bg-white border-t border-gray-200">
           <ul className="flex flex-col p-4 space-y-3">
             <li>
               <Link

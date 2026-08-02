@@ -28,7 +28,7 @@ export function ReviewsList({ reviews }: Props) {
         >
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-4">
-              <div className="bg-gradient-to-br from-[#FFB800] to-[#FF9500] w-12 h-12 rounded-full flex items-center justify-center text-white font-bold">
+              <div className="bg-[#FFB800] w-12 h-12 rounded-full flex items-center justify-center text-white font-bold">
                 {review.author[0]}
               </div>
               <div>
