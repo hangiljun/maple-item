@@ -138,7 +138,7 @@ export default function ContactPage() {
 
           <div className="p-4 bg-gray-50 rounded-lg">
             <div className="font-semibold text-gray-900 mb-2">Q. 거래는 어떻게 진행되나요?</div>
-            <div className="text-gray-700">A. 가격 합의 후 게임 내에서 직접 만나 안전하게 거래합니다. 거래 완료 즉시 정산해드립니다.</div>
+            <div className="text-gray-700">A. 가격 합의 후 게임 내에서 직접 만나 안전하게 거래합니다. 거래 완료 후 신속하게 정산해드립니다.</div>
           </div>
         </div>
       </div>
@@ -147,7 +147,7 @@ export default function ContactPage() {
       <div className="mt-12 text-center">
         <p className="text-gray-600 mb-4">
           지금 바로 카카오톡으로 문의하시면<br />
-          <span className="font-bold text-[#FFB800]">10분 안에 정산 완료</span>됩니다
+          <span className="font-bold text-[#FFB800]">평균 약 10분 내 처리</span>됩니다
         </p>
         <a
           href={KAKAO_LINK}

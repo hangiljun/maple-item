@@ -41,7 +41,7 @@
                 <p className="text-sm text-muted-foreground mt-1">사기 피해 0건</p>
               </div>
               <div className="p-4 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">즉시 정산</p>
+                <p className="font-semibold text-primary">빠른 정산</p>
                 <p className="text-sm text-muted-foreground mt-1">거래 후 바로 처리</p>
               </div>
             </div>
@@ -117,13 +117,7 @@
             "@context": "https://schema.org",
             "@type": "Product",
             "name": "메이플아이템 거래 서비스",
-            "description": "메이플스토리 아이템 안전거래 플랫폼",
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": "4.9",
-              "reviewCount": "1800",
-              "bestRating": "5"
-            }
+            "description": "메이플스토리 아이템 안전거래 플랫폼"
           })
         }}
       />

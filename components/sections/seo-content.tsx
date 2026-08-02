@@ -54,7 +54,7 @@ export function SEOContent() {
             <ol className="space-y-4 text-muted-foreground">
               <li className="flex items-start">
                 <span className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold mr-4">1</span>
-                <span><strong className="text-foreground">카카오톡 문의</strong> - 아이템 스크린샷과 서버 정보를 전송해주시면 즉시 확인해드립니다</span>
+                <span><strong className="text-foreground">카카오톡 문의</strong> - 아이템 스크린샷과 서버 정보를 전송해주시면 빠르게 확인해드립니다</span>
               </li>
               <li className="flex items-start">
                 <span className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold mr-4">2</span>
@@ -62,7 +62,7 @@ export function SEOContent() {
               </li>
               <li className="flex items-start">
                 <span className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold mr-4">3</span>
-                <span><strong className="text-foreground">거래 완료</strong> - 게임 내 직거래 후 즉시 대금을 지급받으세요</span>
+                <span><strong className="text-foreground">거래 완료</strong> - 게임 내 직거래 후 신속하게 대금을 지급받으세요</span>
               </li>
             </ol>
           </div>

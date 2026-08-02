@@ -16,7 +16,7 @@ export function AdvantagesSection() {
 
             <h3 className="text-3xl font-black mb-4 relative z-10">빠른 거래</h3>
             <p className="text-[#FFF8ED] mb-6 text-lg leading-relaxed relative z-10">
-              카톡 보내면 10분 안에 정산 완료
+              카톡 보내면 평균 약 10분 내 처리
               <br />
               복잡한 절차 없이 간편하게
             </p>
@@ -82,8 +82,8 @@ export function AdvantagesSection() {
                   <div className="text-sm text-gray-600">안전한 구매</div>
                 </div>
                 <div className="glass-small rounded-xl p-4">
-                  <div className="text-green-600 font-bold mb-1 text-lg">즉시 정산</div>
-                  <div className="text-sm text-gray-600">빠른 처리</div>
+                  <div className="text-green-600 font-bold mb-1 text-lg">빠른 정산</div>
+                  <div className="text-sm text-gray-600">신속한 처리</div>
                 </div>
                 <div className="glass-small rounded-xl p-4">
                   <div className="text-green-600 font-bold mb-1 text-lg">투명한 시세</div>

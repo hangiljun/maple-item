@@ -5,7 +5,7 @@ export function ProcessSection() {
     {
       step: "01",
       title: "카카오톡 문의",
-      desc: "아이템 스크린샷과 서버 정보를 전송해주시면 즉시 확인해드립니다",
+      desc: "아이템 스크린샷과 서버 정보를 전송해주시면 빠르게 확인해드립니다",
       details: ["아이템 스크린샷 전송", "서버 정보 입력", "거래 가능 시간 선택"],
       time: "1분",
       color: "purple",
@@ -27,8 +27,8 @@ export function ProcessSection() {
     {
       step: "03",
       title: "거래 완료",
-      desc: "게임 내 직거래 후 즉시 대금을 지급받으세요",
-      details: ["게임 내 안전한 직거래", "거래 완료 확인", "즉시 대금 지급"],
+      desc: "게임 내 직거래 후 신속하게 대금을 지급받으세요",
+      details: ["게임 내 안전한 직거래", "거래 완료 확인", "빠른 대금 지급"],
       time: "5분",
       color: "cyan",
       bgColor: "from-cyan-500 to-cyan-600",

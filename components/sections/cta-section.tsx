@@ -12,7 +12,7 @@ export function CTASection() {
             <h2 className="text-4xl font-black mb-4">급처템 빠르게 팔고 싶으면</h2>
             <p className="text-2xl text-[#FFF8ED] mb-8 max-w-2xl mx-auto font-bold">
               지금 카톡 보내면<br />
-              10분 안에 정산 완료
+              평균 약 10분 내 처리
             </p>
             <a
               href={KAKAO_LINK}

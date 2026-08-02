@@ -96,7 +96,7 @@ export function Footer() {
               <li className="text-[#FFB800] font-bold text-lg">365일 24시간</li>
               <li className="mt-3">연중무휴</li>
               <li>언제든지 문의 가능</li>
-              <li className="text-[#FFB800] font-semibold mt-3">빠른 응답 보장</li>
+              <li className="text-[#FFB800] font-semibold mt-3">빠른 응답</li>
             </ul>
           </div>
         </div>

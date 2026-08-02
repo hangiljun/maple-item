@@ -18,10 +18,10 @@
             </div>
 
             <div className="bg-card rounded-lg p-6 shadow-sm">
-              <h3 className="text-xl font-semibold mb-4 text-card-foreground">평균 5분 안에 거래 완료</h3>
+              <h3 className="text-xl font-semibold mb-4 text-card-foreground">평균 약 10분 내 거래 완료</h3>
               <p className="text-muted-foreground leading-relaxed">
-                카카오톡 문의부터 시세 확인, 거래 완료까지 평균 5분이면 끝납니다.
-                전문 상담팀이 빠르게 응답하며, 투명한 가격으로 신뢰할 수 있는 거래를 보장합니다.
+                카카오톡 문의부터 시세 확인, 거래 완료까지 평균 약 10분이면 끝납니다.
+                전문 상담팀이 빠르게 응답하며, 투명한 가격으로 신뢰할 수 있는 거래를 제공합니다.
               </p>
             </div>
           </div>
@@ -125,8 +125,8 @@
               <li className="flex items-start">
                 <span className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold mr-4">4</span>
                 <div>
-                  <strong className="text-foreground">즉시 대금 지급</strong>
-                  <p className="mt-1">거래 완료 후 대금이 즉시 지급되므로 안심하세요</p>
+                  <strong className="text-foreground">빠른 대금 지급</strong>
+                  <p className="mt-1">거래 완료 후 대금이 신속하게 지급되므로 안심하세요</p>
                 </div>
               </li>
             </ul>
@@ -163,7 +163,7 @@
               {
                 "@type": "HowToStep",
                 "name": "거래 완료",
-                "text": "게임 내에서 안전하게 거래를 진행하고 즉시 대금을 받습니다."
+                "text": "게임 내에서 안전하게 거래를 진행하고 신속하게 대금을 받습니다."
               }
             ]
           })
