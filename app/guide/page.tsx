@@ -6,15 +6,15 @@ import { GuideSEOContent } from "@/components/sections/guide-seo-content";
 
 export const metadata: Metadata = {
   title: "이용가이드 | 메이플아이템 - 메이플 급처템 판매 방법 3단계",
-  description: "메이플스토리 급처템 판매 완벽 가이드! 카카오톡 문의 → 실시간 시세 확인 → 현금화 완료까지 평균 5분. 전서버 구매 가능. 투명한 가격 제시. FAQ 포함.",
+  description: "메이플스토리 급처템 판매 완벽 가이드! 카카오톡 문의 → 실시간 시세 확인 → 정산 완료까지 평균 약 10분. 전서버 구매 가능. 투명한 가격 제시. FAQ 포함.",
   keywords: [
-    "메이플 판매 방법", "메이플 이용가이드", "메이플 아이템 판매", "메이플 현금화",
+    "메이플 판매 방법", "메이플 이용가이드", "메이플 아이템 판매", "메이플 아이템 정산",
     "메이플 급처 판매", "메이플 시세 확인", "메이플 고가구매", "급처템 팔기",
-    "스카니아 판매", "루나 판매", "이노시스 판매", "메이플 아이템 팔기", "메이플 현금화 방법"
+    "스카니아 판매", "루나 판매", "이노시스 판매", "메이플 아이템 팔기", "메이플 정산 방법"
   ],
   openGraph: {
     title: "메이플 급처템 판매 가이드 - 메이플아이템",
-    description: "3단계로 완료하는 빠른 현금화 방법",
+    description: "3단계로 완료하는 빠른 정산 방법",
     type: "article",
     url: "https://mapleitem.co.kr/guide",
   },
@@ -63,7 +63,7 @@ export default function GuidePage() {
   const faqs = [
     {
       q: "거래는 얼마나 빨리 진행되나요?",
-      a: "문의 주신 후 빠르게 응답하며, 시세 확인부터 거래 완료까지 평균 약 10분 정도 소요됩니다. 빠른 현금화가 필요하신 분들께 최적입니다."
+      a: "문의 주신 후 빠르게 응답하며, 시세 확인부터 거래 완료까지 평균 약 10분 정도 소요됩니다. 빠른 정산이 필요하신 분들께 최적입니다."
     },
     {
       q: "어떤 서버에서 거래 가능한가요?",
@@ -87,7 +87,7 @@ export default function GuidePage() {
     },
     {
       q: "대금은 언제 받나요?",
-      a: "게임 내에서 아이템 거래가 완료되면 신속하게 현금(계좌이체)으로 대금을 지급해드립니다."
+      a: "게임 내에서 아이템 거래가 완료되면 신속하게 계좌이체로 대금을 지급해드립니다."
     },
     {
       q: "가격이 마음에 안 들면 어떻게 하나요?",
@@ -122,7 +122,7 @@ export default function GuidePage() {
         </h1>
         <p className="text-gray-600 text-lg">메이플아이템에서 안전하고 빠르게 거래하는 방법을 알려드립니다</p>
         <div className="mt-6 inline-block bg-gradient-to-r from-[#FFB800]/20 to-[#FF9500]/20 rounded-full px-6 py-2">
-          <span className="text-[#FFB800] font-bold">평균 거래 완료 시간: 5분</span>
+          <span className="text-[#FFB800] font-bold">평균 거래 완료 시간: 약 10분</span>
         </div>
       </div>
 

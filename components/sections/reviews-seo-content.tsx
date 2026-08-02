@@ -30,7 +30,7 @@
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div className="p-4 bg-muted/50 rounded-lg">
                 <p className="font-semibold text-primary">빠른 응답</p>
-                <p className="text-sm text-muted-foreground mt-1">평균 5분 내 거래</p>
+                <p className="text-sm text-muted-foreground mt-1">평균 약 10분 내 거래</p>
               </div>
               <div className="p-4 bg-muted/50 rounded-lg">
                 <p className="font-semibold text-primary">정확한 시세</p>
@@ -54,7 +54,7 @@
                 "메이플 거래 후기", "메이플아이템 후기", "메이플 아이템 거래 후기",
                 "메이플 급처 후기", "메이플 안전거래 후기", "스카니아 거래 후기",
                 "루나 서버 후기", "메이플 거래 사기", "메이플 신뢰 거래",
-                "메이플 빠른 거래 후기", "메이플 거래소 후기", "메이플 현금화 후기",
+                "메이플 빠른 거래 후기", "메이플 거래소 후기", "메이플 정산 후기",
                 "엘리시움 거래 후기", "메이플 아이템 판매 후기", "메이플 거래 경험담"
               ].map((keyword) => (
                 <span
@@ -74,7 +74,7 @@
                 <span className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold mr-4">✓</span>
                 <div>
                   <strong className="text-foreground">빠른 거래 속도</strong>
-                  <p className="mt-1">문의부터 거래 완료까지 평균 5분, 급하게 현금이 필요할 때 최적</p>
+                  <p className="mt-1">문의부터 거래 완료까지 평균 약 10분, 급하게 메소나 자금이 필요할 때 최적</p>
                 </div>
               </li>
               <li className="flex items-start">
