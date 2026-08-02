@@ -93,55 +93,6 @@ export function AdvantagesSection() {
             </div>
           </div>
         </div>
-
-        {/* 거래 프로세스 안내 */}
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <h3 className="text-3xl font-black text-gray-900 mb-2">거래 방법</h3>
-            <p className="text-gray-600">간편하고 빠른 3단계 프로세스</p>
-          </div>
-
-          <div className="bg-white rounded-2xl p-8 shadow-xl border-2 border-[#FFB800]/20">
-            <div className="space-y-6">
-              <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-[#FFB800]/5 to-transparent rounded-xl">
-                <div className="flex-shrink-0 w-10 h-10 bg-[#FFB800] text-white rounded-full flex items-center justify-center font-bold">
-                  1
-                </div>
-                <div>
-                  <h4 className="font-bold text-lg text-gray-900 mb-1">카카오톡 문의</h4>
-                  <p className="text-gray-600">아이템 스크린샷과 서버 정보를 전송하세요</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-[#FFB800]/5 to-transparent rounded-xl">
-                <div className="flex-shrink-0 w-10 h-10 bg-[#FFB800] text-white rounded-full flex items-center justify-center font-bold">
-                  2
-                </div>
-                <div>
-                  <h4 className="font-bold text-lg text-gray-900 mb-1">실시간 시세 확인</h4>
-                  <p className="text-gray-600">경매장 기준 정확한 가격을 제시받으세요</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-[#FFB800]/5 to-transparent rounded-xl">
-                <div className="flex-shrink-0 w-10 h-10 bg-[#FFB800] text-white rounded-full flex items-center justify-center font-bold">
-                  3
-                </div>
-                <div>
-                  <h4 className="font-bold text-lg text-gray-900 mb-1">거래 완료</h4>
-                  <p className="text-gray-600">게임 내 직거래 후 즉시 정산</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom Note */}
-            <div className="mt-6 pt-6 border-t-2 border-gray-100 text-center">
-              <p className="text-[#FFB800] font-bold">
-                평균 10분 안에 완료되는 빠른 거래
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

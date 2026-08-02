@@ -4,10 +4,10 @@ export function ProcessSection() {
   const steps = [
     {
       step: "01",
-      title: "카톡 문의",
-      desc: "스샷 한장만 보내면 됨",
-      details: ["카톡 열기", "템 스샷 보내기", "서버 알려주기"],
-      time: "30초",
+      title: "카카오톡 문의",
+      desc: "아이템 스크린샷과 서버 정보를 전송해주시면 즉시 확인해드립니다",
+      details: ["아이템 스크린샷 전송", "서버 정보 입력", "거래 가능 시간 선택"],
+      time: "1분",
       color: "purple",
       bgColor: "from-purple-500 to-purple-600",
       textColor: "text-purple-100",
@@ -15,10 +15,10 @@ export function ProcessSection() {
     },
     {
       step: "02",
-      title: "아이템 구매 가격 제공",
-      desc: "바로 경매장 보고 가격 알려줌",
-      details: ["경매장 지금 바로 확인", "얼마 쳐줄지 말해줌", "속이는거 없음"],
-      time: "1분",
+      title: "실시간 시세 확인 및 가격 제시",
+      desc: "경매장 시세를 직접 확인하여 투명한 가격을 제시해드립니다",
+      details: ["경매장 실시간 확인", "투명한 가격 제시", "옵션별 차액 설명"],
+      time: "3분",
       color: "blue",
       bgColor: "from-blue-500 to-blue-600",
       textColor: "text-blue-100",
@@ -26,10 +26,10 @@ export function ProcessSection() {
     },
     {
       step: "03",
-      title: "5분컷",
-      desc: "게임 접속하면 바로 끝",
-      details: ["게임에서 만남", "거래 ㄱㄱ", "바로 정산"],
-      time: "3분",
+      title: "거래 완료",
+      desc: "게임 내 직거래 후 즉시 대금을 지급받으세요",
+      details: ["게임 내 안전한 직거래", "거래 완료 확인", "즉시 대금 지급"],
+      time: "5분",
       color: "cyan",
       bgColor: "from-cyan-500 to-cyan-600",
       textColor: "text-cyan-100",
@@ -41,9 +41,9 @@ export function ProcessSection() {
     <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-12">
-          <span className="text-[#FFB800] font-bold text-sm uppercase tracking-wider">진짜 쉬움</span>
-          <h2 className="text-4xl font-black text-gray-900 mt-2 mb-4">3단계로 끝남</h2>
-          <p className="text-gray-600 text-lg">총 소요 시간: <span className="font-bold text-[#FFB800]">약 10분</span></p>
+          <span className="text-[#FFB800] font-bold text-sm uppercase tracking-wider">간편한 거래 프로세스</span>
+          <h2 className="text-4xl font-black text-gray-900 mt-2 mb-4">3단계 거래 프로세스</h2>
+          <p className="text-gray-600 text-lg">투명하고 안전한 거래, <span className="font-bold text-[#FFB800]">평균 10분 소요</span></p>
         </div>
 
         {/* Timeline Progress Bar */}
