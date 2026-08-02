@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { getPost, getAllPosts } from '@/lib/posts';
 import { parseStyledText } from '@/lib/text-parser';
-import { Sparkles, TrendingUp, AlertCircle, Newspaper, Calendar, Clock, Pin, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import DOMPurify from 'isomorphic-dompurify';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -46,16 +46,27 @@ export default async function NewsPostPage({ params }: Props) {
     notFound();
   }
 
-  const getIcon = (iconName: string) => {
-    switch (iconName) {
-      case "Sparkles": return Sparkles;
-      case "TrendingUp": return TrendingUp;
-      case "AlertCircle": return AlertCircle;
-      default: return Newspaper;
+  // 전체 게시글 가져와서 이전/다음 찾기
+  const allPosts = await getAllPosts();
+  const sortedPosts = allPosts.sort((a, b) =>
+    new Date(b.date + ' ' + b.time).getTime() - new Date(a.date + ' ' + a.time).getTime()
+  );
+  const currentIndex = sortedPosts.findIndex(p => p.id === post.id);
+  const prevPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
+  const nextPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+
+  // 분류 배지 스타일
+  const getCategoryBadgeClass = (category: string) => {
+    switch (category) {
+      case "이벤트":
+        return "bg-[#FAEEDA] text-[#854F0B] border-[#FAEEDA]";
+      case "시세정보":
+        return "bg-[#E6F1FB] text-[#0C447C] border-[#E6F1FB]";
+      case "공지":
+      default:
+        return "bg-white text-gray-700 border-gray-300";
     }
   };
-
-  const Icon = getIcon(post.icon);
 
   // Article Schema.org 구조화 데이터
   const articleSchema = {
@@ -91,99 +102,113 @@ export default async function NewsPostPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
       <div className="min-h-screen py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-8">
-        {/* 뒤로가기 */}
-        <Link
-          href="/news"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition"
-        >
-          <ArrowLeft size={20} />
-          <span>소식 목록으로</span>
-        </Link>
+        {/* 읽기 폭 제한 */}
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          {/* 뒤로가기 */}
+          <Link
+            href="/news"
+            className="inline-block text-gray-600 hover:text-gray-900 mb-6 transition text-sm"
+          >
+            ← 목록으로
+          </Link>
 
-        {/* 게시글 */}
-        <article className="glass rounded-3xl p-8 border-2 border-[#FFB800]/40 shadow-2xl">
-          {/* 헤더 */}
-          <header className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="bg-[#FFB800] p-3 rounded-xl shadow-lg">
-                <Icon className="text-white" size={24} />
+          {/* 게시글 */}
+          <article>
+            {/* 헤더 */}
+            <header className="mb-8">
+              {/* 메타 */}
+              <div className="flex items-center gap-2 mb-4">
+                <span className={`px-3 py-1 rounded-lg text-sm font-medium border ${getCategoryBadgeClass(post.category)}`}>
+                  {post.category}
+                </span>
+                <span className="text-sm text-gray-500">{post.date}</span>
               </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-3 flex-wrap">
-                  <span className="px-4 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-sm font-bold border border-gray-300">
-                    {post.category}
-                  </span>
-                  <span className={`px-4 py-1.5 rounded-lg text-sm font-bold border ${
-                    post.tag === "진행중" ? "bg-[#FFB800]/10 text-[#FFB800] border-[#FFB800]" :
-                    post.tag === "최신" ? "bg-gray-100 text-gray-700 border-gray-300" :
-                    post.tag === "중요" ? "bg-[#FFB800]/10 text-[#FFB800] border-[#FFB800]" :
-                    "bg-gray-100 text-gray-700 border-gray-300"
-                  }`}>
-                    {post.tag}
-                  </span>
-                  {post.pinned && (
-                    <span className="flex items-center gap-1 px-4 py-1.5 bg-red-500/20 text-red-700 rounded-lg text-sm font-bold border border-red-300">
-                      <Pin size={14} />
-                      공지
-                    </span>
+
+              {/* 제목 */}
+              <h1 className="text-4xl font-bold text-gray-900 mb-6">
+                {post.title}
+              </h1>
+
+              {/* 대표 이미지 */}
+              {post.image && (
+                <div className="mb-8 rounded-xl overflow-hidden">
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full max-h-[500px] object-cover"
+                  />
+                </div>
+              )}
+            </header>
+
+            {/* 본문 */}
+            <div className="prose prose-lg max-w-none prose-headings:font-bold prose-a:text-[#FFB800] prose-a:underline prose-img:rounded-xl prose-img:max-w-full prose-table:overflow-x-auto">
+              {/* HTML 렌더 (TipTap으로 작성된 글) */}
+              {post.content.trim().startsWith('<') ? (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(post.content, {
+                      ALLOWED_TAGS: [
+                        'p', 'br', 'strong', 'em', 'u', 's',
+                        'h2', 'h3',
+                        'ul', 'ol', 'li',
+                        'a',
+                        'img',
+                        'table', 'thead', 'tbody', 'tr', 'th', 'td',
+                        'blockquote', 'code', 'pre'
+                      ],
+                      ALLOWED_ATTR: ['href', 'target', 'rel', 'src', 'alt', 'width', 'height', 'class'],
+                    })
+                  }}
+                />
+              ) : (
+                /* 기존 커스텀 태그 또는 마크다운 폴백 */
+                <div className="leading-relaxed whitespace-pre-wrap">
+                  {parseStyledText(post.content)}
+                </div>
+              )}
+            </div>
+          </article>
+
+          {/* 하단 네비게이션 */}
+          <div className="mt-12 pt-8 border-t border-gray-200">
+            {/* 이전/다음 글 */}
+            {(prevPost || nextPost) && (
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                <div>
+                  {prevPost && (
+                    <Link href={`/news/${prevPost.id}`} className="block text-sm">
+                      <span className="text-gray-500 mb-1 block">← 이전 글</span>
+                      <span className="text-gray-900 hover:text-[#FFB800] transition line-clamp-1">
+                        {prevPost.title}
+                      </span>
+                    </Link>
+                  )}
+                </div>
+                <div className="text-right">
+                  {nextPost && (
+                    <Link href={`/news/${nextPost.id}`} className="block text-sm">
+                      <span className="text-gray-500 mb-1 block">다음 글 →</span>
+                      <span className="text-gray-900 hover:text-[#FFB800] transition line-clamp-1">
+                        {nextPost.title}
+                      </span>
+                    </Link>
                   )}
                 </div>
               </div>
-            </div>
-
-            <h1
-              className="text-4xl font-black mb-4"
-              style={{
-                color: post.titleColor || "#111827",
-                fontSize: post.titleSize === "2xl" ? "36px" : post.titleSize === "xl" ? "32px" : post.titleSize === "lg" ? "28px" : "24px"
-              }}
-            >
-              {post.title}
-            </h1>
-
-            <div className="flex items-center gap-4 text-sm text-gray-500">
-              <div className="flex items-center gap-2">
-                <Calendar size={16} />
-                <span className="font-medium">{post.date}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock size={16} />
-                <span className="font-medium">{post.time}</span>
-              </div>
-            </div>
-          </header>
-
-          {/* 본문 */}
-          <div className="prose prose-lg max-w-none">
-            <div className="text-base leading-relaxed whitespace-pre-wrap text-gray-700 mb-6">
-              {parseStyledText(post.content)}
-            </div>
-
-            {/* 이미지 */}
-            {post.image && (
-              <div className="my-8">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full max-h-[600px] object-cover rounded-xl shadow-lg"
-                />
-              </div>
             )}
-          </div>
-        </article>
 
-        {/* 목록으로 버튼 */}
-        <div className="mt-8 text-center">
-          <Link
-            href="/news"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#FFB800] text-white rounded-xl hover:bg-[#FF9500] transition font-semibold shadow-lg"
-          >
-            <ArrowLeft size={20} />
-            소식 목록으로
-          </Link>
+            {/* 목록으로 버튼 */}
+            <div className="text-center">
+              <Link
+                href="/news"
+                className="inline-block px-6 py-3 bg-[#FFB800] text-white rounded-xl hover:bg-[#FF9500] transition font-medium"
+              >
+                목록으로
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
       </div>
     </>
   );

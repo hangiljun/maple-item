@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { isAdmin } from "@/lib/auth";
 import { ArrowLeft, Plus, Edit, Trash2, Pin, PinOff, Sparkles, Image as ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { RichTextEditor } from "@/components/admin/rich-text-editor";
+import { TipTapEditor } from "@/components/admin/tiptap-editor";
 import { uploadImage } from "@/lib/upload";
 import { getAllPosts, createPost, updatePost, deletePost, togglePinPost } from "@/lib/posts";
 import Link from "next/link";
@@ -19,6 +19,7 @@ export default function AdminPostsPage() {
 
   // 폼 상태
   const [title, setTitle] = useState("");
+  const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("공지");
   const [tag, setTag] = useState("최신");
@@ -68,6 +69,7 @@ export default function AdminPostsPage() {
         category,
         icon: category === "이벤트" ? "Sparkles" : category === "시세정보" ? "TrendingUp" : "AlertCircle",
         title,
+        excerpt: excerpt.trim() || undefined,
         date: now.toISOString().split('T')[0],
         time: now.toTimeString().split(' ')[0].substring(0, 5),
         featured,
@@ -102,6 +104,7 @@ export default function AdminPostsPage() {
 
   const resetForm = () => {
     setTitle("");
+    setExcerpt("");
     setContent("");
     setCategory("공지");
     setTag("최신");
@@ -120,6 +123,7 @@ export default function AdminPostsPage() {
   const handleEdit = (post: NewsPost) => {
     setEditingPost(post);
     setTitle(post.title);
+    setExcerpt(post.excerpt || "");
     setContent(post.content);
     setCategory(post.category);
     setTag(post.tag);
@@ -330,13 +334,28 @@ export default function AdminPostsPage() {
                 </div>
               </div>
 
-              {/* 내용 (리치 텍스트 에디터) */}
-              <RichTextEditor
+              {/* 요약 */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  요약 (선택)
+                </label>
+                <textarea
+                  value={excerpt}
+                  onChange={(e) => setExcerpt(e.target.value)}
+                  placeholder="1-2문장으로 글을 요약해주세요. 목록과 검색 결과에 표시됩니다."
+                  rows={3}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 focus:border-[#FFB800] focus:ring-2 focus:ring-[#FFB800]/20 outline-none resize-none"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  * 비워두면 본문 앞부분에서 자동 생성됩니다
+                </p>
+              </div>
+
+              {/* 내용 (WYSIWYG 에디터) */}
+              <TipTapEditor
                 value={content}
                 onChange={setContent}
-                onColorChange={setContentColor}
-                onSizeChange={(size) => setContentSize(size as "sm" | "base" | "lg" | "xl" | "2xl")}
-                label="내용"
+                label="본문"
               />
 
               {/* 이미지 업로드 */}

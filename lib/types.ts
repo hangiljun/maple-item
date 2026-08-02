@@ -14,6 +14,7 @@ export interface NewsPost {
   category: string;
   icon: string;
   title: string;
+  excerpt?: string; // 요약 (1-2문장, 선택)
   date: string;
   time: string;
   featured: boolean;
