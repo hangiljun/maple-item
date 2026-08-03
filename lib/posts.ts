@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import {
   collection,
   addDoc,
@@ -9,7 +10,9 @@ import {
   query,
   orderBy,
   Timestamp,
-  serverTimestamp
+  serverTimestamp,
+  where,
+  limit
 } from 'firebase/firestore';
 import { db } from './firebase';
 import type { NewsPost, Review } from './types';
@@ -38,7 +41,7 @@ export async function deletePost(id: string): Promise<void> {
   await deleteDoc(docRef);
 }
 
-export async function getPost(id: string): Promise<NewsPost | null> {
+export const getPost = cache(async (id: string): Promise<NewsPost | null> => {
   const docRef = doc(db, POSTS_COLLECTION, id);
   const docSnap = await getDoc(docRef);
 
@@ -50,9 +53,9 @@ export async function getPost(id: string): Promise<NewsPost | null> {
   }
 
   return null;
-}
+});
 
-export async function getAllPosts(): Promise<NewsPost[]> {
+export const getAllPosts = cache(async (): Promise<NewsPost[]> => {
   const q = query(collection(db, POSTS_COLLECTION), orderBy('createdAt', 'desc'));
   const querySnapshot = await getDocs(q);
 
@@ -60,7 +63,7 @@ export async function getAllPosts(): Promise<NewsPost[]> {
     id: doc.id,
     ...doc.data()
   })) as NewsPost[];
-}
+});
 
 export async function togglePinPost(id: string, currentPinned: boolean): Promise<void> {
   const docRef = doc(db, POSTS_COLLECTION, id);
@@ -68,6 +71,47 @@ export async function togglePinPost(id: string, currentPinned: boolean): Promise
     pinned: !currentPinned,
     updatedAt: serverTimestamp()
   });
+}
+
+// 이전/다음 글 조회 (날짜 기준)
+export async function getAdjacentPosts(currentPost: NewsPost): Promise<{
+  prevPost: NewsPost | null;
+  nextPost: NewsPost | null;
+}> {
+  if (!currentPost.createdAt) {
+    return { prevPost: null, nextPost: null };
+  }
+
+  // 이전 글 (createdAt < 현재)
+  const prevQuery = query(
+    collection(db, POSTS_COLLECTION),
+    where('createdAt', '<', currentPost.createdAt),
+    orderBy('createdAt', 'desc'),
+    limit(1)
+  );
+
+  // 다음 글 (createdAt > 현재)
+  const nextQuery = query(
+    collection(db, POSTS_COLLECTION),
+    where('createdAt', '>', currentPost.createdAt),
+    orderBy('createdAt', 'asc'),
+    limit(1)
+  );
+
+  const [prevSnapshot, nextSnapshot] = await Promise.all([
+    getDocs(prevQuery),
+    getDocs(nextQuery)
+  ]);
+
+  const prevPost = prevSnapshot.empty
+    ? null
+    : ({ id: prevSnapshot.docs[0].id, ...prevSnapshot.docs[0].data() } as NewsPost);
+
+  const nextPost = nextSnapshot.empty
+    ? null
+    : ({ id: nextSnapshot.docs[0].id, ...nextSnapshot.docs[0].data() } as NewsPost);
+
+  return { prevPost, nextPost };
 }
 
 // Reviews CRUD

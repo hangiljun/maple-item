@@ -28,6 +28,9 @@ export interface NewsPost {
   contentColor?: string;
   contentSize?: "sm" | "base" | "lg" | "xl" | "2xl";
   image?: string; // 대표 이미지 URL (선택)
+  // Firestore 타임스탬프
+  createdAt?: any; // Firestore Timestamp
+  updatedAt?: any; // Firestore Timestamp
 }
 
 export interface TextStyle {

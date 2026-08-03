@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { isAdmin } from "@/lib/auth";
 import { ArrowLeft, Plus, Edit, Trash2, Pin, PinOff, Sparkles, Image as ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { TipTapEditor } from "@/components/admin/tiptap-editor";
 import { uploadImage } from "@/lib/upload";
 import { getAllPosts, createPost, updatePost, deletePost, togglePinPost } from "@/lib/posts";
 import Link from "next/link";
@@ -327,12 +326,55 @@ export default function AdminPostsPage() {
                 </p>
               </div>
 
-              {/* 내용 (WYSIWYG 에디터) */}
-              <TipTapEditor
-                value={content}
-                onChange={setContent}
-                label="본문"
-              />
+              {/* 본문 (마크다운) */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  본문
+                </label>
+
+                {/* 마크다운 작성 가이드 */}
+                <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
+                  <strong>💡 마크다운 작성 가이드:</strong> GPT/Claude에서 받은 마크다운을 그대로 붙여넣으세요.
+                  <div className="mt-1 text-xs text-blue-700 grid grid-cols-2 gap-x-4 gap-y-1">
+                    <span>• <code>## 제목</code> → 큰 제목</span>
+                    <span>• <code>- 리스트</code> → 불릿 포인트</span>
+                    <span>• <code>1. 번호</code> → 번호 리스트</span>
+                    <span>• <code>&gt; 인용</code> → 인용문</span>
+                    <span>• <code>**굵게**</code> → 굵은 텍스트</span>
+                    <span>• <code>---</code> → 구분선</span>
+                    <span>• <code>| 표 |</code> → 표 (GFM)</span>
+                    <span>• <code>[링크](url)</code> → 링크</span>
+                  </div>
+                </div>
+
+                <textarea
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="마크다운 형식으로 작성하세요. GPT/Claude에서 받은 마크다운을 그대로 붙여넣으면 됩니다.
+
+예시:
+## 제목입니다
+
+일반 텍스트입니다.
+
+- 리스트 항목 1
+- 리스트 항목 2
+
+**굵은 텍스트**와 *기울임* 텍스트를 사용할 수 있습니다.
+
+---
+
+| 헤더1 | 헤더2 |
+|-------|-------|
+| 데이터1 | 데이터2 |"
+                  rows={20}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 focus:border-[#FFB800] focus:ring-2 focus:ring-[#FFB800]/20 outline-none resize-y font-mono text-sm"
+                  style={{ minHeight: '400px' }}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  * 마크다운 원문이 그대로 저장되며, 상세 페이지에서 자동으로 렌더링됩니다.
+                </p>
+              </div>
 
               {/* 이미지 업로드 */}
               <div>

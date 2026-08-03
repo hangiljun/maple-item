@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme inline {
   /* 밝은 뉴트럴 배경 + 주황 포인트 */
@@ -28,6 +29,15 @@
 
   --font-heading: 'Fredoka', sans-serif;
   --font-body: 'Nunito', sans-serif;
+
+  /* Prose 브랜드 톤 유지 (주황 포인트 + 검정 제목) */
+  --color-prose-headings: #111827;  /* 제목: 검정 유지 */
+  --color-prose-links: #FFB800;     /* 링크: 브랜드 주황 */
+  --color-prose-bold: #111827;      /* 굵은 텍스트: 검정 */
+  --color-prose-quotes: #4B5563;    /* 인용문: 회색 */
+  --color-prose-quote-borders: #FFB800;  /* 인용문 테두리: 주황 */
+  --color-prose-code: #111827;      /* 코드: 검정 */
+  --color-prose-hr: #E5E7EB;        /* 구분선: 연한 회색 */
 }
 
 @layer base {

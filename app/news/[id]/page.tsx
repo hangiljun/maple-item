@@ -1,9 +1,13 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { getPost, getAllPosts } from '@/lib/posts';
-import { parseStyledText } from '@/lib/text-parser';
+import { getPost, getAllPosts, getAdjacentPosts } from '@/lib/posts';
 import Link from 'next/link';
 import DOMPurify from 'isomorphic-dompurify';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+
+// ISR: 60초마다 재생성
+export const revalidate = 60;
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -46,14 +50,11 @@ export default async function NewsPostPage({ params }: Props) {
     notFound();
   }
 
-  // 전체 게시글 가져와서 이전/다음 찾기
-  const allPosts = await getAllPosts();
-  const sortedPosts = allPosts.sort((a, b) =>
-    new Date(b.date + ' ' + b.time).getTime() - new Date(a.date + ' ' + a.time).getTime()
-  );
-  const currentIndex = sortedPosts.findIndex(p => p.id === post.id);
-  const prevPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
-  const nextPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+  // HTML 판별: 블록 태그로 시작하는 경우만 HTML로 간주 (마크다운 오판 방지)
+  const isHTML = /^\s*<(p|div|h[1-6]|ul|ol|table|blockquote|img)[\s>]/i.test(post.content);
+
+  // 이전/다음 글 직접 조회 (Firestore 쿼리 최적화)
+  const { prevPost, nextPost } = await getAdjacentPosts(post);
 
   // 분류 배지 스타일
   const getCategoryBadgeClass = (category: string) => {
@@ -142,31 +143,37 @@ export default async function NewsPostPage({ params }: Props) {
             </header>
 
             {/* 본문 */}
-            <div className="prose prose-lg max-w-none prose-headings:font-bold prose-a:text-[#FFB800] prose-a:underline prose-img:rounded-xl prose-img:max-w-full prose-table:border-collapse prose-table:border prose-table:border-gray-300 prose-td:border prose-td:border-gray-300 prose-td:px-3 prose-td:py-2 prose-th:border prose-th:border-gray-300 prose-th:px-3 prose-th:py-2 prose-th:bg-gray-100 prose-th:font-semibold">
-              {/* HTML 렌더 (TipTap으로 작성된 글) - 강화된 판별 */}
-              {/<[a-z][\s\S]*>/i.test(post.content) ? (
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(post.content, {
-                      ALLOWED_TAGS: [
-                        'p', 'br', 'strong', 'em', 'u', 's',
-                        'h2', 'h3',
-                        'ul', 'ol', 'li',
-                        'a',
-                        'img',
-                        'table', 'thead', 'tbody', 'tr', 'th', 'td',
-                        'blockquote', 'code', 'pre'
-                      ],
-                      ALLOWED_ATTR: ['href', 'target', 'rel', 'src', 'alt', 'width', 'height', 'class'],
-                      FORBID_TAGS: ['script', 'iframe', 'object', 'embed', 'form', 'input'],
-                      FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur'],
-                    })
-                  }}
-                />
+            <div className="prose prose-lg max-w-none prose-headings:font-bold prose-a:text-[#FFB800] prose-a:underline prose-img:rounded-xl prose-img:max-w-full">
+              {/* HTML 렌더 (기존 글 호환) vs 마크다운 렌더 (신규 글) */}
+              {isHTML ? (
+                /* 기존 HTML 글: sanitize 후 렌더 */
+                <div className="overflow-x-auto">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(post.content, {
+                        ALLOWED_TAGS: [
+                          'p', 'br', 'strong', 'em', 'u', 's',
+                          'h2', 'h3',
+                          'ul', 'ol', 'li',
+                          'a',
+                          'img',
+                          'table', 'thead', 'tbody', 'tr', 'th', 'td',
+                          'blockquote', 'code', 'pre',
+                          'hr'
+                        ],
+                        ALLOWED_ATTR: ['href', 'target', 'rel', 'src', 'alt', 'width', 'height', 'class', 'style'],
+                        FORBID_TAGS: ['script', 'iframe', 'object', 'embed', 'form', 'input'],
+                        FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur'],
+                      })
+                    }}
+                  />
+                </div>
               ) : (
-                /* 기존 커스텀 태그 또는 마크다운 폴백 */
-                <div className="leading-relaxed whitespace-pre-wrap">
-                  {parseStyledText(post.content)}
+                /* 마크다운 글: ReactMarkdown + remarkGfm 직접 렌더 */
+                <div className="overflow-x-auto">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {post.content}
+                  </ReactMarkdown>
                 </div>
               )}
             </div>
