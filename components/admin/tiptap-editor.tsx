@@ -59,11 +59,11 @@ export function TipTapEditor({ value, onChange, label = "본문" }: TipTapEditor
     onUpdate: ({ editor }) => {
       let html = editor.getHTML();
 
-      // 빈 블록 정리: 내용 없는 <h2></h2>, <h3></h3>, <p></p> 등 제거
-      html = html.replace(/<h2>\s*<\/h2>/g, '');
-      html = html.replace(/<h3>\s*<\/h3>/g, '');
-      html = html.replace(/<p>\s*<\/p>/g, '');
-      html = html.replace(/<li>\s*<\/li>/g, '');
+      // 빈 블록 정리 강화: <h2></h2>, <h2><br></h2>, <h2> </h2> 등 모든 빈 변형 제거
+      html = html.replace(/<h2>(\s|<br\s*\/?>)*<\/h2>/gi, '');
+      html = html.replace(/<h3>(\s|<br\s*\/?>)*<\/h3>/gi, '');
+      html = html.replace(/<p>(\s|<br\s*\/?>)*<\/p>/gi, '');
+      html = html.replace(/<li>(\s|<br\s*\/?>)*<\/li>/gi, '');
 
       // DOMPurify로 sanitize
       const sanitized = DOMPurify.sanitize(html, {
@@ -89,7 +89,7 @@ export function TipTapEditor({ value, onChange, label = "본문" }: TipTapEditor
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm max-w-none focus:outline-none min-h-[300px] px-4 py-3',
+        class: 'prose prose-sm max-w-none focus:outline-none min-h-[300px] px-4 py-3 [&_table]:border-collapse [&_table]:border [&_table]:border-gray-300 [&_td]:border [&_td]:border-gray-300 [&_td]:px-3 [&_td]:py-2 [&_th]:border [&_th]:border-gray-300 [&_th]:px-3 [&_th]:py-2 [&_th]:bg-gray-100 [&_th]:font-semibold',
       },
     },
   });
@@ -143,24 +143,34 @@ export function TipTapEditor({ value, onChange, label = "본문" }: TipTapEditor
     return null;
   }
 
-  const ToolbarButton = ({ onClick, active, disabled, children, title }: any) => (
-    <button
-      type="button"
-      onClick={onClick}
-      onMouseDown={(e) => e.preventDefault()}
-      disabled={disabled}
-      title={title}
-      className={`p-2 rounded transition ${
-        active
-          ? 'bg-[#FFB800] text-white'
-          : disabled
-          ? 'text-gray-300 cursor-not-allowed'
-          : 'text-gray-700 hover:bg-gray-100'
-      }`}
-    >
-      {children}
-    </button>
-  );
+  const ToolbarButton = ({ onClick, active, disabled, children, title }: any) => {
+    const handleClick = (e: React.MouseEvent) => {
+      e.preventDefault();
+      // 에디터에 즉시 focus를 주고 명령 실행
+      if (editor && !disabled) {
+        onClick();
+      }
+    };
+
+    return (
+      <button
+        type="button"
+        onClick={handleClick}
+        onMouseDown={(e) => e.preventDefault()}
+        disabled={disabled}
+        title={title}
+        className={`p-2 rounded transition ${
+          active
+            ? 'bg-[#FFB800] text-white'
+            : disabled
+            ? 'text-gray-300 cursor-not-allowed'
+            : 'text-gray-700 hover:bg-gray-100'
+        }`}
+      >
+        {children}
+      </button>
+    );
+  };
 
   return (
     <div>

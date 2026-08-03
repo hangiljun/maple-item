@@ -78,11 +78,10 @@ export default function AdminPostsPage() {
         imageUrl = await uploadImage(imageFile, 'posts');
       }
 
-      const postData = {
+      const postData: any = {
         category,
         icon: category === "이벤트" ? "Sparkles" : category === "시세정보" ? "TrendingUp" : "AlertCircle",
         title,
-        excerpt: excerpt.trim() || undefined,
         date: now.toISOString().split('T')[0],
         time: now.toTimeString().split(' ')[0].substring(0, 5),
         featured,
@@ -94,8 +93,16 @@ export default function AdminPostsPage() {
         titleSize,
         contentColor,
         contentSize,
-        image: imageUrl || undefined,
       };
+
+      // Optional 필드: 값이 있을 때만 추가
+      if (excerpt.trim()) {
+        postData.excerpt = excerpt.trim();
+      }
+
+      if (imageUrl) {
+        postData.image = imageUrl;
+      }
 
       if (editingPost) {
         // 수정
