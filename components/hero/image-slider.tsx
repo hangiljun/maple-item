@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const SLIDER_IMAGES: { src: string; alt: string }[] = [
   {
-    src: "/경매장사진.webp",
+    src: "/경매장사진-masked.webp",
     alt: "메이플스토리 경매장 실시간 시세 예시"
   }
 ];
