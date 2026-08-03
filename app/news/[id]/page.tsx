@@ -142,9 +142,9 @@ export default async function NewsPostPage({ params }: Props) {
             </header>
 
             {/* 본문 */}
-            <div className="prose prose-lg max-w-none prose-headings:font-bold prose-a:text-[#FFB800] prose-a:underline prose-img:rounded-xl prose-img:max-w-full prose-table:overflow-x-auto">
-              {/* HTML 렌더 (TipTap으로 작성된 글) */}
-              {post.content.trim().startsWith('<') ? (
+            <div className="prose prose-lg max-w-none prose-headings:font-bold prose-a:text-[#FFB800] prose-a:underline prose-img:rounded-xl prose-img:max-w-full prose-table:border-collapse prose-table:border prose-table:border-gray-300 prose-td:border prose-td:border-gray-300 prose-td:px-3 prose-td:py-2 prose-th:border prose-th:border-gray-300 prose-th:px-3 prose-th:py-2 prose-th:bg-gray-100 prose-th:font-semibold">
+              {/* HTML 렌더 (TipTap으로 작성된 글) - 강화된 판별 */}
+              {/<[a-z][\s\S]*>/i.test(post.content) ? (
                 <div
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(post.content, {
@@ -158,6 +158,8 @@ export default async function NewsPostPage({ params }: Props) {
                         'blockquote', 'code', 'pre'
                       ],
                       ALLOWED_ATTR: ['href', 'target', 'rel', 'src', 'alt', 'width', 'height', 'class'],
+                      FORBID_TAGS: ['script', 'iframe', 'object', 'embed', 'form', 'input'],
+                      FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur'],
                     })
                   }}
                 />
