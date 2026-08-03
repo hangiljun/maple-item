@@ -25,10 +25,6 @@ export default function AdminPostsPage() {
   const [tag, setTag] = useState("최신");
   const [featured, setFeatured] = useState(false);
   const [pinned, setPinned] = useState(false);
-  const [titleColor, setTitleColor] = useState("#2D2D2D");
-  const [titleSize, setTitleSize] = useState<"sm" | "base" | "lg" | "xl" | "2xl">("base");
-  const [contentColor, setContentColor] = useState("#2D2D2D");
-  const [contentSize, setContentSize] = useState<"sm" | "base" | "lg" | "xl" | "2xl">("base");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [uploading, setUploading] = useState(false);
@@ -89,10 +85,6 @@ export default function AdminPostsPage() {
         content,
         details: content.split('\n').filter(line => line.trim()),
         tag,
-        titleColor,
-        titleSize,
-        contentColor,
-        contentSize,
       };
 
       // Optional 필드: 값이 있을 때만 추가
@@ -130,10 +122,6 @@ export default function AdminPostsPage() {
     setTag("최신");
     setFeatured(false);
     setPinned(false);
-    setTitleColor("#2D2D2D");
-    setTitleSize("base");
-    setContentColor("#2D2D2D");
-    setContentSize("base");
     setImageFile(null);
     setImagePreview("");
     setEditingPost(null);
@@ -149,10 +137,6 @@ export default function AdminPostsPage() {
     setTag(post.tag);
     setFeatured(post.featured);
     setPinned(post.pinned);
-    setTitleColor(post.titleColor || "#2D2D2D");
-    setTitleSize(post.titleSize || "base");
-    setContentColor(post.contentColor || "#2D2D2D");
-    setContentSize(post.contentSize || "base");
     setImagePreview(post.image || "");
     setImageFile(null);
     setShowEditor(true);
@@ -322,36 +306,8 @@ export default function AdminPostsPage() {
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="게시글 제목"
                   className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 focus:border-[#FFB800] focus:ring-2 focus:ring-[#FFB800]/20 outline-none"
-                  style={{ color: titleColor, fontSize: titleSize === "2xl" ? "24px" : titleSize === "xl" ? "20px" : titleSize === "lg" ? "18px" : "16px" }}
                   required
                 />
-
-                {/* 제목 스타일링 */}
-                <div className="mt-3 flex gap-4 items-center">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-400">제목 색상:</span>
-                    <input
-                      type="color"
-                      value={titleColor}
-                      onChange={(e) => setTitleColor(e.target.value)}
-                      className="w-10 h-10 rounded cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-400">제목 크기:</span>
-                    <select
-                      value={titleSize}
-                      onChange={(e) => setTitleSize(e.target.value as "sm" | "base" | "lg" | "xl" | "2xl")}
-                      className="px-3 py-1 rounded-lg border border-gray-300 bg-white text-gray-900 text-sm"
-                    >
-                      <option value="sm">작게</option>
-                      <option value="base">보통</option>
-                      <option value="lg">크게</option>
-                      <option value="xl">더 크게</option>
-                      <option value="2xl">매우 크게</option>
-                    </select>
-                  </div>
-                </div>
               </div>
 
               {/* 요약 */}
@@ -381,7 +337,7 @@ export default function AdminPostsPage() {
               {/* 이미지 업로드 */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  📸 대표 이미지 (선택)
+                  대표 이미지 (선택)
                 </label>
 
                 {!imagePreview ? (
@@ -467,26 +423,11 @@ export default function AdminPostsPage() {
                         <Sparkles size={16} className="text-yellow-400" />
                       )}
                     </div>
-                    <h3
-                      className="text-xl font-bold mb-2"
-                      style={{
-                        color: post.titleColor || "#fff",
-                        fontSize: post.titleSize === "2xl" ? "24px" : post.titleSize === "xl" ? "20px" : post.titleSize === "lg" ? "18px" : "16px"
-                      }}
-                    >
+                    <h3 className="text-xl font-bold mb-2 text-gray-900">
                       {post.title}
                     </h3>
-                    <p
-                      className="text-sm mb-2 whitespace-pre-wrap"
-                      style={{
-                        color: post.contentColor || "#9CA3AF",
-                        fontSize: post.contentSize === "sm" ? "14px" :
-                                 post.contentSize === "lg" ? "18px" :
-                                 post.contentSize === "xl" ? "20px" :
-                                 post.contentSize === "2xl" ? "24px" : "16px"
-                      }}
-                    >
-                      {post.content.substring(0, 100)}...
+                    <p className="text-sm mb-2 whitespace-pre-wrap text-gray-600">
+                      {post.excerpt || post.content.replace(/<[^>]*>/g, '').substring(0, 100)}...
                     </p>
                     <div className="text-xs text-gray-500">
                       {post.date} {post.time}

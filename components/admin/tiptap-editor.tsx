@@ -21,6 +21,7 @@ import {
 import { useState } from 'react';
 import { uploadImage } from '@/lib/upload';
 import DOMPurify from 'isomorphic-dompurify';
+import { marked } from 'marked';
 
 interface TipTapEditorProps {
   value: string;
@@ -30,6 +31,20 @@ interface TipTapEditorProps {
 
 export function TipTapEditor({ value, onChange, label = "본문" }: TipTapEditorProps) {
   const [uploading, setUploading] = useState(false);
+
+  // 마크다운 감지: 줄 시작 #, -, *, 숫자., >, 또는 **강조**, `코드`, | 표 |
+  const looksLikeMarkdown = (text: string): boolean => {
+    const lines = text.split('\n');
+    return lines.some(line =>
+      /^#{1,3}\s/.test(line) ||           // # 제목
+      /^[-*+]\s/.test(line) ||            // - 리스트
+      /^\d+\.\s/.test(line) ||            // 1. 숫자 리스트
+      /^>\s/.test(line) ||                // > 인용
+      /\|.*\|/.test(line) ||              // | 표 |
+      /\*\*[^*]+\*\*/.test(line) ||       // **굵게**
+      /`[^`]+`/.test(line)                // `코드`
+    );
+  };
 
   const editor = useEditor({
     extensions: [
@@ -74,7 +89,8 @@ export function TipTapEditor({ value, onChange, label = "본문" }: TipTapEditor
           'a',
           'img',
           'table', 'thead', 'tbody', 'tr', 'th', 'td',
-          'blockquote', 'code', 'pre'
+          'blockquote', 'code', 'pre',
+          'hr'
         ],
         ALLOWED_ATTR: [
           'href', 'target', 'rel',
@@ -90,6 +106,54 @@ export function TipTapEditor({ value, onChange, label = "본문" }: TipTapEditor
     editorProps: {
       attributes: {
         class: 'prose prose-sm max-w-none focus:outline-none min-h-[300px] px-4 py-3 [&_table]:border-collapse [&_table]:border [&_table]:border-gray-300 [&_td]:border [&_td]:border-gray-300 [&_td]:px-3 [&_td]:py-2 [&_th]:border [&_th]:border-gray-300 [&_th]:px-3 [&_th]:py-2 [&_th]:bg-gray-100 [&_th]:font-semibold',
+      },
+      handlePaste: (view, event) => {
+        const text = event.clipboardData?.getData('text/plain');
+
+        if (!text || !looksLikeMarkdown(text)) {
+          // 마크다운 아니면 기본 동작
+          return false;
+        }
+
+        // 마크다운 → HTML 변환 (GFM 지원)
+        marked.setOptions({
+          gfm: true,
+          breaks: true,
+        });
+
+        const rawHtml = marked.parse(text) as string;
+
+        // DOMPurify로 sanitize (저장 시와 동일한 화이트리스트)
+        const sanitized = DOMPurify.sanitize(rawHtml, {
+          ALLOWED_TAGS: [
+            'p', 'br', 'strong', 'em', 'u', 's',
+            'h2', 'h3',
+            'ul', 'ol', 'li',
+            'a',
+            'img',
+            'table', 'thead', 'tbody', 'tr', 'th', 'td',
+            'blockquote', 'code', 'pre',
+            'hr'
+          ],
+          ALLOWED_ATTR: ['href', 'target', 'rel', 'src', 'alt', 'width', 'height', 'class'],
+          FORBID_TAGS: ['script', 'iframe', 'object', 'embed', 'form', 'input'],
+          FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur'],
+        });
+
+        // h1 → h2, h4+ → h3 변환 (에디터가 h2/h3만 지원)
+        const adjusted = sanitized
+          .replace(/<h1>/g, '<h2>').replace(/<\/h1>/g, '</h2>')
+          .replace(/<h4>/g, '<h3>').replace(/<\/h4>/g, '</h3>')
+          .replace(/<h5>/g, '<h3>').replace(/<\/h5>/g, '</h3>')
+          .replace(/<h6>/g, '<h3>').replace(/<\/h6>/g, '</h3>');
+
+        // 에디터에 HTML 삽입
+        if (editor) {
+          editor.commands.insertContent(adjusted);
+        }
+
+        // 기본 paste 동작 막기 (중복 방지)
+        return true;
       },
     },
   });
@@ -180,7 +244,8 @@ export function TipTapEditor({ value, onChange, label = "본문" }: TipTapEditor
 
       {/* 도움말 */}
       <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
-        <strong>💡 WYSIWYG 에디터:</strong> 실제 표시되는 형태로 편집할 수 있습니다. 굵게, 기울임, 표, 이미지 등을 자유롭게 사용하세요.
+        <strong>WYSIWYG 에디터:</strong> 실제 표시되는 형태로 편집할 수 있습니다. 굵게, 기울임, 표, 이미지 등을 자유롭게 사용하세요.<br/>
+        <strong>마크다운 붙여넣기:</strong> GPT/Claude에서 받은 마크다운(## 제목, **굵게**, - 리스트, | 표 |)을 붙여넣으면 자동으로 서식이 적용됩니다.
       </div>
 
       {/* 툴바 */}
@@ -288,7 +353,7 @@ export function TipTapEditor({ value, onChange, label = "본문" }: TipTapEditor
 
       {/* 보안 안내 */}
       <div className="mt-2 text-xs text-gray-500">
-        ⚠️ 보안: 저장 시 자동으로 위험한 스크립트가 제거됩니다.
+        보안: 저장 시 자동으로 위험한 스크립트가 제거됩니다.
       </div>
     </div>
   );

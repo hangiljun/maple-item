@@ -1,6 +1,6 @@
 ﻿import React from "react";
 import type { Metadata } from "next";
-import { BookOpen, MessageCircle, TrendingUp, Award, CheckCircle, Shield } from "lucide-react";
+import { MessageCircle, CheckCircle } from "lucide-react";
 import { KAKAO_LINK, KAKAO_ID } from "@/lib/constants";
 import { GuideSEOContent } from "@/components/sections/guide-seo-content";
 
@@ -24,7 +24,6 @@ export default function GuidePage() {
   const steps = [
     {
       step: "1단계",
-      icon: MessageCircle,
       title: "카카오톡 문의",
       desc: "카카오톡으로 판매하실 아이템의 스크린샷과 서버 정보를 전송해주세요.",
       details: [
@@ -36,7 +35,6 @@ export default function GuidePage() {
     },
     {
       step: "2단계",
-      icon: TrendingUp,
       title: "시세 확인 및 가격 제시",
       desc: "실시간 경매장 시세를 확인하여 정확한 가격을 제시해드립니다.",
       details: [
@@ -48,7 +46,6 @@ export default function GuidePage() {
     },
     {
       step: "3단계",
-      icon: Award,
       title: "거래 완료",
       desc: "가격 합의 후 게임 내에서 안전하게 거래를 진행합니다.",
       details: [
@@ -116,8 +113,7 @@ export default function GuidePage() {
       />
     <div className="max-w-5xl mx-auto px-4 py-12 pt-24">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-3 flex items-center justify-center gap-3">
-          <BookOpen className="text-[#FFB800]" size={36} />
+        <h1 className="text-4xl font-bold text-gray-900 mb-3">
           이용가이드
         </h1>
         <p className="text-gray-600 text-lg">메이플아이템에서 안전하고 빠르게 거래하는 방법을 알려드립니다</p>
@@ -129,8 +125,7 @@ export default function GuidePage() {
       <div className="space-y-8">
         {/* 거래 진행 과정 */}
         <section className="glass rounded-2xl p-8 shadow-lg">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-            <Shield className="text-[#FFB800]" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
             거래 진행 과정
           </h2>
           <p className="text-gray-600 mb-8">간단한 3단계로 안전하고 빠른 거래가 완료됩니다</p>
@@ -142,10 +137,7 @@ export default function GuidePage() {
                   <div className="absolute -top-4 -left-4 bg-[#FFB800] text-white w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold shadow-lg">
                     {i + 1}
                   </div>
-                  <div className="bg-[#FFB800]/10 p-4 rounded-xl inline-block mb-4 mt-2">
-                    <item.icon className="text-[#FFB800]" size={32} />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 mt-2">{item.title}</h3>
                   <p className="text-gray-600 mb-4">{item.desc}</p>
                   <ul className="space-y-2">
                     {item.details.map((detail, j) => (
@@ -169,8 +161,7 @@ export default function GuidePage() {
         {/* 거래 문의 */}
         <section className="glass rounded-2xl p-8 border-2 border-[#FFB800]/30">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-              <MessageCircle className="text-[#FFB800]" size={28} />
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
               지금 바로 거래 문의하기
             </h2>
             <p className="text-gray-700 mb-6">
@@ -202,7 +193,7 @@ export default function GuidePage() {
           <div className="space-y-4">
             {faqs.map((item, i) => (
               <div key={i} className="border-b border-gray-100 pb-4 last:border-0">
-                <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                <h3 className="font-bold text-gray-900 mb-2">
                   <span className="text-[#FFB800]">Q.</span> {item.q}
                 </h3>
                 <p className="text-gray-600 pl-6">{item.a}</p>
@@ -213,7 +204,7 @@ export default function GuidePage() {
 
         {/* 거래 시 주의사항 */}
         <section className="glass-small rounded-2xl p-8 border-2 border-red-200">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">⚠️ 거래 시 주의사항</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">거래 시 주의사항</h2>
           <ul className="space-y-2 text-gray-700">
             <li className="flex items-start gap-2">
               <span className="text-red-500 font-bold">•</span>

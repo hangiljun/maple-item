@@ -14,20 +14,10 @@ export function CTASection() {
                 평균 약 10분 내 처리
               </p>
 
-              <div className="space-y-3 mb-8">
-                <div className="flex items-center gap-2 text-gray-700">
-                  <svg className="w-5 h-5 text-[#FFB800]" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
-                  </svg>
-                  <span className="font-medium">평균 응답: 1분 이내</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-700">
-                  <svg className="w-5 h-5 text-[#FFB800]" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                  <span>답장 빠름 · 정산이 빠름 · 합리적인 가격</span>
-                </div>
-              </div>
+              <ul className="space-y-2 mb-8 text-gray-700">
+                <li className="font-medium">평균 응답: 1분 이내</li>
+                <li>답장 빠름 · 정산이 빠름 · 합리적인 가격</li>
+              </ul>
             </div>
 
             {/* 우측: CTA 버튼 */}

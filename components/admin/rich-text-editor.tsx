@@ -175,7 +175,7 @@ export function RichTextEditor({
 
       {/* 도움말 */}
       <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
-        <strong>💡 사용법:</strong> 강조하고 싶은 텍스트를 드래그한 후, 아래 색상 또는 크기 버튼을 클릭하세요!
+        <strong>사용법:</strong> 강조하고 싶은 텍스트를 드래그한 후, 아래 색상 또는 크기 버튼을 클릭하세요!
         <br />
         <span className="text-xs text-blue-600 mt-1 block">※ 입력창의 태그는 저장용이며, 미리보기와 실제 게시글에서는 스타일만 표시됩니다.</span>
       </div>
@@ -231,7 +231,7 @@ export function RichTextEditor({
 
       {/* 텍스트 에리어 */}
       <div className="mb-2">
-        <label className="text-xs text-gray-600">📝 내용 입력 (태그는 자동으로 추가됩니다)</label>
+        <label className="text-xs text-gray-600">내용 입력 (태그는 자동으로 추가됩니다)</label>
       </div>
       <textarea
         ref={textareaRef}
@@ -245,7 +245,7 @@ export function RichTextEditor({
       {/* 미리보기 */}
       <div className="mt-3 p-4 bg-white rounded-lg border-2 border-green-300 shadow-sm">
         <div className="flex items-center gap-2 mb-3 pb-2 border-b border-green-200">
-          <div className="text-xs font-bold text-green-700">✓ 미리보기 (실제 표시 결과)</div>
+          <div className="text-xs font-bold text-green-700">미리보기 (실제 표시 결과)</div>
         </div>
         <div className="leading-relaxed whitespace-pre-wrap min-h-[60px]">
           {value ? parseContent(value) : <span className="text-gray-400 text-sm">텍스트를 입력하고 스타일을 적용해보세요...</span>}

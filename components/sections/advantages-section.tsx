@@ -73,12 +73,7 @@ export function AdvantagesSection() {
 
         {/* 안전 거래 시스템 */}
         <div className="glass rounded-xl p-10 text-foreground mb-12">
-          <div className="flex items-start gap-6">
-            <div className="bg-[#FFB800] p-4 rounded-2xl flex-shrink-0">
-              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/>
-              </svg>
-            </div>
+          <div>
             <div className="flex-1">
               <h3 className="text-3xl font-black mb-3">안전한 구매</h3>
               <p className="text-gray-700 text-lg mb-4 font-bold">
