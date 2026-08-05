@@ -55,7 +55,7 @@ export default function Home() {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: '메이플아이템',
-    description: '메이플스토리 급처템 고가구매 전문 업체',
+    description: '메이플스토리 급처템 구매 서비스',
     url: 'https://mapleitem.co.kr',
     telephone: 'kakao:han8246',
     priceRange: '₩₩₩',
