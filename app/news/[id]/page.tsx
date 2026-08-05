@@ -23,12 +23,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
+  const description = (post.content || '').substring(0, 160) || post.title;
+
   return {
     title: `${post.title} | 메이플아이템 소식`,
-    description: post.content.substring(0, 160),
+    description: description,
     openGraph: {
       title: post.title,
-      description: post.content.substring(0, 160),
+      description: description,
       images: post.image ? [post.image] : [],
       type: 'article',
     },
@@ -51,10 +53,10 @@ export default async function NewsPostPage({ params }: Props) {
   }
 
   // HTML 판별: 블록 태그로 시작하는 경우만 HTML로 간주 (마크다운 오판 방지)
-  const isHTML = /^\s*<(p|div|h[1-6]|ul|ol|table|blockquote|img)[\s>]/i.test(post.content);
+  const isHTML = post.content ? /^\s*<(p|div|h[1-6]|ul|ol|table|blockquote|img)[\s>]/i.test(post.content) : false;
 
   // 이전/다음 글 직접 조회 (Firestore 쿼리 최적화)
-  const { prevPost, nextPost } = await getAdjacentPosts(post);
+  const { prevPost, nextPost } = post.createdAt ? await getAdjacentPosts(post) : { prevPost: null, nextPost: null };
 
   // 분류 배지 스타일
   const getCategoryBadgeClass = (category: string) => {
@@ -74,8 +76,8 @@ export default async function NewsPostPage({ params }: Props) {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: post.title,
-    datePublished: post.date,
-    dateModified: post.date,
+    datePublished: post.date || new Date().toISOString().split('T')[0],
+    dateModified: post.date || new Date().toISOString().split('T')[0],
     image: post.image || 'https://mapleitem.co.kr/logo.png',
     author: {
       '@type': 'Organization',
@@ -89,7 +91,7 @@ export default async function NewsPostPage({ params }: Props) {
         url: 'https://mapleitem.co.kr/logo.png'
       }
     },
-    description: post.content.substring(0, 160),
+    description: (post.content || post.title).substring(0, 160),
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': `https://mapleitem.co.kr/news/${post.id}`
@@ -119,10 +121,14 @@ export default async function NewsPostPage({ params }: Props) {
             <header className="mb-8">
               {/* 메타 */}
               <div className="flex items-center gap-2 mb-4">
-                <span className={`px-3 py-1 rounded-lg text-sm font-medium border ${getCategoryBadgeClass(post.category)}`}>
-                  {post.category}
-                </span>
-                <span className="text-sm text-gray-500">{post.date}</span>
+                {post.category && (
+                  <span className={`px-3 py-1 rounded-lg text-sm font-medium border ${getCategoryBadgeClass(post.category)}`}>
+                    {post.category}
+                  </span>
+                )}
+                {post.date && (
+                  <span className="text-sm text-gray-500">{post.date}</span>
+                )}
               </div>
 
               {/* 제목 */}
@@ -145,12 +151,13 @@ export default async function NewsPostPage({ params }: Props) {
             {/* 본문 */}
             <div className="prose prose-lg max-w-none prose-headings:font-bold prose-a:text-[#FFB800] prose-a:underline prose-img:rounded-xl prose-img:max-w-full">
               {/* HTML 렌더 (기존 글 호환) vs 마크다운 렌더 (신규 글) */}
-              {isHTML ? (
-                /* 기존 HTML 글: sanitize 후 렌더 */
-                <div className="overflow-x-auto">
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(post.content, {
+              {post.content ? (
+                isHTML ? (
+                  /* 기존 HTML 글: sanitize 후 렌더 */
+                  <div className="overflow-x-auto">
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(post.content, {
                         ALLOWED_TAGS: [
                           'p', 'br', 'strong', 'em', 'u', 's',
                           'h2', 'h3',
@@ -164,17 +171,20 @@ export default async function NewsPostPage({ params }: Props) {
                         ALLOWED_ATTR: ['href', 'target', 'rel', 'src', 'alt', 'width', 'height', 'class', 'style'],
                         FORBID_TAGS: ['script', 'iframe', 'object', 'embed', 'form', 'input'],
                         FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur'],
-                      })
-                    }}
-                  />
-                </div>
+                        })
+                      }}
+                    />
+                  </div>
+                ) : (
+                  /* 마크다운 글: ReactMarkdown + remarkGfm 직접 렌더 */
+                  <div className="overflow-x-auto">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {post.content}
+                    </ReactMarkdown>
+                  </div>
+                )
               ) : (
-                /* 마크다운 글: ReactMarkdown + remarkGfm 직접 렌더 */
-                <div className="overflow-x-auto">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {post.content}
-                  </ReactMarkdown>
-                </div>
+                <p className="text-gray-500">본문이 없습니다.</p>
               )}
             </div>
           </article>
