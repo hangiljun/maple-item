@@ -1,6 +1,8 @@
-import { getAllPosts } from '@/lib/posts';
+import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
-export const revalidate = 600; // 10분마다 재생성
+export const dynamic = 'force-dynamic'; // 매 요청마다 동적 생성
+export const revalidate = 0; // 캐시 사용 안 함
 
 const SITE_URL = 'https://mapleitem.co.kr';
 const SITE_NAME = '메이플아이템 - 소식정보';
@@ -25,9 +27,20 @@ function formatDate(dateStr: string): string {
 }
 
 export async function GET() {
-  const posts = await getAllPosts();
+  // Firestore에서 직접 조회 (cache 무시)
+  const postsQuery = query(
+    collection(db, 'posts'),
+    orderBy('createdAt', 'desc'),
+    limit(30)
+  );
 
-  const items = posts.slice(0, 30);
+  const snapshot = await getDocs(postsQuery);
+  const posts = snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  })) as any[];
+
+  const items = posts;
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">

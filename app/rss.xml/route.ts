@@ -1,6 +1,8 @@
-import { getAllPosts, getAllReviews } from '@/lib/posts';
+import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
-export const revalidate = 600; // 10분마다 재생성
+export const dynamic = 'force-dynamic'; // 매 요청마다 동적 생성
+export const revalidate = 0; // 캐시 사용 안 함
 
 const SITE_URL = 'https://mapleitem.co.kr';
 const SITE_NAME = '메이플아이템';
@@ -25,10 +27,32 @@ function formatDate(dateStr: string): string {
 }
 
 export async function GET() {
-  const [posts, reviews] = await Promise.all([
-    getAllPosts(),
-    getAllReviews()
+  // Firestore에서 직접 조회 (cache 무시)
+  const postsQuery = query(
+    collection(db, 'posts'),
+    orderBy('createdAt', 'desc'),
+    limit(30)
+  );
+  const reviewsQuery = query(
+    collection(db, 'reviews'),
+    orderBy('createdAt', 'desc'),
+    limit(30)
+  );
+
+  const [postsSnapshot, reviewsSnapshot] = await Promise.all([
+    getDocs(postsQuery),
+    getDocs(reviewsQuery)
   ]);
+
+  const posts = postsSnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  })) as any[];
+
+  const reviews = reviewsSnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  })) as any[];
 
   // 뉴스 아이템
   const newsItems = posts.slice(0, 20).map(post => ({
