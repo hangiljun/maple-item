@@ -99,7 +99,6 @@ export default function AdminPage() {
   const stats = [
     { label: "총 후기", value: reviewCount.toString(), icon: MessageSquare, color: "from-blue-500 to-blue-600" },
     { label: "총 게시글", value: postCount.toString(), icon: FileText, color: "from-purple-500 to-purple-600" },
-    { label: "누적 구매", value: reviewCount > 0 ? `${reviewCount * 10}+` : "0", icon: TrendingUp, color: "from-green-500 to-green-600" },
   ];
 
   return (

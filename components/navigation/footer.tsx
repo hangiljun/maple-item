@@ -77,15 +77,6 @@ export function Footer() {
                   {KAKAO_ID}
                 </a>
               </li>
-              <li>
-                <div className="text-slate-300">이메일</div>
-                <a
-                  href="mailto:support@mapleitem.co.kr"
-                  className="text-slate-400 hover:text-[#FFB800] transition"
-                >
-                  support@mapleitem.co.kr
-                </a>
-              </li>
             </ul>
           </div>
 
