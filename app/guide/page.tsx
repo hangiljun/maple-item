@@ -5,19 +5,20 @@ import { KAKAO_LINK, KAKAO_ID } from "@/lib/constants";
 import { GuideSEOContent } from "@/components/sections/guide-seo-content";
 
 export const metadata: Metadata = {
-  title: "이용가이드 | 메이플아이템 - 메이플 급처템 판매 방법 3단계",
-  description: "메이플스토리 급처템 판매 완벽 가이드! 카카오톡 문의 → 실시간 시세 확인 → 정산 완료까지 평균 약 10분. 전서버 구매 가능. 투명한 가격 제시. FAQ 포함.",
-  keywords: [
-    "메이플 판매 방법", "메이플 이용가이드", "메이플 아이템 판매", "메이플 아이템 정산",
-    "메이플 급처 판매", "메이플 시세 확인", "메이플 고가구매", "급처템 팔기",
-    "스카니아 판매", "루나 판매", "이노시스 판매", "메이플 아이템 팔기", "메이플 정산 방법"
-  ],
-  openGraph: {
-    title: "메이플 급처템 판매 가이드 - 메이플아이템",
-    description: "3단계로 완료하는 빠른 정산 방법",
-    type: "article",
-    url: "https://mapleitem.co.kr/guide",
+  title: "메이플 급처 거래 방법 - 안전 거래 이용가이드",
+  description: "메이플 급처템 거래 절차를 안내합니다. 카카오톡 문의 → 경매장 실시간 시세 확인 → 게임 내 직거래까지 평균 약 10분. 3자 사기 없이 안전하게 거래하는 방법을 단계별로 확인하세요.",
+  alternates: {
+    canonical: 'https://mapleitem.co.kr/guide'
   },
+  openGraph: {
+    title: "메이플 급처 거래 방법 - 안전 거래 이용가이드",
+    description: "카톡 문의부터 게임 내 직거래까지 평균 10분. 안전 거래 절차 안내.",
+    url: "https://mapleitem.co.kr/guide"
+  },
+  twitter: {
+    title: "메이플 급처 거래 방법 - 안전 거래 이용가이드",
+    description: "카톡 문의부터 게임 내 직거래까지 평균 10분. 안전 거래 절차 안내."
+  }
 };
 
 export default function GuidePage() {

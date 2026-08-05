@@ -10,14 +10,20 @@ import { ReviewsList } from "@/components/reviews/reviews-list";
 const REVIEWS_PER_PAGE = 5;
 
 export const metadata: Metadata = {
-  title: "거래 후기 | 메이플아이템 - 실제 고객 후기",
-  description: "메이플스토리 아이템 거래 실제 고객 후기. 빠르고 안전한 거래 경험을 확인하세요. 스카니아, 루나, 엘리시움 등 전서버 지원.",
-  keywords: ["메이플 후기", "메이플아이템 후기", "거래 후기", "메이플스토리 후기", "아이템 구매 후기"],
-  openGraph: {
-    title: "메이플아이템 거래 후기",
-    description: "실제 고객들의 생생한 거래 후기",
-    type: "website",
+  title: "메이플아이템 거래 후기 - 실제 이용자 후기게시판",
+  description: "메이플아이템을 이용한 실제 거래 후기를 확인하세요. 급처템을 안전하고 빠르게 정산한 이용자들의 생생한 거래 경험과 사례를 모았습니다.",
+  alternates: {
+    canonical: 'https://mapleitem.co.kr/reviews'
   },
+  openGraph: {
+    title: "메이플아이템 거래 후기 - 실제 이용자 후기",
+    description: "급처템을 안전하게 정산한 이용자들의 실제 거래 후기 모음.",
+    url: "https://mapleitem.co.kr/reviews"
+  },
+  twitter: {
+    title: "메이플아이템 거래 후기 - 실제 이용자 후기",
+    description: "급처템을 안전하게 정산한 이용자들의 실제 거래 후기 모음."
+  }
 };
 
 type Props = {

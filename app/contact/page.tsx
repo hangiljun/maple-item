@@ -3,18 +3,20 @@ import type { Metadata } from "next";
 import { KAKAO_LINK, KAKAO_ID } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "문의하기 | 메이플아이템 - 빠른 상담 및 거래 문의",
-  description: "메이플아이템 거래 문의는 카카오톡으로 간편하게! 365일 24시간 운영, 평균 1분 이내 응답. 아이템 판매 상담, 시세 확인, 거래 방법 안내.",
-  keywords: [
-    "메이플 문의", "메이플 상담", "메이플 거래 문의", "메이플 카카오톡",
-    "메이플 아이템 판매 문의", "메이플 시세 문의", "메이플아이템 연락처"
-  ],
-  openGraph: {
-    title: "메이플아이템 문의하기 - 빠른 상담",
-    description: "365일 24시간 운영, 평균 1분 이내 응답",
-    type: "website",
-    url: "https://mapleitem.co.kr/contact",
+  title: "메이플 급처 구매 문의 - 카카오톡 간편 상담",
+  description: "메이플 급처템 구매 문의는 카카오톡으로 간편하게. 아이템 스크린샷과 서버 정보를 보내면 실시간 시세를 확인해 빠르게 정산해드립니다. 365일 24시간 문의 가능.",
+  alternates: {
+    canonical: 'https://mapleitem.co.kr/contact'
   },
+  openGraph: {
+    title: "메이플 급처 구매 문의 - 카카오톡 간편 상담",
+    description: "카톡으로 스크린샷·서버 정보 전송 시 실시간 시세 확인 후 빠른 정산.",
+    url: "https://mapleitem.co.kr/contact"
+  },
+  twitter: {
+    title: "메이플 급처 구매 문의 - 카카오톡 간편 상담",
+    description: "카톡으로 스크린샷·서버 정보 전송 시 실시간 시세 확인 후 빠른 정산."
+  }
 };
 
 export default function ContactPage() {

@@ -3,21 +3,19 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '메이플아이템 - 메이플스토리 급처템 고가구매',
-  description: '메이플스토리 급처템을 빠르고 안전하게 고가로 구매합니다. 전서버 지원, 빠른 정산, 카카오톡 간편 거래.',
-  keywords: ['메이플스토리', '메이플', '급처템', '아이템 구매', '메이플 급처', '아이템 판매', '메소', '고가구매', '메이플아이템'],
+  title: '메이플 급처템 구매 - 실시간 시세 정산',
+  description: '메이플스토리 급처템을 경매장 실시간 시세 기준으로 빠르고 안전하게 구매합니다. 카카오톡 문의 시 평균 10분 내 정산 완료, 게임 내 직거래로 안전하게. 스카니아·루나·크로아 등 전 월드 지원, 365일 24시간 문의 가능.',
+  alternates: {
+    canonical: 'https://mapleitem.co.kr'
+  },
   openGraph: {
-    title: '메이플아이템 - 메이플스토리 급처템 고가구매',
-    description: '메이플스토리 급처템을 빠르고 안전하게 고가로 구매합니다. 전서버 지원, 빠른 정산, 카카오톡 간편 거래.',
-    type: 'website',
-    locale: 'ko_KR',
-    siteName: '메이플아이템',
+    title: '메이플 급처템 구매 - 실시간 시세 정산',
+    description: '메이플스토리 급처템 빠르고 안전하게 구매. 실시간 시세 확인 후 카톡 정산.',
     url: 'https://mapleitem.co.kr'
   },
   twitter: {
-    card: 'summary_large_image',
-    title: '메이플아이템 - 메이플스토리 급처템 고가구매',
-    description: '메이플스토리 급처템을 빠르고 안전하게 고가로 구매합니다. 전서버 지원, 빠른 정산, 카카오톡 간편 거래.'
+    title: '메이플 급처템 구매 - 실시간 시세 정산',
+    description: '메이플스토리 급처템 빠르고 안전하게 구매. 실시간 시세 확인 후 카톡 정산.'
   }
 };
 
