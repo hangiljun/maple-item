@@ -18,7 +18,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "메이플아이템 거래 후기 - 실제 이용자 후기",
     description: "급처템을 안전하게 정산한 이용자들의 실제 거래 후기 모음.",
-    url: "https://mapleitem.co.kr/reviews"
+    url: "https://mapleitem.co.kr/reviews",
+    images: ['/og-image.png']
   },
   twitter: {
     title: "메이플아이템 거래 후기 - 실제 이용자 후기",

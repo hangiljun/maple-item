@@ -9,7 +9,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "메이플스토리 소식·이벤트 정보",
     description: "메이플 최신 소식·이벤트·시세 정보를 빠르게 확인하세요.",
-    url: "https://mapleitem.co.kr/news"
+    url: "https://mapleitem.co.kr/news",
+    images: ['/og-image.png']
   },
   twitter: {
     title: "메이플스토리 소식·이벤트 정보",

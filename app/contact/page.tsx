@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "메이플 급처 구매 문의 - 카카오톡 간편 상담",
     description: "카톡으로 스크린샷·서버 정보 전송 시 실시간 시세 확인 후 빠른 정산.",
-    url: "https://mapleitem.co.kr/contact"
+    url: "https://mapleitem.co.kr/contact",
+    images: ['/og-image.png']
   },
   twitter: {
     title: "메이플 급처 구매 문의 - 카카오톡 간편 상담",

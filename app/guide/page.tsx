@@ -13,7 +13,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "메이플 급처 거래 방법 - 안전 거래 이용가이드",
     description: "카톡 문의부터 게임 내 직거래까지 평균 10분. 안전 거래 절차 안내.",
-    url: "https://mapleitem.co.kr/guide"
+    url: "https://mapleitem.co.kr/guide",
+    images: ['/og-image.png']
   },
   twitter: {
     title: "메이플 급처 거래 방법 - 안전 거래 이용가이드",

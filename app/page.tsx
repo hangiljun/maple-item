@@ -11,7 +11,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: '메이플 급처템 구매 - 실시간 시세 정산',
     description: '메이플스토리 급처템 빠르고 안전하게 구매. 실시간 시세 확인 후 카톡 정산.',
-    url: 'https://mapleitem.co.kr'
+    url: 'https://mapleitem.co.kr',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1424,
+        height: 752,
+        alt: '메이플아이템'
+      }
+    ]
   },
   twitter: {
     title: '메이플 급처템 구매 - 실시간 시세 정산',
