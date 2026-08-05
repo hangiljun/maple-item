@@ -31,6 +31,11 @@ export const metadata: Metadata = {
     index: true,
     follow: true
   },
+  verification: {
+    other: {
+      "naver-site-verification": "37d7948031bb7b4ae444957a3fc27bd04544c782"
+    }
+  },
   openGraph: {
     type: "website",
     locale: "ko_KR",
