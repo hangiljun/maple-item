@@ -1,3 +1,4 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
@@ -123,4 +124,67 @@ h1, h2, h3, h4, h5, h6 {
   50% {
     transform: translateY(-10px);
   }
+}
+
+/* ============================================================
+   소식 글 본문 타이포그래피 (.article-title / .article-prose)
+   @tailwindcss/typography(:where, specificity 0) 오버라이드
+   ============================================================ */
+.article-title{
+  font-family:'Pretendard Variable',Pretendard,-apple-system,'Apple SD Gothic Neo',sans-serif;
+  font-size:28px; font-weight:600; color:#171717; letter-spacing:-0.03em;
+  line-height:1.35; margin:0 0 24px; padding-bottom:24px; border-bottom:1px solid #EBEBE8;
+}
+.article-prose{
+  font-family:'Pretendard Variable',Pretendard,-apple-system,'Apple SD Gothic Neo',sans-serif;
+  font-size:16px; line-height:1.78; letter-spacing:-0.01em; color:#33383F;
+}
+.article-prose h1,.article-prose h2,.article-prose h3,
+.article-prose h4,.article-prose h5,.article-prose h6{
+  font-family:'Pretendard Variable',Pretendard,sans-serif; color:#171717; font-weight:600;
+}
+.article-prose h1{ font-size:24px; letter-spacing:-0.02em; line-height:1.35; margin:0 0 20px; }
+.article-prose h2{ font-size:22px; letter-spacing:-0.02em; line-height:1.4; margin:52px 0 16px; }
+.article-prose h3{ font-size:17px; margin:34px 0 12px; }
+.article-prose p{ margin:0 0 20px; }
+.article-prose > p:first-of-type{ font-size:17.5px; color:#20242A; }
+.article-prose strong{ font-weight:600; color:#171717; }
+.article-prose a{ color:#B45309; text-decoration:underline; text-underline-offset:2px; font-weight:500; }
+.article-prose ul{ list-style:none; padding:0; margin:0 0 22px; }
+.article-prose ul > li{ position:relative; padding-left:20px; margin:9px 0; }
+.article-prose ul > li::before{ content:""; position:absolute; left:2px; top:11px; width:6px; height:6px; border-radius:50%; background:#E6A400; }
+.article-prose ol{ padding-left:22px; margin:0 0 22px; }
+.article-prose ol > li{ margin:9px 0; padding-left:4px; }
+.article-prose li::marker{ content:none; }
+.article-prose blockquote{
+  background:#FFFBEB; border:1px solid #FDE68A; border-radius:12px;
+  padding:16px 20px; margin:24px 0; color:#6B4E12; font-style:normal; font-weight:400;
+}
+.article-prose blockquote p{ margin:0; font-size:15px; line-height:1.7; color:#6B4E12; }
+.article-prose blockquote p + p{ margin-top:8px; }
+.article-prose blockquote strong{ display:block; color:#B45309; font-size:13px; font-weight:600; margin-bottom:6px; }
+.article-prose blockquote p:first-of-type::before,
+.article-prose blockquote p:last-of-type::after{ content:none; }
+.article-prose img{ display:block; width:100%; border-radius:12px; border:1px solid #EBEBE8; margin:24px auto 8px; }
+.article-prose img + em{ display:block; text-align:center; font-size:13px; color:#9CA3AF; font-style:normal; margin-bottom:24px; }
+.article-prose ul.contains-task-list{ list-style:none; padding:0; }
+.article-prose li.task-list-item{ padding:11px 0 11px 30px; border-bottom:1px solid #EBEBE8; margin:0; }
+.article-prose li.task-list-item::before{ display:none; }
+.article-prose li.task-list-item input[type="checkbox"]{
+  appearance:none;-webkit-appearance:none; position:absolute; left:2px; top:13px;
+  width:16px; height:16px; border:1.5px solid #D6D3CE; border-radius:4px; background:#fff;
+}
+.article-prose li.task-list-item input[type="checkbox"]:checked{ background:#16A34A; border-color:#16A34A; }
+.article-prose li.task-list-item input[type="checkbox"]:checked::after{ content:"✓"; position:absolute; left:2px; top:-2px; color:#fff; font-size:12px; font-weight:700; }
+.article-prose table{ width:100%; border-collapse:collapse; margin:24px 0; font-size:15px; }
+.article-prose th,.article-prose td{ border:1px solid #EBEBE8; padding:10px 14px; text-align:left; }
+.article-prose th{ background:#FAFAF8; font-weight:600; color:#171717; }
+.article-prose hr{ border:none; border-top:1px solid #EBEBE8; margin:44px 0; }
+.article-prose code{ background:#F5F5F4; padding:2px 6px; border-radius:6px; font-size:0.9em; color:#171717; }
+.article-prose pre{ background:#1A1A1A; color:#F5F5F5; padding:18px 20px; border-radius:12px; overflow-x:auto; margin:24px 0; }
+.article-prose pre code{ background:none; padding:0; color:inherit; }
+@media (max-width:640px){
+  .article-title{ font-size:23px; }
+  .article-prose h2{ font-size:20px; margin-top:40px; }
+  .article-prose > p:first-of-type{ font-size:16.5px; }
 }

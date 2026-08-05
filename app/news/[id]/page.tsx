@@ -132,7 +132,7 @@ export default async function NewsPostPage({ params }: Props) {
               </div>
 
               {/* 제목 */}
-              <h1 className="text-4xl font-bold text-gray-900 mb-6">
+              <h1 className="article-title">
                 {post.title}
               </h1>
 
@@ -149,7 +149,7 @@ export default async function NewsPostPage({ params }: Props) {
             </header>
 
             {/* 본문 */}
-            <div className="prose prose-lg max-w-none prose-headings:font-bold prose-a:text-[#FFB800] prose-a:underline prose-img:rounded-xl prose-img:max-w-full">
+            <div className="prose max-w-none article-prose">
               {/* HTML 렌더 (기존 글 호환) vs 마크다운 렌더 (신규 글) */}
               {post.content ? (
                 isHTML ? (
@@ -178,7 +178,10 @@ export default async function NewsPostPage({ params }: Props) {
                 ) : (
                   /* 마크다운 글: ReactMarkdown + remarkGfm 직접 렌더 */
                   <div className="overflow-x-auto">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{ h1: (props) => <h2 {...props} /> }}
+                    >
                       {post.content}
                     </ReactMarkdown>
                   </div>
