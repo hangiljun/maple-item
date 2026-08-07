@@ -6,6 +6,7 @@
   content: string;
   image?: string; // 사진 URL (선택)
   likes: number;
+  views?: number; // 조회수
   helpful: boolean;
 }
 

@@ -37,7 +37,7 @@ export function HeroSection() {
             </div>
           </div>
 
-          <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-foreground leading-tight">
+          <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-semibold mb-6 text-foreground leading-tight">
             {/* 모바일: 짧은 버전 */}
             <span className="block sm:hidden">
               <span className="text-gradient">급처템,</span>

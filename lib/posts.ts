@@ -12,7 +12,8 @@ import {
   Timestamp,
   serverTimestamp,
   where,
-  limit
+  limit,
+  increment
 } from 'firebase/firestore';
 import { db } from './firebase';
 import type { NewsPost, Review } from './types';
@@ -157,4 +158,12 @@ export async function getAllReviews(): Promise<Review[]> {
 export async function getLatestReviews(count: number = 3): Promise<Review[]> {
   const reviews = await getAllReviews();
   return reviews.slice(0, count);
+}
+
+export async function incrementReviewViews(id: string): Promise<void> {
+  try {
+    await updateDoc(doc(db, REVIEWS_COLLECTION, id), { views: increment(1) });
+  } catch (e) {
+    // 조회수 증가 실패는 무시
+  }
 }

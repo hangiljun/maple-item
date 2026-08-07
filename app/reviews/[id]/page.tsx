@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { getReview } from '@/lib/posts';
+import { getReview, incrementReviewViews } from '@/lib/posts';
 import Link from 'next/link';
 
 type Props = {
@@ -61,6 +61,9 @@ export default async function ReviewPage({ params }: Props) {
     notFound();
   }
 
+  await incrementReviewViews(id);
+  const title = (review.content || "").split("\n")[0].trim().slice(0, 45) || "거래 후기";
+
   // 구조화된 데이터 (Schema.org)
   const reviewSchema = {
     '@context': 'https://schema.org',
@@ -87,73 +90,23 @@ export default async function ReviewPage({ params }: Props) {
       />
 
       <div className="min-h-screen py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-8">
-          <Link
-            href="/reviews"
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition"
-          >
-            ← 후기 목록으로
-          </Link>
-
-          <article className="glass rounded-3xl p-8 border-2 border-[#FFB800]/40 shadow-2xl">
-            <header className="mb-8">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="bg-[#FFB800] w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-sm">
-                  {review.author[0]}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h1 className="text-2xl font-bold text-gray-900">{review.author}님의 거래 후기</h1>
-                    {review.server && (
-                      <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm font-semibold border border-gray-300">
-                        {review.server}
-                      </span>
-                    )}
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    {review.date}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex gap-1 text-[#FFB800] text-xl">
-                ★★★★★
-              </div>
-            </header>
-
-            <div className="prose prose-lg max-w-none">
-              <div className="text-lg leading-relaxed text-gray-700 mb-6 whitespace-pre-wrap">
-                {review.content}
-              </div>
-
-              {review.image && (
-                <div className="my-8">
-                  <img
-                    src={review.image}
-                    alt={`${review.author}님의 거래 후기 이미지`}
-                    className="w-full max-h-[600px] object-cover rounded-xl shadow-lg"
-                  />
-                </div>
-              )}
-            </div>
-
-            {review.helpful && (
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <div className="flex items-center gap-2 text-[#FFB800]">
-                  <span className="text-lg font-semibold">✓ 도움이 되는 후기</span>
-                </div>
-              </div>
-            )}
-          </article>
-
-          <div className="mt-8 text-center">
-            <Link
-              href="/reviews"
-              className="inline-block px-6 py-3 bg-[#FFB800] text-white rounded-xl hover:bg-[#FF9500] transition font-semibold shadow-lg"
-            >
-              ← 후기 목록으로
-            </Link>
+        <div className="rvw max-w-3xl mx-auto px-4 sm:px-6">
+          <Link href="/reviews" className="rvw-d-back">← 목록으로</Link>
+          <div className="rvw-d-meta">
+            {review.server && <span className="rvw-srv">{review.server}</span>}
+            <span>거래완료</span>
           </div>
+          <div className="rvw-d-title">{title}</div>
+          <div className="rvw-d-sub">
+            <span>작성자 {review.author}</span>
+            <span>{review.date}</span>
+          </div>
+          <div className="rvw-d-body">
+            {review.content}
+            {review.image && <img src={review.image} alt="거래 인증샷" />}
+          </div>
+          <div className="rvw-d-like"><span>👍 추천 {review.likes ?? 0}</span></div>
+          <Link href="/reviews" className="rvw-d-back">← 목록으로</Link>
         </div>
       </div>
     </>

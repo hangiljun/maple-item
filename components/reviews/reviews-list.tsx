@@ -1,85 +1,43 @@
-'use client';
+import Link from "next/link";
+import { Review } from "@/lib/types";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import type { Review } from '@/lib/types';
+function toTitle(content: string) {
+  const first = (content || "").split("\n")[0].trim();
+  return first.length > 45 ? first.slice(0, 45) + "…" : first || "거래 후기";
+}
 
-type Props = {
-  reviews: Review[];
-};
-
-export function ReviewsList({ reviews }: Props) {
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-
-  const copyReviewUrl = (reviewId: string) => {
-    const url = `${window.location.origin}/reviews/${reviewId}`;
-    navigator.clipboard.writeText(url);
-    setCopiedId(reviewId);
-    setTimeout(() => setCopiedId(null), 2000);
-  };
-
+export function ReviewsList({ reviews, startNumber }: { reviews: Review[]; startNumber: number }) {
+  if (!reviews || reviews.length === 0) {
+    return <p className="text-gray-400 py-16 text-center">아직 등록된 후기가 없습니다. 첫 후기를 남겨주세요.</p>;
+  }
   return (
-    <>
-      {reviews.map((review) => (
-        <Link
-          key={review.id}
-          href={`/reviews/${review.id}`}
-          className="glass-small rounded-2xl p-6 hover:shadow-lg transition scroll-mt-24 block cursor-pointer"
-        >
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-4">
-              <div className="bg-[#FFB800] w-12 h-12 rounded-full flex items-center justify-center text-white font-bold">
-                {review.author[0]}
+    <table className="rvw-board">
+      <thead>
+        <tr>
+          <th className="rvw-no">번호</th>
+          <th>제목</th>
+          <th className="rvw-writer">작성자</th>
+          <th className="rvw-date">작성일</th>
+        </tr>
+      </thead>
+      <tbody>
+        {reviews.map((r, i) => (
+          <tr key={r.id}>
+            <td className="rvw-no">{startNumber - i}</td>
+            <td className="rvw-title">
+              <Link href={`/reviews/${r.id}`}>
+                {r.server && <span className="rvw-srv">{r.server}</span>}
+                {toTitle(r.content)}
+              </Link>
+              <div className="rvw-meta-m">
+                <span>{r.author}</span><span>{r.date}</span>
               </div>
-              <div>
-                <div className="font-bold text-gray-900">{review.author}</div>
-                {review.server && <div className="text-sm text-gray-500">{review.server}</div>}
-              </div>
-            </div>
-          </div>
-
-          {/* 후기 내용 */}
-          <p className="text-gray-700 leading-relaxed mb-4 whitespace-pre-wrap">{review.content}</p>
-
-          {/* 사진 */}
-          {review.image && (
-            <div className="mb-4">
-              <img
-                src={review.image}
-                alt="거래 인증"
-                className="w-full max-h-96 object-cover rounded-xl"
-              />
-            </div>
-          )}
-
-          {/* 하단 정보 */}
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center gap-4 text-gray-500">
-              <span>{review.date}</span>
-              <button className="text-gray-500 hover:text-[#FFB800] transition-colors">
-                도움돼요 {review.likes}
-              </button>
-            </div>
-
-            {/* URL 공유 버튼 */}
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                copyReviewUrl(review.id);
-              }}
-              className="text-gray-500 hover:text-[#FFB800] transition-colors"
-              title="후기 URL 복사"
-            >
-              {copiedId === review.id ? (
-                <span className="text-[#FFB800]">복사됨</span>
-              ) : (
-                <span>공유</span>
-              )}
-            </button>
-          </div>
-        </Link>
-      ))}
-    </>
+            </td>
+            <td className="rvw-writer">{r.author}</td>
+            <td className="rvw-date">{r.date}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }

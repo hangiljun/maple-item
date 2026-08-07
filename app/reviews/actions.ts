@@ -15,6 +15,7 @@ export async function submitReview(data: {
       content: data.content,
       date: new Date().toISOString().split('T')[0],
       likes: 0,
+      views: 0,
       helpful: false,
     };
 
