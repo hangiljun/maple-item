@@ -95,13 +95,25 @@ export default function AdminPostsPage() {
         postData.image = imageUrl;
       }
 
+      let postId: string;
       if (editingPost) {
         // 수정
         await updatePost(editingPost.id, postData);
+        postId = editingPost.id;
       } else {
         // 새 작성
-        await createPost(postData);
+        postId = await createPost(postData);
       }
+
+      // On-demand revalidation (즉시 반영)
+      await fetch('/api/revalidate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          secret: process.env.NEXT_PUBLIC_REVALIDATE_SECRET || 'dev-secret-key',
+          id: postId,
+        }),
+      });
 
       await loadPosts();
       resetForm();
@@ -173,6 +185,17 @@ export default function AdminPostsPage() {
     if (confirm("정말 삭제하시겠습니까?")) {
       try {
         await deletePost(id);
+
+        // On-demand revalidation
+        await fetch('/api/revalidate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            secret: process.env.NEXT_PUBLIC_REVALIDATE_SECRET || 'dev-secret-key',
+            id: id,
+          }),
+        });
+
         await loadPosts();
       } catch (error) {
         console.error('게시글 삭제 실패:', error);
@@ -184,6 +207,17 @@ export default function AdminPostsPage() {
   const handleTogglePin = async (id: string, currentPinned: boolean) => {
     try {
       await togglePinPost(id, currentPinned);
+
+      // On-demand revalidation
+      await fetch('/api/revalidate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          secret: process.env.NEXT_PUBLIC_REVALIDATE_SECRET || 'dev-secret-key',
+          id: id,
+        }),
+      });
+
       await loadPosts();
     } catch (error) {
       console.error('고정 상태 변경 실패:', error);
