@@ -15,26 +15,34 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const post = await getPost(id);
 
-  if (!post) {
+  try {
+    const post = await getPost(id);
+
+    if (!post) {
+      return {
+        title: '게시글을 찾을 수 없습니다',
+      };
+    }
+
+    const description = (post.content || '').substring(0, 160) || post.title;
+
+    return {
+      title: `${post.title} | 메이플아이템 소식`,
+      description: description,
+      openGraph: {
+        title: post.title,
+        description: description,
+        images: post.image ? [post.image] : [],
+        type: 'article',
+      },
+    };
+  } catch (error) {
+    console.error('메타데이터 생성 실패:', error);
     return {
       title: '게시글을 찾을 수 없습니다',
     };
   }
-
-  const description = (post.content || '').substring(0, 160) || post.title;
-
-  return {
-    title: `${post.title} | 메이플아이템 소식`,
-    description: description,
-    openGraph: {
-      title: post.title,
-      description: description,
-      images: post.image ? [post.image] : [],
-      type: 'article',
-    },
-  };
 }
 
 export async function generateStaticParams() {
@@ -46,7 +54,14 @@ export async function generateStaticParams() {
 
 export default async function NewsPostPage({ params }: Props) {
   const { id } = await params;
-  const post = await getPost(id);
+
+  let post;
+  try {
+    post = await getPost(id);
+  } catch (error) {
+    console.error('게시글 조회 실패:', error);
+    notFound();
+  }
 
   if (!post) {
     notFound();
