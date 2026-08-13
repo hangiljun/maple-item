@@ -191,16 +191,40 @@ export default function AdminPostsPage() {
   const handleDelete = async (id: string) => {
     if (confirm("정말 삭제하시겠습니까?")) {
       try {
+        // Firebase Auth 상태 확인
+        const { auth } = await import('@/lib/firebase');
+        const currentUser = auth.currentUser;
+
+        console.log('[DEBUG] 현재 로그인 사용자:', currentUser);
+        console.log('[DEBUG] UID:', currentUser?.uid);
+        console.log('[DEBUG] Email:', currentUser?.email);
+
+        if (!currentUser) {
+          alert('로그인 정보가 없습니다. 다시 로그인해주세요.');
+          return;
+        }
+
+        // ID 토큰 확인
+        const idToken = await currentUser.getIdToken();
+        console.log('[DEBUG] ID 토큰 존재:', !!idToken);
+
+        console.log('[DEBUG] 삭제 시작:', id);
+
         // 클라이언트 SDK로 삭제
         await deletePost(id);
+        console.log('[DEBUG] 삭제 성공');
 
         // Revalidation 서버 액션 호출
         await revalidateNewsPostAction(id);
+        console.log('[DEBUG] Revalidation 완료');
 
         await loadPosts();
-      } catch (error) {
+        console.log('[DEBUG] 목록 새로고침 완료');
+      } catch (error: any) {
         console.error('게시글 삭제 실패:', error);
-        alert('게시글 삭제에 실패했습니다.');
+        console.error('에러 코드:', error?.code);
+        console.error('에러 메시지:', error?.message);
+        alert(`게시글 삭제에 실패했습니다.\n에러: ${error?.message || error}`);
       }
     }
   };
