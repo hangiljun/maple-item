@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { isAdmin } from "@/lib/auth";
+import { useAuth } from "@/lib/auth";
 import { ArrowLeft, Plus, Edit, Trash2, Pin, PinOff, Sparkles, Image as ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { uploadImage } from "@/lib/upload";
@@ -12,6 +12,7 @@ import type { NewsPost } from "@/lib/types";
 
 export default function AdminPostsPage() {
   const router = useRouter();
+  const { isAdmin } = useAuth();
   const [posts, setPosts] = useState<NewsPost[]>([]);
   const [showEditor, setShowEditor] = useState(false);
   const [editingPost, setEditingPost] = useState<NewsPost | null>(null);
@@ -38,12 +39,12 @@ export default function AdminPostsPage() {
   };
 
   useEffect(() => {
-    if (!isAdmin()) {
+    if (!isAdmin) {
       router.push("/admin");
     } else {
       loadPosts();
     }
-  }, [router]);
+  }, [isAdmin, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

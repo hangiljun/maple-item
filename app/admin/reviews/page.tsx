@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { isAdmin } from "@/lib/auth";
+import { useAuth } from "@/lib/auth";
 import { ArrowLeft, Trash2, AlertTriangle, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import type { Review } from "@/lib/types";
 
 export default function AdminReviewsPage() {
   const router = useRouter();
+  const { isAdmin } = useAuth();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -25,13 +26,13 @@ export default function AdminReviewsPage() {
   };
 
   useEffect(() => {
-    if (!isAdmin()) {
+    if (!isAdmin) {
       router.push("/admin");
     } else {
       // Firestore에서 후기 불러오기
       loadReviews();
     }
-  }, [router]);
+  }, [isAdmin, router]);
 
   const handleDelete = async (id: string) => {
     setLoading(true);

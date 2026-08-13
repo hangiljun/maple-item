@@ -1,21 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { isAdmin, login, logout } from "@/lib/auth";
+import { useAuth, login, logout, getAuthErrorMessage } from "@/lib/auth";
 import { MessageSquare, FileText, TrendingUp, LogOut, Edit, Trash2, Pin, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function AdminPage() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [reviewCount, setReviewCount] = useState(0);
   const [postCount, setPostCount] = useState(0);
 
-  useEffect(() => {
-    setIsAuthenticated(isAdmin());
+  // Firebase Auth 상태 관리
+  const { user, loading, isAdmin: isAuthenticated } = useAuth();
 
+  useEffect(() => {
     // 실제 데이터 개수 가져오기
     const reviews = localStorage.getItem("reviews");
     const posts = localStorage.getItem("posts");
@@ -24,21 +25,27 @@ export default function AdminPage() {
     setPostCount(posts ? JSON.parse(posts).length : 0);
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (login(password)) {
-      setIsAuthenticated(true);
+    try {
+      await login(email, password);
       setError("");
-    } else {
-      setError("비밀번호가 올바르지 않습니다.");
+      // useAuth 훅이 자동으로 상태 갱신
+    } catch (error: any) {
+      const errorCode = error?.code || '';
+      setError(getAuthErrorMessage(errorCode));
       setPassword("");
     }
   };
 
-  const handleLogout = () => {
-    logout();
-    setIsAuthenticated(false);
-    setPassword("");
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      console.error("로그아웃 실패:", error);
+    }
   };
 
   // 로그인 페이지
@@ -57,6 +64,24 @@ export default function AdminPage() {
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
+                이메일
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setError("");
+                }}
+                placeholder="관리자 이메일 입력"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 focus:border-[#FFB800] focus:ring-2 focus:ring-[#FFB800]/20 outline-none transition"
+                required
+                autoFocus
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
                 비밀번호
               </label>
               <input
@@ -68,7 +93,7 @@ export default function AdminPage() {
                 }}
                 placeholder="관리자 비밀번호 입력"
                 className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 focus:border-[#FFB800] focus:ring-2 focus:ring-[#FFB800]/20 outline-none transition"
-                autoFocus
+                required
               />
               {error && (
                 <p className="mt-2 text-sm text-red-600">{error}</p>
