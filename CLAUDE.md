@@ -77,3 +77,32 @@ export async function dataAction(params) {
 ### 환경변수 보안
 - 클라이언트 노출 변수(NEXT_PUBLIC_)에 시크릿 저장 금지
 - Revalidation은 서버 액션 내부에서 처리하므로 시크릿 불필요
+
+## Posts 권한 관리 원칙
+
+### 개인 운영 규모 단순화
+- **클라이언트 SDK + Firestore 규칙**으로 글쓰기 권한 처리
+- Firebase Admin SDK는 과한 복잡도 (서비스 계정 키 관리, 환경변수 등)
+- Firebase Auth 토큰 자동 첨부 → Firestore 규칙 `isAdmin()` 검증
+
+### 아키텍처
+```
+클라이언트 → lib/posts.ts (클라이언트 SDK) → Firestore 규칙 isAdmin() 통과
+                ↓
+          revalidate 서버 액션 호출 → revalidatePath()
+```
+
+### Revalidation 분리
+- CRUD는 클라이언트에서 실행
+- Revalidation만 별도 서버 액션 (`app/admin/posts/actions.ts`)
+- CRUD 성공 후 서버 액션 호출로 즉시 반영 (be4325f 패턴 유지)
+
+### Firestore 규칙
+- `isAdmin() = request.auth != null && exists(admins/uid)`
+- Posts: `allow create, update, delete: if isAdmin() && validatePost()`
+- 느슨하게 풀지 않음 (보안 유지)
+
+### 재발방지
+- Admin SDK 도입 금지 (개인 운영 규모에 불필요)
+- 서버 액션은 Revalidation 전용
+- CRUD는 클라이언트 SDK + Firestore 규칙으로 처리

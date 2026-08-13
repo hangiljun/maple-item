@@ -67,27 +67,80 @@
 
 2. **보안 규칙 설정**
    - "규칙" 탭 클릭
-   - 아래 규칙 입력:
+   - 아래 규칙 입력 (실제 라이브 규칙):
    ```
    rules_version = '2';
    service cloud.firestore {
      match /databases/{database}/documents {
-       // posts 컬렉션
+       // Admin 권한 확인 함수
+       function isAdmin() {
+         return request.auth != null
+             && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+       }
+
+       // Posts 컬렉션
        match /posts/{postId} {
          allow read: if true;
-         allow write: if false; // 관리자 페이지에서만 작성
+         allow create, update, delete: if isAdmin() && validatePost();
+
+         function validatePost() {
+           return request.resource.data.category is string
+               && request.resource.data.category in ["공지", "이벤트", "시세정보"]
+               && request.resource.data.title is string
+               && request.resource.data.title.size() > 0
+               && request.resource.data.content is string
+               && request.resource.data.content.size() > 0
+               && request.resource.data.featured is bool
+               && request.resource.data.pinned is bool
+               && request.resource.size() < 500000; // 500KB 제한
+         }
        }
-       
-       // reviews 컬렉션
+
+       // Reviews 컬렉션
        match /reviews/{reviewId} {
          allow read: if true;
-         allow create: if true; // 누구나 후기 작성 가능
-         allow update, delete: if false;
+         allow create: if validateReview();
+         allow update: if isViewIncrement();
+         allow delete: if isAdmin();
+
+         function validateReview() {
+           let data = request.resource.data;
+           return data.author is string
+               && data.author.size() >= 1
+               && data.author.size() <= 20
+               && data.content is string
+               && data.content.size() >= 1
+               && data.content.size() <= 500
+               && data.date is string
+               && data.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+               && data.likes == 0
+               && data.views == 0
+               && data.helpful == false
+               && data.createdAt == request.time
+               && request.resource.size() < 100000; // 100KB 제한
+         }
+
+         function isViewIncrement() {
+           let diff = request.resource.data.diff(resource.data).affectedKeys();
+           return diff.hasOnly(['views'])
+               && request.resource.data.views == resource.data.views + 1;
+         }
+       }
+
+       // Admins 컬렉션 (읽기 전용, Firebase Console에서 수동 관리)
+       match /admins/{uid} {
+         allow read: if request.auth != null && request.auth.uid == uid;
+         allow write: if false;  // Firebase Console에서만 수정
        }
      }
    }
    ```
    - "게시" 클릭
+
+   **중요 원칙**:
+   - Admin SDK 도입 후에도 **Firestore 규칙은 유지** (이중 방어)
+   - 서버 액션은 Admin SDK로 규칙 우회
+   - 클라이언트에서 직접 쓰기 시도 시 규칙이 차단
 
 ## 5. 환경 변수 설정
 

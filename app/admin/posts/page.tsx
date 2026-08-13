@@ -6,12 +6,16 @@ import { useAuth } from "@/lib/auth";
 import { ArrowLeft, Plus, Edit, Trash2, Pin, PinOff, Sparkles, Image as ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { uploadImage } from "@/lib/upload";
-import { getAllPosts } from "@/lib/posts";
 import {
-  createPostAction,
-  updatePostAction,
-  deletePostAction,
-  togglePinPostAction
+  getAllPosts,
+  createPost,
+  updatePost,
+  deletePost,
+  togglePinPost
+} from "@/lib/posts";
+import {
+  revalidateNewsListAction,
+  revalidateNewsPostAction
 } from "./actions";
 import Link from "next/link";
 import type { NewsPost } from "@/lib/types";
@@ -104,27 +108,20 @@ export default function AdminPostsPage() {
       }
 
       let postId: string;
-      let result;
 
       if (editingPost) {
-        // 수정
-        result = await updatePostAction(editingPost.id, postData);
-        if (!result.success) {
-          alert(result.error || '게시글 수정에 실패했습니다.');
-          return;
-        }
+        // 수정: 클라이언트 SDK 사용
+        await updatePost(editingPost.id, postData);
         postId = editingPost.id;
       } else {
-        // 새 작성
-        result = await createPostAction(postData);
-        if (!result.success) {
-          alert(result.error || '게시글 생성에 실패했습니다.');
-          return;
-        }
-        postId = result.id!;
+        // 생성: 클라이언트 SDK 사용
+        postId = await createPost(postData);
       }
 
-      // revalidation은 서버 액션 내에서 자동 처리됨
+      // Revalidation 서버 액션 호출
+      await revalidateNewsPostAction(postId);
+
+      // 목록 새로고침
       await loadPosts();
       resetForm();
     } catch (error) {
@@ -194,11 +191,11 @@ export default function AdminPostsPage() {
   const handleDelete = async (id: string) => {
     if (confirm("정말 삭제하시겠습니까?")) {
       try {
-        const result = await deletePostAction(id);
-        if (!result.success) {
-          alert(result.error || '게시글 삭제에 실패했습니다.');
-          return;
-        }
+        // 클라이언트 SDK로 삭제
+        await deletePost(id);
+
+        // Revalidation 서버 액션 호출
+        await revalidateNewsPostAction(id);
 
         await loadPosts();
       } catch (error) {
@@ -210,11 +207,11 @@ export default function AdminPostsPage() {
 
   const handleTogglePin = async (id: string, currentPinned: boolean) => {
     try {
-      const result = await togglePinPostAction(id, currentPinned);
-      if (!result.success) {
-        alert(result.error || '고정 상태 변경에 실패했습니다.');
-        return;
-      }
+      // 클라이언트 SDK로 고정 토글
+      await togglePinPost(id, currentPinned);
+
+      // Revalidation 서버 액션 호출
+      await revalidateNewsPostAction(id);
 
       await loadPosts();
     } catch (error) {
