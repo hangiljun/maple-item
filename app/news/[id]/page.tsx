@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { getPost, getAllPosts, getAdjacentPosts } from '@/lib/posts';
 import Link from 'next/link';
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtml from 'sanitize-html';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -172,20 +172,28 @@ export default async function NewsPostPage({ params }: Props) {
                   <div className="overflow-x-auto">
                     <div
                       dangerouslySetInnerHTML={{
-                        __html: DOMPurify.sanitize(post.content, {
-                        ALLOWED_TAGS: [
-                          'p', 'br', 'strong', 'em', 'u', 's',
-                          'h2', 'h3',
-                          'ul', 'ol', 'li',
-                          'a',
-                          'img',
-                          'table', 'thead', 'tbody', 'tr', 'th', 'td',
-                          'blockquote', 'code', 'pre',
-                          'hr'
-                        ],
-                        ALLOWED_ATTR: ['href', 'target', 'rel', 'src', 'alt', 'width', 'height', 'class', 'style'],
-                        FORBID_TAGS: ['script', 'iframe', 'object', 'embed', 'form', 'input'],
-                        FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onfocus', 'onblur'],
+                        __html: sanitizeHtml(post.content, {
+                          allowedTags: [
+                            'p', 'br', 'strong', 'em', 'u', 's',
+                            'h2', 'h3',
+                            'ul', 'ol', 'li',
+                            'a',
+                            'img',
+                            'table', 'thead', 'tbody', 'tr', 'th', 'td',
+                            'blockquote', 'code', 'pre',
+                            'hr'
+                          ],
+                          allowedAttributes: {
+                            'a': ['href', 'target', 'rel'],
+                            'img': ['src', 'alt', 'width', 'height'],
+                            '*': ['class', 'style']
+                          },
+                          disallowedTagsMode: 'discard',
+                          selfClosing: ['img', 'br', 'hr'],
+                          allowedSchemes: ['http', 'https', 'mailto'],
+                          allowedSchemesByTag: {
+                            img: ['http', 'https', 'data']
+                          }
                         })
                       }}
                     />

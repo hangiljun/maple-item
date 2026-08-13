@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { uploadImage } from '@/lib/upload';
-import DOMPurify from 'isomorphic-dompurify';
+import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 
 interface TipTapEditorProps {
