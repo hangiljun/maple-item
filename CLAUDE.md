@@ -38,3 +38,42 @@
 - 허용 태그: p, br, strong, em, u, s, h2, h3, ul, ol, li, a, img, table, blockquote, code, pre, hr
 - 금지 태그: script, iframe, object, embed, form, input
 - 금지 속성: onerror, onload, onclick 등 이벤트 핸들러
+
+## Revalidation 원칙
+
+### 서버 액션 기반 Revalidation
+- ISR 페이지(revalidate=N)의 데이터 변경 시 서버 액션에서 revalidatePath() 직접 호출
+- 클라이언트→서버 API 호출 금지 (fetch('/api/revalidate') 패턴 사용 금지)
+- 시크릿 기반 revalidation API 금지 (REVALIDATE_SECRET 사용 금지)
+
+### Revalidation 범위
+- 데이터 생성/수정/삭제 시 관련된 모든 페이지 경로 revalidate:
+  - 목록 페이지: revalidatePath('/news')
+  - 상세 페이지: revalidatePath(`/news/${id}`)
+
+### 서버 액션 패턴 (참고: app/reviews/actions.ts, app/admin/posts/actions.ts)
+```typescript
+'use server';
+
+import { revalidatePath } from 'next/cache';
+import { firestoreFunction } from '@/lib/posts';
+
+export async function dataAction(params) {
+  try {
+    const result = await firestoreFunction(params);
+    
+    // 관련 경로 모두 revalidate
+    revalidatePath('/list-page');
+    revalidatePath(`/detail-page/${result.id}`);
+    
+    return { success: true, ...result };
+  } catch (error) {
+    console.error('Action failed:', error);
+    return { success: false, error: 'User-friendly error message' };
+  }
+}
+```
+
+### 환경변수 보안
+- 클라이언트 노출 변수(NEXT_PUBLIC_)에 시크릿 저장 금지
+- Revalidation은 서버 액션 내부에서 처리하므로 시크릿 불필요

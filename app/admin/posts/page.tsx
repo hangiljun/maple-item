@@ -6,7 +6,13 @@ import { useAuth } from "@/lib/auth";
 import { ArrowLeft, Plus, Edit, Trash2, Pin, PinOff, Sparkles, Image as ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { uploadImage } from "@/lib/upload";
-import { getAllPosts, createPost, updatePost, deletePost, togglePinPost } from "@/lib/posts";
+import { getAllPosts } from "@/lib/posts";
+import {
+  createPostAction,
+  updatePostAction,
+  deletePostAction,
+  togglePinPostAction
+} from "./actions";
 import Link from "next/link";
 import type { NewsPost } from "@/lib/types";
 
@@ -98,25 +104,27 @@ export default function AdminPostsPage() {
       }
 
       let postId: string;
+      let result;
+
       if (editingPost) {
         // 수정
-        await updatePost(editingPost.id, postData);
+        result = await updatePostAction(editingPost.id, postData);
+        if (!result.success) {
+          alert(result.error || '게시글 수정에 실패했습니다.');
+          return;
+        }
         postId = editingPost.id;
       } else {
         // 새 작성
-        postId = await createPost(postData);
+        result = await createPostAction(postData);
+        if (!result.success) {
+          alert(result.error || '게시글 생성에 실패했습니다.');
+          return;
+        }
+        postId = result.id!;
       }
 
-      // On-demand revalidation (즉시 반영)
-      await fetch('/api/revalidate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          secret: process.env.NEXT_PUBLIC_REVALIDATE_SECRET || 'dev-secret-key',
-          id: postId,
-        }),
-      });
-
+      // revalidation은 서버 액션 내에서 자동 처리됨
       await loadPosts();
       resetForm();
     } catch (error) {
@@ -186,17 +194,11 @@ export default function AdminPostsPage() {
   const handleDelete = async (id: string) => {
     if (confirm("정말 삭제하시겠습니까?")) {
       try {
-        await deletePost(id);
-
-        // On-demand revalidation
-        await fetch('/api/revalidate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            secret: process.env.NEXT_PUBLIC_REVALIDATE_SECRET || 'dev-secret-key',
-            id: id,
-          }),
-        });
+        const result = await deletePostAction(id);
+        if (!result.success) {
+          alert(result.error || '게시글 삭제에 실패했습니다.');
+          return;
+        }
 
         await loadPosts();
       } catch (error) {
@@ -208,17 +210,11 @@ export default function AdminPostsPage() {
 
   const handleTogglePin = async (id: string, currentPinned: boolean) => {
     try {
-      await togglePinPost(id, currentPinned);
-
-      // On-demand revalidation
-      await fetch('/api/revalidate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          secret: process.env.NEXT_PUBLIC_REVALIDATE_SECRET || 'dev-secret-key',
-          id: id,
-        }),
-      });
+      const result = await togglePinPostAction(id, currentPinned);
+      if (!result.success) {
+        alert(result.error || '고정 상태 변경에 실패했습니다.');
+        return;
+      }
 
       await loadPosts();
     } catch (error) {
