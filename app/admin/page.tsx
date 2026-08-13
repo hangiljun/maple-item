@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAuth, login, logout, getAuthErrorMessage } from "@/lib/auth";
+import { getAllPosts, getAllReviews } from "@/lib/posts";
 import { MessageSquare, FileText, TrendingUp, LogOut, Edit, Trash2, Pin, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -17,13 +18,24 @@ export default function AdminPage() {
   const { user, loading, isAdmin: isAuthenticated } = useAuth();
 
   useEffect(() => {
-    // 실제 데이터 개수 가져오기
-    const reviews = localStorage.getItem("reviews");
-    const posts = localStorage.getItem("posts");
+    // Firestore에서 실제 데이터 개수 가져오기
+    const loadCounts = async () => {
+      try {
+        const [reviews, posts] = await Promise.all([
+          getAllReviews(),
+          getAllPosts()
+        ]);
+        setReviewCount(reviews.length);
+        setPostCount(posts.length);
+      } catch (error) {
+        console.error("통계 로드 실패:", error);
+      }
+    };
 
-    setReviewCount(reviews ? JSON.parse(reviews).length : 0);
-    setPostCount(posts ? JSON.parse(posts).length : 0);
-  }, []);
+    if (isAuthenticated) {
+      loadCounts();
+    }
+  }, [isAuthenticated]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,6 +59,20 @@ export default function AdminPage() {
       console.error("로그아웃 실패:", error);
     }
   };
+
+  // 로딩 중
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="bg-white rounded-2xl p-8 w-full max-w-md shadow-xl border border-gray-200 text-center">
+          <div className="w-16 h-16 bg-gradient-to-br from-[#FFB800] to-[#FF9500] rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+            <Lock className="text-white" size={32} />
+          </div>
+          <p className="text-gray-600">로딩 중...</p>
+        </div>
+      </div>
+    );
+  }
 
   // 로그인 페이지
   if (!isAuthenticated) {

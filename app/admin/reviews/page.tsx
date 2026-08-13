@@ -11,7 +11,7 @@ import type { Review } from "@/lib/types";
 
 export default function AdminReviewsPage() {
   const router = useRouter();
-  const { isAdmin } = useAuth();
+  const { isAdmin, loading: authLoading } = useAuth();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -26,13 +26,14 @@ export default function AdminReviewsPage() {
   };
 
   useEffect(() => {
+    if (authLoading) return; // 로딩 중엔 아무 판단 안 함
     if (!isAdmin) {
       router.push("/admin");
-    } else {
-      // Firestore에서 후기 불러오기
-      loadReviews();
+      return;
     }
-  }, [isAdmin, router]);
+    // Firestore에서 후기 불러오기
+    loadReviews();
+  }, [isAdmin, authLoading, router]);
 
   const handleDelete = async (id: string) => {
     setLoading(true);

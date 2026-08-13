@@ -12,7 +12,7 @@ import type { NewsPost } from "@/lib/types";
 
 export default function AdminPostsPage() {
   const router = useRouter();
-  const { isAdmin } = useAuth();
+  const { isAdmin, loading } = useAuth();
   const [posts, setPosts] = useState<NewsPost[]>([]);
   const [showEditor, setShowEditor] = useState(false);
   const [editingPost, setEditingPost] = useState<NewsPost | null>(null);
@@ -39,12 +39,13 @@ export default function AdminPostsPage() {
   };
 
   useEffect(() => {
+    if (loading) return; // 로딩 중엔 아무 판단 안 함
     if (!isAdmin) {
       router.push("/admin");
-    } else {
-      loadPosts();
+      return;
     }
-  }, [isAdmin, router]);
+    loadPosts();
+  }, [isAdmin, loading, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
