@@ -20,3 +20,21 @@
 ### 승인 도메인
 - 커스텀 도메인 추가/변경 시 Firebase Auth 승인된 도메인에 non-www와 www 모두 등록한다.
   실제 접속 도메인(리다이렉트 최종 도착지)이 반드시 포함돼야 한다.
+
+## HTML Sanitization 원칙
+
+### 서버/클라이언트 환경 분리
+- **서버 컴포넌트**: sanitize-html 사용 (CommonJS, jsdom 불필요, 가벼움)
+- **클라이언트 컴포넌트**: dompurify 직접 사용 (브라우저 네이티브)
+- isomorphic-dompurify 금지 (jsdom ESM 호환성 문제)
+
+### ESM/CommonJS 호환성
+- 서버 컴포넌트에서 ESM 전용 패키지 import 시 주의
+- jsdom, @exodus/bytes 같은 무거운 의존성 회피
+- 패키지 추가 시 의존성 트리 확인 (npm list <package>)
+
+### Sanitization 일관성
+- 서버와 클라이언트에서 동일한 화이트리스트 유지
+- 허용 태그: p, br, strong, em, u, s, h2, h3, ul, ol, li, a, img, table, blockquote, code, pre, hr
+- 금지 태그: script, iframe, object, embed, form, input
+- 금지 속성: onerror, onload, onclick 등 이벤트 핸들러
