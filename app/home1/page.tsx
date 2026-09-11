@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import {
   ArrowRight,
@@ -19,21 +19,43 @@ import {
   Zap,
 } from 'lucide-react'
 import { Footer } from '@/components/navigation/footer'
-import { SEOContent } from '@/components/sections/seo-content'
+import { getLatestReviews } from '@/lib/posts'
+import type { Review } from '@/lib/types'
+import { Home1SeoContent } from './home1-seo-content'
 import styles from './home1.module.css'
 
 const kakaoUrl = 'https://open.kakao.com/o/sgGZ8ICi'
 
+// 상시 오픈 14개 월드 + 챌린저스 전체 월드
 const servers = [
-  '스카니아', '루나', '엘리시움', '크로아', '베라', '오로라', '레드', '이노시스',
-  '유니온', '아케인', '노바', '에오스', '핼리오스', '챌린저스', '제니스', '엔젤릭버스터',
+  '스카니아', '베라', '루나', '제니스', '크로아', '유니온', '엘리시움', '이노시스',
+  '레드', '오로라', '아케인', '노바', '에오스', '핼리오스',
+  '챌린저스1', '챌린저스2', '챌린저스3', '챌린저스4',
 ]
 
-const reviews = [
-  { name: '판매자 A', text: '사진 몇 장 보냈는데 시세부터 조건까지 바로 정리해주셔서 빠르게 처리했습니다.', date: '2026. 09. 08' },
-  { name: '판매자 B', text: '통판매라 막막했는데 필요한 사진만 알려주고 입금까지 깔끔하게 진행됐어요.', date: '2026. 09. 04' },
-  { name: '판매자 C', text: '경매장 시세 기준으로 설명해줘서 납득하고 판매했습니다. 다음에도 이용할게요.', date: '2026. 08. 29' },
-]
+function useLatestReviews(count: number) {
+  const [reviews, setReviews] = useState<Review[]>([])
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    getLatestReviews(count)
+      .then((data) => {
+        if (active) setReviews(data)
+      })
+      .catch((error) => {
+        console.error('후기 불러오기 실패:', error)
+      })
+      .finally(() => {
+        if (active) setLoaded(true)
+      })
+    return () => {
+      active = false
+    }
+  }, [count])
+
+  return { reviews, loaded }
+}
 
 const faqs: [string, string][] = [
   ['사진은 어떻게 보내면 되나요?', '장비창이나 아이템 상세 옵션이 보이도록 캡처해 카카오톡 오픈채팅으로 보내주세요. 부족한 내용은 상담 중에 안내해드립니다.'],
@@ -57,7 +79,7 @@ function HeroLeadForm() {
   const [nickname, setNickname] = useState('')
   const [copied, setCopied] = useState(false)
 
-  const template = `서버: ${server}\n아이템: ${item}\n희망가격: ${price}\n닉네임: ${nickname}`
+  const template = `서버: ${server}\n아이템 또는 닉네임: ${item}\n희망가격: ${price}\n닉네임: ${nickname}`
 
   async function handleCopyAndOpen() {
     try {
@@ -89,8 +111,8 @@ function HeroLeadForm() {
           <input value={server} onChange={(e) => setServer(e.target.value)} placeholder="예: 스카니아" />
         </label>
         <label className={styles.formField}>
-          <span>아이템</span>
-          <input value={item} onChange={(e) => setItem(e.target.value)} placeholder="예: 파풀라투스의 반지" />
+          <span>아이템 또는 닉네임</span>
+          <input value={item} onChange={(e) => setItem(e.target.value)} placeholder="예: 하프이어링" />
         </label>
         <label className={styles.formField}>
           <span>희망가격</span>
@@ -117,6 +139,7 @@ function HeroLeadForm() {
 export default function HomePreviewPage() {
   const [showServers, setShowServers] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const { reviews, loaded: reviewsLoaded } = useLatestReviews(3)
 
   return (
     <main className={styles.page}>
@@ -308,7 +331,7 @@ export default function HomePreviewPage() {
             <h2>
               사진 한 장에
               <br />
-              <span className={styles.goldText}>이 내용</span>이 보이면 좋아요.
+              <span className={styles.goldText}>구매 가능한 아이템</span>이 보이면 좋아요.
             </h2>
             <p>
               아이템군마다 견적에 필요한 정보가 조금씩 다릅니다.
@@ -346,9 +369,9 @@ export default function HomePreviewPage() {
                   <td><Check /></td>
                 </tr>
                 <tr>
-                  <td>기타 · 메소</td>
-                  <td>서버, 수량, 거래 가능 조건</td>
-                  <td><Check /></td>
+                  <td>캐시 아이템</td>
+                  <td>-</td>
+                  <td className={styles.notAvailable}>캐시아이템은 구매가 불가능합니다.</td>
                 </tr>
               </tbody>
             </table>
@@ -395,12 +418,12 @@ export default function HomePreviewPage() {
           <SectionLabel>SUPPORTED SERVERS</SectionLabel>
           <div className={styles.serverTitle}>
             <h2>
-              거래 가능한 <span className={styles.goldText}>서버</span>를 확인하세요.
+              전체 월드 <span className={styles.goldText}>어디서든</span> 거래 가능합니다.
             </h2>
-            <span>현재 {servers.length}개 서버 상담 가능</span>
+            <span>일반 서버 14개 + 챌린저스 전체 · 총 {servers.length}개 월드</span>
           </div>
           <div className={styles.serverTags}>
-            {servers.slice(0, showServers ? 16 : 8).map((server) => (
+            {servers.slice(0, showServers ? servers.length : 8).map((server) => (
               <span key={server}>{server}</span>
             ))}
           </div>
@@ -423,27 +446,33 @@ export default function HomePreviewPage() {
               후기 더 보기 <ArrowRight size={16} />
             </Link>
           </div>
-          <div className={styles.reviewGrid}>
-            {reviews.map((review) => (
-              <article className={styles.reviewCard} key={review.name}>
-                <div className={styles.reviewTop}>
-                  <div className={styles.stars}>
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <Star key={i} size={15} fill="currentColor" />
-                    ))}
+          {reviews.length > 0 ? (
+            <div className={styles.reviewGrid}>
+              {reviews.map((review) => (
+                <article className={styles.reviewCard} key={review.id}>
+                  <div className={styles.reviewTop}>
+                    <div className={styles.stars}>
+                      {[1, 2, 3, 4, 5].map((i) => (
+                        <Star key={i} size={15} fill="currentColor" />
+                      ))}
+                    </div>
+                    <span className={styles.verified}>
+                      <Check size={12} /> 거래인증
+                    </span>
                   </div>
-                  <span className={styles.verified}>
-                    <Check size={12} /> 거래인증
-                  </span>
-                </div>
-                <p>&ldquo;{review.text}&rdquo;</p>
-                <div className={styles.reviewAuthor}>
-                  <strong>{review.name}</strong>
-                  <span>{review.date}</span>
-                </div>
-              </article>
-            ))}
-          </div>
+                  <p>&ldquo;{review.content}&rdquo;</p>
+                  <div className={styles.reviewAuthor}>
+                    <strong>{review.author}</strong>
+                    <span>{review.date}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            reviewsLoaded && (
+              <p className={styles.reviewEmpty}>아직 등록된 후기가 없습니다. 첫 거래 후기의 주인공이 되어보세요.</p>
+            )
+          )}
         </div>
       </section>
 
@@ -471,7 +500,7 @@ export default function HomePreviewPage() {
         </div>
       </section>
 
-      <SEOContent />
+      <Home1SeoContent />
 
       <Footer />
 
