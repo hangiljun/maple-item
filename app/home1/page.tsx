@@ -6,7 +6,6 @@ import {
   ArrowRight,
   Check,
   CheckCircle2,
-  ChevronDown,
   Clipboard,
   Copy,
   Gem,
@@ -107,11 +106,10 @@ function HeroLeadForm() {
   return (
     <div className={styles.templateCard}>
       <div className={styles.templateTop}>
-        <h3>
-          카톡에 붙여넣을
-          <br />
-          문의 양식
-        </h3>
+        <div>
+          <h3>판매 하실 아이템 문의</h3>
+          <p className={styles.templateNote}>(내용을 적지 않고 문의 하셔도 됩니다)</p>
+        </div>
         <Clipboard size={22} />
       </div>
       <div className={styles.formGrid}>
@@ -128,7 +126,7 @@ function HeroLeadForm() {
           <input value={price} onChange={(e) => setPrice(e.target.value)} placeholder="예: 시세 문의" />
         </label>
         <label className={styles.formField}>
-          <span>닉네임</span>
+          <span>닉네임 (아이템 통 판매시)</span>
           <input value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder="인게임 닉네임" />
         </label>
       </div>
@@ -146,7 +144,6 @@ function HeroLeadForm() {
 }
 
 export default function HomePreviewPage() {
-  const [showServers, setShowServers] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { reviews, loaded: reviewsLoaded } = useLatestReviews(3)
 
@@ -323,9 +320,7 @@ export default function HomePreviewPage() {
         <div className={styles.container}>
           <div className={styles.sectionHeadingRow}>
             <h2>
-              사진 한 장에
-              <br />
-              <span className={styles.goldText}>구매 가능한 아이템</span>이 보이면 좋아요.
+              <span className={styles.goldText}>아이템 사진 또는 닉네임</span>을 알려주세요!
             </h2>
             <p>
               아이템군마다 견적에 필요한 정보가 조금씩 다릅니다.
@@ -337,9 +332,9 @@ export default function HomePreviewPage() {
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>아이템군</th>
-                  <th>사진에서 확인할 내용</th>
-                  <th>빠른 체크</th>
+                  <th>아이템</th>
+                  <th>아이템 세부 내용</th>
+                  <th>구매 여부</th>
                 </tr>
               </thead>
               <tbody>
@@ -419,13 +414,10 @@ export default function HomePreviewPage() {
             <span>일반 서버 14개 + 챌린저스 전체 · 총 {servers.length}개 월드</span>
           </div>
           <div className={styles.serverTags}>
-            {servers.slice(0, showServers ? servers.length : 8).map((server) => (
+            {servers.map((server) => (
               <span key={server}>{server}</span>
             ))}
           </div>
-          <button className={styles.textButton} onClick={() => setShowServers(!showServers)}>
-            {showServers ? '접기' : '더보기'} <ChevronDown size={16} className={showServers ? styles.rotate : ''} />
-          </button>
         </div>
       </section>
 
