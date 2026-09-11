@@ -282,21 +282,11 @@
 }
 
 .heroNote {
-  display: flex;
-  align-items: center;
-  gap: 11px;
+  display: grid;
+  gap: 4px;
   margin-top: 88px;
   color: var(--muted);
   font-size: 12px;
-}
-
-.heroNote svg {
-  color: var(--primary);
-}
-
-.heroNote div {
-  display: grid;
-  gap: 4px;
 }
 
 .heroNote strong {
@@ -353,18 +343,8 @@
   font: 700 12px monospace;
 }
 
-.scenarioIcon {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  margin-bottom: 38px;
-  color: var(--primary);
-  background: rgba(44, 159, 214, 0.1);
-  border-radius: 10px;
-}
-
 .scenarioCard h3 {
+  margin-top: 6px;
   font-size: 20px;
   margin-bottom: 10px;
 }
@@ -955,9 +935,6 @@
   }
   .scenarioCard {
     min-height: 230px;
-  }
-  .scenarioIcon {
-    margin-bottom: 23px;
   }
   .splitSection {
     gap: 42px;

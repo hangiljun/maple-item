@@ -8,15 +8,12 @@ import {
   CheckCircle2,
   ChevronDown,
   Clipboard,
-  Clock3,
   Copy,
   Gem,
   Menu,
   MessageCircle,
-  ShieldCheck,
   Star,
   X,
-  Zap,
 } from 'lucide-react'
 import { Footer } from '@/components/navigation/footer'
 import { getLatestReviews } from '@/lib/posts'
@@ -221,7 +218,7 @@ export default function HomePreviewPage() {
               <h1>
                 아이템 정리,
                 <br />
-                <span>받을 금액부터</span> 확인하세요.
+                <span>최고가</span>에 깔끔하게 거래 하세요.
               </h1>
               <p>
                 경매장 시세를 기준으로 빠르고 투명하게.
@@ -233,11 +230,8 @@ export default function HomePreviewPage() {
               </a>
             </div>
             <div className={styles.heroNote}>
-              <ShieldCheck size={18} />
-              <div>
-                <strong>안전하고 투명한 거래</strong>
-                <span>상담 후 조건 확인, 결정은 언제나 판매자님이 합니다.</span>
-              </div>
+              <strong>안전하고 투명한 거래</strong>
+              <span>상담 후 조건 확인, 결정은 언제나 판매자님이 합니다.</span>
             </div>
           </div>
           <HeroLeadForm />
@@ -263,9 +257,6 @@ export default function HomePreviewPage() {
           <div className={styles.scenarioGrid}>
             <article className={`${styles.scenarioCard} ${styles.scenarioCardFeatured}`}>
               <span className={styles.scenarioNumber}>01</span>
-              <div className={styles.scenarioIcon}>
-                <Zap size={23} />
-              </div>
               <h3>장비 한 개 정리</h3>
               <p>바꾼 장비나 남는 아이템 하나를 빠르게 정리하고 싶을 때</p>
               <a href={kakaoUrl} target="_blank" rel="noreferrer">
@@ -274,9 +265,6 @@ export default function HomePreviewPage() {
             </article>
             <article className={styles.scenarioCard}>
               <span className={styles.scenarioNumber}>02</span>
-              <div className={styles.scenarioIcon}>
-                <Clipboard size={23} />
-              </div>
               <h3>여러 부위 통판매</h3>
               <p>메이플을 접거나 인벤토리를 한 번에 정리하고 싶을 때</p>
               <a href="#bulk-sale">
@@ -285,9 +273,6 @@ export default function HomePreviewPage() {
             </article>
             <article className={styles.scenarioCard}>
               <span className={styles.scenarioNumber}>03</span>
-              <div className={styles.scenarioIcon}>
-                <Clock3 size={23} />
-              </div>
               <h3>얼마인지부터 확인</h3>
               <p>매입 가능 여부와 금액이 먼저 궁금할 때</p>
               <a href={kakaoUrl} target="_blank" rel="noreferrer">
