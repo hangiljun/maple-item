@@ -1,8 +1,6 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Fredoka, Nunito } from "next/font/google";
-import { Navbar } from "@/components/navigation/navbar";
-import { Footer } from "@/components/navigation/footer";
-import { FloatingKakaoButton } from "@/components/floating-kakao-button";
+import { SiteChrome } from "@/components/site-chrome";
 import { OrganizationSchema } from "@/components/organization-schema";
 import "./globals.css";
 
@@ -64,12 +62,7 @@ export default function RootLayout({
     <html lang="ko" className={`h-full antialiased ${fredoka.variable} ${nunito.variable}`}>
       <body className="min-h-full flex flex-col">
         <OrganizationSchema />
-        <Navbar />
-        <main id="main-content">
-          {children}
-        </main>
-        <Footer />
-        <FloatingKakaoButton />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );
