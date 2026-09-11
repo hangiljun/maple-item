@@ -826,7 +826,7 @@
 
 .table td.notAvailable {
   width: auto;
-  color: var(--muted-strong);
+  color: #dc2626;
   font-weight: 700;
   font-size: 11px;
   white-space: normal;

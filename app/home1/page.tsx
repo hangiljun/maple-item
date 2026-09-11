@@ -344,23 +344,23 @@ export default function HomePreviewPage() {
                     <br />
                     <span>보조무기 포함</span>
                   </td>
-                  <td>잠재능력, 추가옵션, 스타포스, 작 상태</td>
+                  <td>보조무기, 에테르넬, 아케인, 앱솔랩스, 카루타 장비 등 모든 아이템</td>
                   <td><Check /></td>
                 </tr>
                 <tr>
                   <td>장신구</td>
-                  <td>잠재능력, 추옵, 세트 효과, 교환 가능 여부</td>
+                  <td>칠흑 아이템, 여명 세트, 가디언 엔젤링 등 모든 아이템</td>
                   <td><Check /></td>
                 </tr>
                 <tr>
                   <td>드롭템 · 메획템</td>
-                  <td>아이템 종류, 옵션 수치, 보유 수량</td>
+                  <td>하프이어링, 펜던트, 반지, 눈장식 등</td>
                   <td><Check /></td>
                 </tr>
                 <tr>
                   <td>캐시 아이템</td>
                   <td>-</td>
-                  <td className={styles.notAvailable}>캐시아이템은 구매가 불가능합니다.</td>
+                  <td className={styles.notAvailable}>캐시 아이템은 구매 하면 교환 불가라 구매가 불가능합니다.</td>
                 </tr>
               </tbody>
             </table>
