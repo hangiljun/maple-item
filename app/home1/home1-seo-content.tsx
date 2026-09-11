@@ -2,6 +2,7 @@ import styles from './home1.module.css'
 
 // 메인 페이지의 SEOContent와 같은 정보 구성을 유지하되,
 // home1 전용 문구("아이템 거래" 표현)와 하늘색 톤 스타일을 적용한 버전입니다.
+// 이용 방법 3단계는 위쪽 "견적부터 거래까지" 섹션에서 더 자세히 다루므로 여기서는 중복하지 않습니다.
 export function Home1SeoContent() {
   return (
     <section className={styles.seoSection}>
@@ -47,30 +48,6 @@ export function Home1SeoContent() {
               <span>게임 내 직거래</span>
             </div>
           </div>
-        </div>
-
-        <div className={styles.seoSteps}>
-          <h3>메이플아이템 이용 방법</h3>
-          <ol>
-            <li>
-              <span className={styles.seoStepNum}>1</span>
-              <span>
-                <strong>카카오톡 문의</strong> — 아이템 스크린샷과 서버 정보를 전송해주시면 빠르게 확인해드립니다.
-              </span>
-            </li>
-            <li>
-              <span className={styles.seoStepNum}>2</span>
-              <span>
-                <strong>실시간 시세 확인 및 가격 제시</strong> — 경매장 시세를 직접 확인하여 투명한 가격을 제시해드립니다.
-              </span>
-            </li>
-            <li>
-              <span className={styles.seoStepNum}>3</span>
-              <span>
-                <strong>거래 완료</strong> — 게임 내 직거래 후 신속하게 정산해드립니다.
-              </span>
-            </li>
-          </ol>
         </div>
 
         <p className={styles.seoOutro}>

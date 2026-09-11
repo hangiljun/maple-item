@@ -87,27 +87,6 @@
   background: var(--alt-bg);
 }
 
-.sectionLabel,
-.eyebrow {
-  color: var(--primary);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-}
-
-.sectionLabel {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 0 28px;
-}
-
-.sectionLabel span {
-  width: 22px;
-  height: 1px;
-  background: var(--primary);
-}
-
 /* 헤더 */
 .siteHeader {
   position: sticky;
@@ -579,52 +558,73 @@
   border-bottom: 0;
 }
 
-/* 견적·거래 조건 프로세스 */
-.process {
-  position: relative;
+/* 견적·거래 조건 3단계 */
+.stepsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 45px;
+  gap: 20px;
 }
 
-.processLine {
-  position: absolute;
-  top: 26px;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: var(--border);
-}
-
-.processStep {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  gap: 22px;
-}
-
-.processNumber {
-  display: grid;
-  place-items: center;
-  width: 53px;
-  height: 53px;
-  color: var(--primary);
+.stepCard {
+  padding: 26px;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 50%;
+  border-radius: 12px;
+}
+
+.stepHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.stepTime {
+  padding: 5px 10px;
+  color: var(--primary);
+  background: rgba(44, 159, 214, 0.1);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.stepNumber {
+  color: #a7b7c4;
   font: 700 13px monospace;
 }
 
-.processStep h3 {
+.stepCard h3 {
   margin-bottom: 9px;
-  font-size: 16px;
+  font-size: 17px;
 }
 
-.processStep p {
-  max-width: 220px;
+.stepCard > p {
+  margin-bottom: 18px;
   color: var(--muted);
   font-size: 13px;
   line-height: 1.7;
+}
+
+.stepList {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--border);
+  list-style: none;
+}
+
+.stepList li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted-strong);
+  font-size: 12px;
+}
+
+.stepList svg {
+  flex: 0 0 auto;
+  color: var(--success);
 }
 
 /* 지원 서버 */
@@ -785,8 +785,7 @@
 }
 
 .seoCard,
-.seoChipsCard,
-.seoSteps {
+.seoChipsCard {
   padding: 26px;
   background: var(--card);
   border: 1px solid var(--border);
@@ -794,8 +793,7 @@
 }
 
 .seoCard h3,
-.seoChipsCard h3,
-.seoSteps h3 {
+.seoChipsCard h3 {
   margin-bottom: 14px;
   font-size: 17px;
 }
@@ -834,39 +832,6 @@
   margin-top: 5px;
   color: var(--muted);
   font-size: 11px;
-}
-
-.seoSteps ol {
-  display: grid;
-  gap: 16px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.seoSteps li {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-.seoSteps strong {
-  color: var(--fg);
-}
-
-.seoStepNum {
-  display: grid;
-  flex: 0 0 auto;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  color: var(--primary-foreground);
-  background: var(--primary);
-  border-radius: 50%;
-  font: 700 12px monospace;
 }
 
 .seoOutro {
@@ -985,7 +950,7 @@
   }
   .scenarioGrid,
   .reviewGrid,
-  .process {
+  .stepsGrid {
     grid-template-columns: 1fr;
   }
   .scenarioCard {
@@ -997,23 +962,8 @@
   .splitSection {
     gap: 42px;
   }
-  .process {
-    gap: 30px;
-  }
-  .processLine {
-    top: 26px;
-    bottom: 26px;
-    left: 26px;
-    right: auto;
-    width: 1px;
-    height: auto;
-  }
-  .processStep {
-    grid-template-columns: 53px 1fr;
-    gap: 18px;
-  }
-  .processStep p {
-    max-width: none;
+  .stepsGrid {
+    gap: 14px;
   }
   .serverTitle {
     display: grid;

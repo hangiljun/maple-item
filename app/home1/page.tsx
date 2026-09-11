@@ -33,6 +33,30 @@ const servers = [
   '챌린저스1', '챌린저스2', '챌린저스3', '챌린저스4',
 ]
 
+const steps = [
+  {
+    time: '약 1분',
+    num: '01',
+    title: '카카오톡 문의',
+    desc: '아이템 스크린샷과 서버 정보를 전송해주시면 빠르게 확인해드립니다.',
+    items: ['아이템 스크린샷 전송', '서버 정보 입력', '거래 가능 시간 선택'],
+  },
+  {
+    time: '약 3분',
+    num: '02',
+    title: '실시간 시세 확인 및 가격 제시',
+    desc: '경매장 시세를 직접 확인하여 투명한 가격을 제시해드립니다.',
+    items: ['경매장 실시간 확인', '투명한 가격 제시', '옵션별 차액 설명'],
+  },
+  {
+    time: '약 5분',
+    num: '03',
+    title: '거래 완료',
+    desc: '게임 내 직거래 후 신속하게 대금을 지급받으세요.',
+    items: ['게임 내 안전한 직거래', '거래 완료 확인', '빠른 대금 지급'],
+  },
+]
+
 function useLatestReviews(count: number) {
   const [reviews, setReviews] = useState<Review[]>([])
   const [loaded, setLoaded] = useState(false)
@@ -63,15 +87,6 @@ const faqs: [string, string][] = [
   ['메소나 드롭템도 매입하나요?', '서버와 수량, 거래 가능 여부를 확인한 뒤 매입 가능 품목과 조건을 안내해드립니다.'],
 ]
 
-function SectionLabel({ children }: { children: string }) {
-  return (
-    <p className={styles.sectionLabel}>
-      <span />
-      {children}
-    </p>
-  )
-}
-
 function HeroLeadForm() {
   const [server, setServer] = useState('')
   const [item, setItem] = useState('')
@@ -95,14 +110,11 @@ function HeroLeadForm() {
   return (
     <div className={styles.templateCard}>
       <div className={styles.templateTop}>
-        <div>
-          <span className={styles.eyebrow}>QUICK MESSAGE</span>
-          <h3>
-            카톡에 붙여넣을
-            <br />
-            문의 양식
-          </h3>
-        </div>
+        <h3>
+          카톡에 붙여넣을
+          <br />
+          문의 양식
+        </h3>
         <Clipboard size={22} />
       </div>
       <div className={styles.formGrid}>
@@ -234,13 +246,12 @@ export default function HomePreviewPage() {
 
       <section id="selling-options" className={styles.section}>
         <div className={styles.container}>
-          <SectionLabel>01 / SELLING OPTIONS</SectionLabel>
           <div className={styles.sectionHeadingRow}>
             <div>
               <h2>
-                지금 내 상황에
+                지금 판매 하고 싶은
                 <br />
-                <span className={styles.goldText}>맞는 방법</span>을 찾아보세요.
+                <span className={styles.goldText}>아이템만</span> 판매 하세요.
               </h2>
             </div>
             <p>
@@ -290,7 +301,6 @@ export default function HomePreviewPage() {
       <section id="bulk-sale" className={`${styles.section} ${styles.sectionAlt}`}>
         <div className={`${styles.container} ${styles.narrow}`}>
           <div className={styles.splitCopy}>
-            <SectionLabel>02 / BULK SALE</SectionLabel>
             <h2>
               통판매는
               <br />
@@ -326,7 +336,6 @@ export default function HomePreviewPage() {
 
       <section id="item-check" className={styles.section}>
         <div className={styles.container}>
-          <SectionLabel>03 / ITEM CHECK</SectionLabel>
           <div className={styles.sectionHeadingRow}>
             <h2>
               사진 한 장에
@@ -381,7 +390,6 @@ export default function HomePreviewPage() {
 
       <section id="trade-terms" className={`${styles.section} ${styles.sectionAlt}`}>
         <div className={styles.container}>
-          <SectionLabel>04 / ESTIMATE & TERMS</SectionLabel>
           <div className={styles.sectionHeadingRow}>
             <h2>
               견적부터 거래까지,
@@ -394,19 +402,23 @@ export default function HomePreviewPage() {
               과정과 조건을 먼저 투명하게 안내합니다.
             </p>
           </div>
-          <div className={styles.process}>
-            <div className={styles.processLine} />
-            {[
-              ['01', '서버 · 옵션 확인', '보내주신 사진과 서버 정보를 바탕으로 매입 가능 여부를 확인합니다.'],
-              ['02', '견적 · 비용 확인', '현재 경매장 시세와 아이템 상태를 기준으로 금액을 안내합니다.'],
-              ['03', '조건 확인 후 결정', '거래 방법과 조건을 모두 확인한 뒤 판매 여부를 결정합니다.'],
-            ].map(([num, title, text]) => (
-              <div className={styles.processStep} key={num}>
-                <span className={styles.processNumber}>{num}</span>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
+          <div className={styles.stepsGrid}>
+            {steps.map((step) => (
+              <div className={styles.stepCard} key={step.num}>
+                <div className={styles.stepHead}>
+                  <span className={styles.stepTime}>{step.time}</span>
+                  <span className={styles.stepNumber}>{step.num}</span>
                 </div>
+                <h3>{step.title}</h3>
+                <p>{step.desc}</p>
+                <ul className={styles.stepList}>
+                  {step.items.map((item) => (
+                    <li key={item}>
+                      <Check size={14} />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
@@ -415,7 +427,6 @@ export default function HomePreviewPage() {
 
       <section className={styles.section}>
         <div className={`${styles.container} ${styles.narrow}`}>
-          <SectionLabel>SUPPORTED SERVERS</SectionLabel>
           <div className={styles.serverTitle}>
             <h2>
               전체 월드 <span className={styles.goldText}>어디서든</span> 거래 가능합니다.
@@ -435,7 +446,6 @@ export default function HomePreviewPage() {
 
       <section id="reviews" className={`${styles.section} ${styles.sectionAlt}`}>
         <div className={styles.container}>
-          <SectionLabel>REAL REVIEWS</SectionLabel>
           <div className={styles.sectionHeadingRow}>
             <h2>
               먼저 정리해본
@@ -479,14 +489,13 @@ export default function HomePreviewPage() {
       <section id="guide" className={styles.section}>
         <div className={`${styles.container} ${styles.faqLayout}`}>
           <div>
-            <SectionLabel>FAQ</SectionLabel>
             <h2>
               많이 묻는
               <br />
               <span className={styles.goldText}>질문</span>에 답해드려요.
             </h2>
             <Link href="/guide" className={styles.outlineLink}>
-              FAQ 더 보기 <ArrowRight size={16} />
+              더 보기 <ArrowRight size={16} />
             </Link>
           </div>
           <div className={styles.faqList}>
