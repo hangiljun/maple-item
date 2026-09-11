@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import {
   ArrowRight,
   Check,
@@ -17,6 +18,8 @@ import {
   X,
   Zap,
 } from 'lucide-react'
+import { Footer } from '@/components/navigation/footer'
+import { SEOContent } from '@/components/sections/seo-content'
 import styles from './home1.module.css'
 
 const kakaoUrl = 'https://open.kakao.com/o/sgGZ8ICi'
@@ -47,14 +50,24 @@ function SectionLabel({ children }: { children: string }) {
   )
 }
 
-function CopyTemplate() {
+function HeroLeadForm() {
+  const [server, setServer] = useState('')
+  const [item, setItem] = useState('')
+  const [price, setPrice] = useState('')
+  const [nickname, setNickname] = useState('')
   const [copied, setCopied] = useState(false)
-  const template = `서버: \n판매할 아이템: \n판매 방식: 한 개 / 통판매\n희망 조건: `
 
-  async function copyTemplate() {
-    await navigator.clipboard.writeText(template)
+  const template = `서버: ${server}\n아이템: ${item}\n희망가격: ${price}\n닉네임: ${nickname}`
+
+  async function handleCopyAndOpen() {
+    try {
+      await navigator.clipboard.writeText(template)
+    } catch {
+      // 클립보드 접근이 막혀도 카카오톡 연결은 계속 진행
+    }
     setCopied(true)
-    window.setTimeout(() => setCopied(false), 1800)
+    window.open(kakaoUrl, '_blank', 'noopener,noreferrer')
+    window.setTimeout(() => setCopied(false), 2200)
   }
 
   return (
@@ -70,13 +83,32 @@ function CopyTemplate() {
         </div>
         <Clipboard size={22} />
       </div>
+      <div className={styles.formGrid}>
+        <label className={styles.formField}>
+          <span>서버</span>
+          <input value={server} onChange={(e) => setServer(e.target.value)} placeholder="예: 스카니아" />
+        </label>
+        <label className={styles.formField}>
+          <span>아이템</span>
+          <input value={item} onChange={(e) => setItem(e.target.value)} placeholder="예: 파풀라투스의 반지" />
+        </label>
+        <label className={styles.formField}>
+          <span>희망가격</span>
+          <input value={price} onChange={(e) => setPrice(e.target.value)} placeholder="예: 시세 문의" />
+        </label>
+        <label className={styles.formField}>
+          <span>닉네임</span>
+          <input value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder="인게임 닉네임" />
+        </label>
+      </div>
       <pre className={styles.templatePre}>{template}</pre>
       <button
+        type="button"
         className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonFull}`}
-        onClick={copyTemplate}
+        onClick={handleCopyAndOpen}
       >
         {copied ? <Check size={17} /> : <Copy size={17} />}
-        {copied ? '복사 완료' : '양식 복사'}
+        {copied ? '복사 완료 · 카톡으로 이동' : '복사하고 카카오톡 연결하기'}
       </button>
     </div>
   )
@@ -99,11 +131,11 @@ export default function HomePreviewPage() {
             </span>
           </a>
           <nav className={styles.desktopNav} aria-label="주요 메뉴">
-            <a href="#top">홈</a>
-            <a href="#trade-terms">이용가이드</a>
-            <a href="#reviews">후기게시판</a>
-            <a href="#guide">소식정보</a>
-            <a href="#contact">문의하기</a>
+            <Link href="/">홈</Link>
+            <Link href="/guide">이용가이드</Link>
+            <Link href="/reviews">후기게시판</Link>
+            <Link href="/news">소식정보</Link>
+            <Link href="/contact">문의하기</Link>
           </nav>
           <a
             className={`${styles.button} ${styles.buttonPrimary} ${styles.headerCta}`}
@@ -123,11 +155,11 @@ export default function HomePreviewPage() {
         </div>
         {menuOpen && (
           <nav className={styles.mobileNav}>
-            <a href="#top" onClick={() => setMenuOpen(false)}>홈</a>
-            <a href="#trade-terms" onClick={() => setMenuOpen(false)}>이용가이드</a>
-            <a href="#reviews" onClick={() => setMenuOpen(false)}>후기게시판</a>
-            <a href="#guide" onClick={() => setMenuOpen(false)}>소식정보</a>
-            <a href="#contact" onClick={() => setMenuOpen(false)}>문의하기</a>
+            <Link href="/" onClick={() => setMenuOpen(false)}>홈</Link>
+            <Link href="/guide" onClick={() => setMenuOpen(false)}>이용가이드</Link>
+            <Link href="/reviews" onClick={() => setMenuOpen(false)}>후기게시판</Link>
+            <Link href="/news" onClick={() => setMenuOpen(false)}>소식정보</Link>
+            <Link href="/contact" onClick={() => setMenuOpen(false)}>문의하기</Link>
           </nav>
         )}
       </header>
@@ -145,32 +177,35 @@ export default function HomePreviewPage() {
       <section id="top" className={styles.hero}>
         <div className={styles.heroGlow} />
         <div className={`${styles.container} ${styles.heroContent}`}>
-          <div className={styles.heroCopy}>
-            <div className={styles.statusBadge}>
-              <span className={styles.statusDot} />
-              시세 업데이트 · 9월 11일 14:00 기준
+          <div className={styles.heroLeft}>
+            <div className={styles.heroCopy}>
+              <div className={styles.statusBadge}>
+                <span className={styles.statusDot} />
+                시세 업데이트 · 9월 11일 14:00 기준
+              </div>
+              <h1>
+                아이템 정리,
+                <br />
+                <span>받을 금액부터</span> 확인하세요.
+              </h1>
+              <p>
+                경매장 시세를 기준으로 빠르고 투명하게.
+                <br className={styles.desktopOnly} />
+                한 개부터 통판매까지 카톡으로 상담받아보세요.
+              </p>
+              <a href={kakaoUrl} target="_blank" rel="noreferrer" className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonLarge}`}>
+                카톡으로 상담하기 <ArrowRight size={18} />
+              </a>
             </div>
-            <h1>
-              아이템 정리,
-              <br />
-              <span>받을 금액부터</span> 확인하세요.
-            </h1>
-            <p>
-              경매장 시세를 기준으로 빠르고 투명하게.
-              <br className={styles.desktopOnly} />
-              한 개부터 통판매까지 카톡으로 상담받아보세요.
-            </p>
-            <a href={kakaoUrl} target="_blank" rel="noreferrer" className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonLarge}`}>
-              카톡으로 상담하기 <ArrowRight size={18} />
-            </a>
-          </div>
-          <div className={styles.heroNote}>
-            <ShieldCheck size={18} />
-            <div>
-              <strong>안전하고 투명한 거래</strong>
-              <span>상담 후 조건 확인, 결정은 언제나 판매자님이 합니다.</span>
+            <div className={styles.heroNote}>
+              <ShieldCheck size={18} />
+              <div>
+                <strong>안전하고 투명한 거래</strong>
+                <span>상담 후 조건 확인, 결정은 언제나 판매자님이 합니다.</span>
+              </div>
             </div>
           </div>
+          <HeroLeadForm />
         </div>
       </section>
 
@@ -230,7 +265,7 @@ export default function HomePreviewPage() {
       </section>
 
       <section id="bulk-sale" className={`${styles.section} ${styles.sectionAlt}`}>
-        <div className={`${styles.container} ${styles.splitSection}`}>
+        <div className={`${styles.container} ${styles.narrow}`}>
           <div className={styles.splitCopy}>
             <SectionLabel>02 / BULK SALE</SectionLabel>
             <h2>
@@ -263,7 +298,6 @@ export default function HomePreviewPage() {
               </li>
             </ul>
           </div>
-          <CopyTemplate />
         </div>
       </section>
 
@@ -385,9 +419,9 @@ export default function HomePreviewPage() {
               <br />
               <span className={styles.goldText}>판매자</span>들의 이야기.
             </h2>
-            <a href="#contact" className={styles.outlineLink}>
+            <Link href="/reviews" className={styles.outlineLink}>
               후기 더 보기 <ArrowRight size={16} />
-            </a>
+            </Link>
           </div>
           <div className={styles.reviewGrid}>
             {reviews.map((review) => (
@@ -422,9 +456,9 @@ export default function HomePreviewPage() {
               <br />
               <span className={styles.goldText}>질문</span>에 답해드려요.
             </h2>
-            <a href="#contact" className={styles.outlineLink}>
+            <Link href="/guide" className={styles.outlineLink}>
               FAQ 더 보기 <ArrowRight size={16} />
-            </a>
+            </Link>
           </div>
           <div className={styles.faqList}>
             {faqs.map(([question, answer]) => (
@@ -437,55 +471,9 @@ export default function HomePreviewPage() {
         </div>
       </section>
 
-      <section id="contact" className={styles.ctaSection}>
-        <div className={`${styles.container} ${styles.ctaInner}`}>
-          <div>
-            <span className={styles.eyebrow}>EASY CONSULTATION</span>
-            <h2>
-              궁금한 아이템,
-              <br />
-              <span>편하게 물어보세요.</span>
-            </h2>
-            <p>사진 한 장이면 충분합니다. 먼저 이야기부터 나눠보세요.</p>
-          </div>
-          <a href={kakaoUrl} target="_blank" rel="noreferrer" className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonLarge}`}>
-            카톡으로 상담하기 <MessageCircle size={18} />
-          </a>
-        </div>
-      </section>
+      <SEOContent />
 
-      <footer className={styles.footer}>
-        <div className={`${styles.container} ${styles.footerInner}`}>
-          <div>
-            <a href="#top" className={styles.brand}>
-              <span className={styles.brandMark}>
-                <Gem size={17} />
-              </span>
-              <span>
-                메이플<span className={styles.goldText}>아이템</span>
-              </span>
-            </a>
-            <p>
-              아이템을 정리하는 가장 간단한 방법.
-              <br />
-              시세 기준의 투명한 매입 상담.
-            </p>
-          </div>
-          <div className={styles.footerLinks}>
-            <strong>빠른 링크</strong>
-            <a href="#selling-options">판매 시나리오</a>
-            <a href="#trade-terms">이용 가이드</a>
-            <a href="#reviews">거래 후기</a>
-          </div>
-          <div className={styles.footerContact}>
-            <strong>문의하기</strong>
-            <a href={kakaoUrl} target="_blank" rel="noreferrer">
-              <MessageCircle size={17} /> 카카오톡 오픈채팅
-            </a>
-          </div>
-        </div>
-        <div className={`${styles.container} ${styles.copyright}`}>© 2026 메이플아이템. All rights reserved.</div>
-      </footer>
+      <Footer />
 
       <a href={kakaoUrl} target="_blank" rel="noreferrer" className={styles.floatingChat}>
         <MessageCircle size={18} />

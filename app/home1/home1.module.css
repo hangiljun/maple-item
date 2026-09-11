@@ -255,6 +255,14 @@
 .heroContent {
   position: relative;
   padding: 105px 0 95px;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: 56px;
+}
+
+.heroLeft {
+  min-width: 0;
 }
 
 .heroCopy {
@@ -474,9 +482,42 @@
   line-height: 1.2;
 }
 
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.formField {
+  display: grid;
+  gap: 6px;
+  color: var(--muted-strong);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.formField input {
+  padding: 10px 12px;
+  color: var(--fg);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: 13px/1.4 inherit;
+}
+
+.formField input::placeholder {
+  color: #9fb3c4;
+}
+
+.formField input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
 .templatePre {
-  min-height: 145px;
-  margin: 27px 0 22px;
+  min-height: 110px;
+  margin: 18px 0 22px;
   padding: 18px;
   color: var(--fg);
   background: #f0f7fc;
@@ -719,91 +760,6 @@
   line-height: 1.8;
 }
 
-/* 하단 CTA */
-.ctaSection {
-  padding: 77px 0;
-  background: var(--alt-bg);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-
-.ctaInner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-}
-
-.ctaInner h2 {
-  margin: 13px 0 13px;
-}
-
-.ctaInner h2 span {
-  color: var(--primary);
-}
-
-.ctaInner p {
-  color: var(--muted);
-  font-size: 14px;
-}
-
-/* 푸터 */
-.footer {
-  padding: 58px 0 25px;
-}
-
-.footerInner {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr;
-  gap: 40px;
-}
-
-.footerInner p {
-  margin-top: 19px;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.8;
-}
-
-.footerLinks,
-.footerContact {
-  display: grid;
-  align-content: start;
-  gap: 12px;
-  font-size: 12px;
-}
-
-.footerLinks strong,
-.footerContact strong {
-  margin-bottom: 5px;
-  color: var(--muted);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-}
-
-.footerLinks a {
-  color: var(--muted);
-}
-
-.footerLinks a:hover {
-  color: var(--primary);
-}
-
-.footerContact a {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--primary);
-}
-
-.copyright {
-  margin-top: 55px;
-  padding-top: 19px;
-  border-top: 1px solid var(--border);
-  color: #4a5a68;
-  font-size: 10px;
-}
-
 /* 플로팅 카톡 버튼 */
 .floatingChat {
   position: fixed;
@@ -870,6 +826,11 @@
   }
   .heroContent {
     padding: 72px 0;
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+  .formGrid {
+    grid-template-columns: 1fr;
   }
   .hero h1 {
     font-size: 46px;
@@ -935,15 +896,6 @@
   .faqLayout {
     gap: 40px;
   }
-  .ctaInner {
-    display: grid;
-  }
-  .footerInner {
-    grid-template-columns: 1fr 1fr;
-  }
-  .footerInner > div:first-child {
-    grid-column: 1 / -1;
-  }
   .floatingChat {
     right: 15px;
     bottom: 15px;
@@ -956,11 +908,5 @@
 @media (max-width: 420px) {
   .hero h1 {
     font-size: 41px;
-  }
-  .footerInner {
-    grid-template-columns: 1fr;
-  }
-  .footerInner > div:first-child {
-    grid-column: auto;
   }
 }
