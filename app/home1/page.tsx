@@ -49,7 +49,7 @@ const steps = [
     num: '03',
     title: '거래 완료',
     desc: '게임 내 직거래 후 신속하게 대금을 지급받으세요.',
-    items: ['게임 내 안전한 직거래', '거래 완료 확인', '빠른 대금 지급'],
+    items: ['게임 내 안전한 직거래', '거래 완료 확인', '빠른 정산 완료'],
   },
 ]
 
@@ -107,8 +107,8 @@ function HeroLeadForm() {
     <div className={styles.templateCard}>
       <div className={styles.templateTop}>
         <div>
-          <h3>판매 하실 아이템 문의</h3>
-          <p className={styles.templateNote}>(내용을 적지 않고 문의 하셔도 됩니다)</p>
+          <h3>판매하실 아이템 문의</h3>
+          <p className={styles.templateNote}>내용을 적지 않고 문의하셔도 됩니다.</p>
         </div>
         <Clipboard size={22} />
       </div>
@@ -176,14 +176,16 @@ export default function HomePreviewPage() {
           </a>
           <button
             className={styles.mobileMenu}
-            aria-label="메뉴 열기"
+            aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
+            aria-expanded={menuOpen}
+            aria-controls="home1-mobile-menu"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             {menuOpen ? <X /> : <Menu />}
           </button>
         </div>
         {menuOpen && (
-          <nav className={styles.mobileNav}>
+          <nav id="home1-mobile-menu" className={styles.mobileNav} aria-label="모바일 메뉴">
             <Link href="/" onClick={() => setMenuOpen(false)}>홈</Link>
             <Link href="/guide" onClick={() => setMenuOpen(false)}>이용가이드</Link>
             <Link href="/reviews" onClick={() => setMenuOpen(false)}>후기게시판</Link>
@@ -213,9 +215,11 @@ export default function HomePreviewPage() {
                 시세 업데이트 · 9월 11일 14:00 기준
               </div>
               <h1>
-                아이템 정리,
+                메이플 아이템 정리,
                 <br />
-                <span>최고가</span>에 깔끔하게 거래 하세요.
+                <span>시세 기준</span>으로
+                <br className={styles.desktopOnly} />
+                <span className={styles.heroLastLine}> 깔끔하게 거래하세요.</span>
               </h1>
               <p>
                 경매장 시세를 기준으로 빠르고 투명하게.
@@ -238,18 +242,11 @@ export default function HomePreviewPage() {
       <section id="selling-options" className={styles.section}>
         <div className={styles.container}>
           <div className={styles.sectionHeadingRow}>
-            <div>
-              <h2>
-                지금 판매 하고 싶은
-                <br />
-                <span className={styles.goldText}>아이템만</span> 판매 하세요.
-              </h2>
-            </div>
-            <p>
-              무엇을 팔지, 어떻게 팔지 정해지지 않아도 괜찮습니다.
+            <h2>
+              지금 판매하고 싶은
               <br />
-              상황에 맞춰 가장 간단한 방법부터 안내해드릴게요.
-            </p>
+              <span className={styles.goldText}>아이템만</span> 판매하세요.
+            </h2>
           </div>
           <div className={styles.scenarioGrid}>
             <article className={`${styles.scenarioCard} ${styles.scenarioCardFeatured}`}>
@@ -300,15 +297,15 @@ export default function HomePreviewPage() {
               <li>
                 <CheckCircle2 />
                 <span>
-                  <strong>장비창 전체 사진</strong>
-                  <small>아이템의 전체 구성이 보이도록 캡처해주세요.</small>
+                  <strong>일괄 판매 여부</strong>
+                  <small>통판매인지, 일부만 판매할지도 함께 알려주세요.</small>
                 </span>
               </li>
               <li>
                 <CheckCircle2 />
                 <span>
-                  <strong>일괄 판매 여부</strong>
-                  <small>통판매인지, 일부만 판매할지도 함께 알려주세요.</small>
+                  <strong>접속 여부</strong>
+                  <small>현재 접속하지 않으셔도 시세를 확인할 수 있습니다.</small>
                 </span>
               </li>
             </ul>
@@ -320,7 +317,7 @@ export default function HomePreviewPage() {
         <div className={styles.container}>
           <div className={styles.sectionHeadingRow}>
             <h2>
-              <span className={styles.goldText}>아이템 사진 또는 닉네임</span>을 알려주세요!
+              <span className={styles.goldText}>아이템 사진</span> 또는 <span className={styles.goldText}>닉네임</span>을 알려주세요!
             </h2>
             <p>
               아이템군마다 견적에 필요한 정보가 조금씩 다릅니다.
@@ -339,28 +336,29 @@ export default function HomePreviewPage() {
               </thead>
               <tbody>
                 <tr>
-                  <td>
-                    무기 · 방어구
-                    <br />
-                    <span>보조무기 포함</span>
+                  <td data-label="아이템">
+                    <span className={styles.itemName}>
+                      무기 · 방어구
+                      <small>보조무기 포함</small>
+                    </span>
                   </td>
-                  <td>보조무기, 에테르넬, 아케인, 앱솔랩스, 카루타 장비 등 모든 아이템</td>
-                  <td><Check /></td>
+                  <td data-label="세부 내용">보조무기, 에테르넬, 아케인, 앱솔랩스, 카루타 장비 등 모든 아이템</td>
+                  <td data-label="구매 여부" className={styles.available}><Check aria-hidden="true" /><span>구매 가능</span></td>
                 </tr>
                 <tr>
-                  <td>장신구</td>
-                  <td>칠흑 아이템, 여명 세트, 가디언 엔젤링 등 모든 아이템</td>
-                  <td><Check /></td>
+                  <td data-label="아이템">장신구</td>
+                  <td data-label="세부 내용">칠흑 아이템, 여명 세트, 가디언 엔젤링 등 모든 아이템</td>
+                  <td data-label="구매 여부" className={styles.available}><Check aria-hidden="true" /><span>구매 가능</span></td>
                 </tr>
                 <tr>
-                  <td>드롭템 · 메획템</td>
-                  <td>하프이어링, 펜던트, 반지, 눈장식 등</td>
-                  <td><Check /></td>
+                  <td data-label="아이템">드롭률 · 메획템</td>
+                  <td data-label="세부 내용">하프이어링, 펜던트, 반지, 눈장식 등</td>
+                  <td data-label="구매 여부" className={styles.available}><Check aria-hidden="true" /><span>구매 가능</span></td>
                 </tr>
                 <tr>
-                  <td>캐시 아이템</td>
-                  <td>-</td>
-                  <td className={styles.notAvailable}>캐시 아이템은 구매 하면 교환 불가라 구매가 불가능합니다.</td>
+                  <td data-label="아이템">캐시 아이템</td>
+                  <td data-label="세부 내용" className={styles.notAvailable}>캐시 아이템은 구매하면 교환할 수 없어 매입이 어렵습니다.</td>
+                  <td data-label="구매 여부" className={styles.notAvailable}><X aria-hidden="true" /><span>구매 불가</span></td>
                 </tr>
               </tbody>
             </table>
