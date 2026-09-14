@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { getReview, incrementReviewViews } from '@/lib/posts';
 import Link from 'next/link';
+import { ArrowLeft, ThumbsUp } from 'lucide-react';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -89,9 +90,9 @@ export default async function ReviewPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
       />
 
-      <div className="min-h-screen py-24 bg-white">
-        <div className="rvw max-w-3xl mx-auto px-4 sm:px-6">
-          <Link href="/reviews" className="rvw-d-back">← 목록으로</Link>
+      <main className="reviews-page reviews-subpage">
+        <article className="rvw rvw-detail">
+          <Link href="/reviews" className="rvw-d-back"><ArrowLeft size={16} aria-hidden="true" /> 이용후기 목록</Link>
           <div className="rvw-d-meta">
             {review.server && <span className="rvw-srv">{review.server}</span>}
             <span>거래완료</span>
@@ -105,10 +106,10 @@ export default async function ReviewPage({ params }: Props) {
             {review.content}
             {review.image && <img src={review.image} alt="거래 인증샷" />}
           </div>
-          <div className="rvw-d-like"><span>👍 추천 {review.likes ?? 0}</span></div>
-          <Link href="/reviews" className="rvw-d-back">← 목록으로</Link>
-        </div>
-      </div>
+          <div className="rvw-d-like"><span><ThumbsUp size={16} aria-hidden="true" /> 추천 {review.likes ?? 0}</span></div>
+          <Link href="/reviews" className="rvw-d-back"><ArrowLeft size={16} aria-hidden="true" /> 이용후기 목록</Link>
+        </article>
+      </main>
     </>
   );
 }

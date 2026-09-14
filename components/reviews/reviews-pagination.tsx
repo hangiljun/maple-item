@@ -9,12 +9,10 @@ type Props = {
 
 export function ReviewsPagination({ currentPage, totalPages }: Props) {
   return (
-    <div className="flex justify-center items-center gap-2 mt-8">
+    <nav className="rvw-pagination" aria-label="후기 페이지">
       <Link
         href={currentPage > 1 ? `/reviews?page=${currentPage - 1}` : '#'}
-        className={`px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition ${
-          currentPage === 1 ? 'opacity-50 pointer-events-none' : ''
-        }`}
+        className={currentPage === 1 ? 'disabled' : ''}
         aria-disabled={currentPage === 1}
       >
         ← 이전
@@ -24,11 +22,8 @@ export function ReviewsPagination({ currentPage, totalPages }: Props) {
         <Link
           key={page}
           href={`/reviews?page=${page}`}
-          className={`px-4 py-2 rounded-lg transition ${
-            currentPage === page
-              ? 'bg-[#FFB800] text-white font-bold'
-              : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
-          }`}
+          className={currentPage === page ? 'active' : ''}
+          aria-current={currentPage === page ? 'page' : undefined}
         >
           {page}
         </Link>
@@ -36,13 +31,11 @@ export function ReviewsPagination({ currentPage, totalPages }: Props) {
 
       <Link
         href={currentPage < totalPages ? `/reviews?page=${currentPage + 1}` : '#'}
-        className={`px-4 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition ${
-          currentPage === totalPages ? 'opacity-50 pointer-events-none' : ''
-        }`}
+        className={currentPage === totalPages ? 'disabled' : ''}
         aria-disabled={currentPage === totalPages}
       >
         다음 →
       </Link>
-    </div>
+    </nav>
   );
 }

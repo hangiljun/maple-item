@@ -1,231 +1,165 @@
-﻿import React from "react";
-import type { Metadata } from "next";
-import { MessageCircle, CheckCircle } from "lucide-react";
-import { KAKAO_LINK, KAKAO_ID } from "@/lib/constants";
-import { GuideSEOContent } from "@/components/sections/guide-seo-content";
+import type { Metadata } from 'next'
+import { AlertTriangle, ArrowRight, Check, CircleCheck, Clock3, MessageCircle } from 'lucide-react'
+import { KAKAO_ID, KAKAO_LINK, SERVERS } from '@/lib/constants'
+import styles from './guide.module.css'
 
 export const metadata: Metadata = {
-  title: "메이플 급처 거래 방법 - 안전 거래 이용가이드",
-  description: "메이플 급처템 거래 절차를 안내합니다. 카카오톡 문의 → 경매장 실시간 시세 확인 → 게임 내 직거래까지 평균 약 10분. 3자 사기 없이 안전하게 거래하는 방법을 단계별로 확인하세요.",
-  alternates: {
-    canonical: 'https://mapleitem.co.kr/guide'
-  },
+  title: '메이플 아이템 판매 방법 | 이용가이드',
+  description: '메이플스토리 아이템 판매에 필요한 정보와 거래 절차를 안내합니다. 카카오톡 문의, 시세 확인, 게임 내 직거래 과정을 순서대로 확인하세요.',
+  alternates: { canonical: 'https://mapleitem.co.kr/guide' },
   openGraph: {
-    title: "메이플 급처 거래 방법 - 안전 거래 이용가이드",
-    description: "카톡 문의부터 게임 내 직거래까지 평균 10분. 안전 거래 절차 안내.",
-    url: "https://mapleitem.co.kr/guide",
-    images: ['/og-image.png']
+    title: '메이플 아이템 판매 방법 | 메이플아이템',
+    description: '문의 준비부터 시세 확인, 게임 내 직거래까지 판매 절차를 확인하세요.',
+    url: 'https://mapleitem.co.kr/guide',
+    images: ['/og-image.png'],
   },
-  twitter: {
-    title: "메이플 급처 거래 방법 - 안전 거래 이용가이드",
-    description: "카톡 문의부터 게임 내 직거래까지 평균 10분. 안전 거래 절차 안내."
-  }
-};
+}
+
+const steps = [
+  { number: '01', title: '판매 정보 보내기', description: '카카오톡으로 서버와 아이템 정보를 보내주세요.', items: ['아이템 전체 스크린샷', '잠재능력·추가옵션 등 상세 화면', '서버와 캐릭터 닉네임'] },
+  { number: '02', title: '시세와 견적 확인', description: '경매장 매물과 옵션을 확인한 뒤 구매 가격을 안내합니다.', items: ['현재 경매장 매물 확인', '아이템 옵션별 가치 반영', '구매 가격 안내 및 협의'] },
+  { number: '03', title: '게임에서 거래하기', description: '가격에 동의하면 약속한 캐릭터와 게임 내에서 거래합니다.', items: ['거래 캐릭터 정보 확인', '게임 내 직거래 진행', '거래 완료 후 대금 지급'] },
+]
+
+const faqs = [
+  { question: '견적을 받은 뒤 꼭 판매해야 하나요?', answer: '아니요. 안내받은 가격을 확인한 뒤 판매 여부를 자유롭게 결정할 수 있습니다.' },
+  { question: '어떤 서버에서 거래할 수 있나요?', answer: `현재 안내 중인 ${SERVERS.length}개 서버에서 거래할 수 있습니다. 서버별 거래 가능 여부는 상담 시 한 번 더 확인해드립니다.` },
+  { question: '시세는 어떻게 확인하나요?', answer: '현재 경매장 매물과 아이템의 주요 옵션을 함께 확인해 구매 가격을 안내합니다.' },
+  { question: '거래는 얼마나 걸리나요?', answer: '아이템과 접속 상황에 따라 달라질 수 있습니다. 정보 확인이 빠르게 끝나면 문의부터 거래까지 평균 약 10분 정도가 걸립니다.' },
+  { question: '거래 가능한 시간이 정해져 있나요?', answer: '문의는 365일 24시간 남길 수 있습니다. 답변과 실제 거래 시간은 상담에서 조율합니다.' },
+  { question: '거래는 어떤 방식으로 진행되나요?', answer: '카카오톡으로 견적을 협의한 뒤, 안내받은 캐릭터를 확인하고 게임 내 직거래로 진행합니다.' },
+]
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'HowTo', name: '메이플스토리 아이템 판매 방법',
+      description: '메이플스토리 아이템 정보를 보내고 견적을 확인한 뒤 게임 내에서 거래하는 방법',
+      totalTime: 'PT10M',
+      step: steps.map((step) => ({ '@type': 'HowToStep', position: Number(step.number), name: step.title, text: step.description })),
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((faq) => ({ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } })),
+    },
+  ],
+}
 
 export default function GuidePage() {
-  const steps = [
-    {
-      step: "1단계",
-      title: "카카오톡 문의",
-      desc: "카카오톡으로 판매하실 아이템의 스크린샷과 서버 정보를 전송해주세요.",
-      details: [
-        "아이템 스크린샷 (상세 옵션 포함)",
-        "서버 정보 알려주기",
-        "거래 가능 시간대 (선택사항)"
-      ],
-      color: "blue"
-    },
-    {
-      step: "2단계",
-      title: "시세 확인 및 가격 제시",
-      desc: "실시간 경매장 시세를 확인하여 정확한 가격을 제시해드립니다.",
-      details: [
-        "실시간 경매장 매물 확인",
-        "옵션별 차액 상세 설명",
-        "투명한 가격 제시"
-      ],
-      color: "purple"
-    },
-    {
-      step: "3단계",
-      title: "거래 완료",
-      desc: "가격 합의 후 게임 내에서 안전하게 거래를 진행합니다.",
-      details: [
-        "게임 내 만남 장소 약속",
-        "안전한 거래 진행",
-        "거래 완료 후 대금 신속히 지급"
-      ],
-      color: "orange"
-    }
-  ];
-
-  const faqs = [
-    {
-      q: "거래는 얼마나 빨리 진행되나요?",
-      a: "문의 주신 후 빠르게 응답하며, 시세 확인부터 거래 완료까지 평균 약 10분 정도 소요됩니다. 빠른 정산이 필요하신 분들께 최적입니다."
-    },
-    {
-      q: "어떤 서버에서 거래 가능한가요?",
-      a: "챌린저스, 스카니아, 루나, 엘리시움, 크로아, 베라, 오로라, 레드, 유니온, 제니스, 아케인, 노바, 챌린저스, 에오스, 헬리오스 등 메이플스토리 전 서버 거래가 가능합니다."
-    },
-    {
-      q: "시세는 어떻게 확인하나요?",
-      a: "실시간 경매장 매물을 직접 확인하여 가장 정확한 시세를 제시해드립니다. 옵션별 차액과 시세 변동 요인도 함께 설명드립니다."
-    },
-    {
-      q: "안전한 거래인가요?",
-      a: "본인 아이템만 취급하며, 모든 거래는 투명하게 진행됩니다. 안전하게 진행되므로 사기 걱정 없이 거래하실 수 있습니다."
-    },
-    {
-      q: "거래 가능한 시간이 있나요?",
-      a: "365일 24시간 언제든지 거래가 가능합니다."
-    },
-    {
-      q: "거래 방식은 어떻게 되나요?",
-      a: "카카오톡 문의 > 아이템사진 or 캐릭터 닉네임 전달 > 시세 확인 > 구매 가격 제안 > 가격 합의 > 금액 지급 > 아이템 지급 > 거래 종료"
-    },
-    {
-      q: "가격이 마음에 안 들면 어떻게 하나요?",
-      a: "시세 확인 후 가격 제시를 받으신 뒤 거래 여부를 자유롭게 결정하실 수 있습니다. 부담 없이 문의주세요."
-    }
-  ];
-
-  const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map(faq => ({
-      '@type': 'Question',
-      name: faq.q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.a
-      }
-    }))
-  };
-
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-    <div className="max-w-5xl mx-auto px-4 py-12 pt-24">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-3">
-          이용가이드
-        </h1>
-        <p className="text-gray-600 text-lg">메이플아이템에서 안전하고 빠르게 거래하는 방법을 알려드립니다</p>
-        <div className="mt-6 inline-block bg-[#FFB800]/10 border border-[#FFB800] rounded-full px-6 py-2">
-          <span className="text-[#FFB800] font-bold">평균 거래 완료 시간: 약 10분</span>
-        </div>
-      </div>
+    <main className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }} />
 
-      <div className="space-y-8">
-        {/* 거래 진행 과정 */}
-        <section className="glass rounded-2xl p-8 shadow-lg">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            거래 진행 과정
-          </h2>
-          <p className="text-gray-600 mb-8">간단한 3단계로 안전하고 빠른 거래가 완료됩니다</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {steps.map((item, i) => (
-              <div key={i} className="relative">
-                <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 border-2 border-[#FFB800]/20 hover:border-[#FFB800]/40 transition-all hover:shadow-lg h-full">
-                  <div className="absolute -top-4 -left-4 bg-[#FFB800] text-white w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold shadow-lg">
-                    {i + 1}
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4 mt-2">{item.title}</h3>
-                  <p className="text-gray-600 mb-4">{item.desc}</p>
-                  <ul className="space-y-2">
-                    {item.details.map((detail, j) => (
-                      <li key={j} className="flex items-start gap-2 text-sm text-gray-600">
-                        <CheckCircle className="text-[#FFB800] flex-shrink-0 mt-0.5" size={16} />
-                        <span>{detail}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                {i < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-1/2 -right-3 transform -translate-y-1/2 z-10">
-                    <div className="text-[#FFB800] text-2xl">→</div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 거래 문의 */}
-        <section className="glass rounded-2xl p-8 border-2 border-[#FFB800]/30">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              지금 바로 거래 문의하기
-            </h2>
-            <p className="text-gray-700 mb-6">
-              카카오톡으로 문의주시면 전문 상담팀이 친절하게 안내해드립니다.<br />
-              <strong className="text-[#FFB800]">빠른 상담</strong>이 가능합니다.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 items-center">
-              <a
-                href={KAKAO_LINK}
-                target="_blank"
-                rel="noreferrer"
-                className="bg-[#FEE500] text-[#3A1D1D] px-8 py-4 rounded-full font-black text-lg hover:bg-yellow-400 transition-all hover:scale-105 shadow-xl flex items-center gap-2"
-              >
-                <MessageCircle size={20} fill="#3A1D1D" /> 카카오톡으로 문의하기
-              </a>
-              <div className="bg-white px-4 py-2 rounded-full border border-gray-200">
-                <span className="text-gray-600">
-                  카카오톡 ID: <strong className="text-gray-900">{KAKAO_ID}</strong>
-                </span>
+      <section className={styles.hero} aria-labelledby="guide-title">
+        <div className={styles.container}>
+          <nav className={styles.anchorNav} aria-label="이용가이드 바로가기">
+            <a href="#process">거래 절차</a><a href="#safety">안전 확인</a><a href="#servers">지원 서버</a><a href="#faq">자주 묻는 질문</a>
+          </nav>
+          <div className={styles.heroGrid}>
+            <div className={styles.heroCopy}>
+              <p className={styles.eyebrow}>메이플 아이템 판매 가이드</p>
+              <h1 id="guide-title">아이템 판매,<br />무엇부터 보내야 할까요?</h1>
+              <p className={styles.lead}>서버와 아이템 상세 화면을 준비하면 됩니다. 문의부터 견적 확인, 게임 내 거래까지 순서대로 알려드릴게요.</p>
+              <div className={styles.heroActions}>
+                <a className={styles.primaryButton} href={KAKAO_LINK} target="_blank" rel="noreferrer">판매 정보 보내기 <ArrowRight size={17} aria-hidden="true" /></a>
+                <span><Clock3 size={16} aria-hidden="true" /> 평균 거래 시간 약 10분</span>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section className="glass rounded-2xl p-8 shadow-lg">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">자주 묻는 질문</h2>
-
-          <div className="space-y-4">
-            {faqs.map((item, i) => (
-              <div key={i} className="border-b border-gray-100 pb-4 last:border-0">
-                <h3 className="font-bold text-gray-900 mb-2">
-                  <span className="text-[#FFB800]">Q.</span> {item.q}
-                </h3>
-                <p className="text-gray-600 pl-6">{item.a}</p>
+            <aside className={styles.prepCard} aria-labelledby="prep-title">
+              <div className={styles.prepHeader}>
+                <div><span>문의 전 준비</span><h2 id="prep-title">이 세 가지만 보내주세요</h2></div>
+                <span className={styles.count}>3</span>
               </div>
-            ))}
+              <ol className={styles.prepList}>
+                <li><strong>서버</strong><span>예: 루나</span></li>
+                <li><strong>아이템 사진</strong><span>옵션이 보이는 전체 화면</span></li>
+                <li><strong>캐릭터 닉네임</strong><span>거래할 본인 캐릭터</span></li>
+              </ol>
+              <p><CircleCheck size={17} aria-hidden="true" /> 희망 거래 시간은 나중에 정해도 됩니다.</p>
+            </aside>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* 거래 시 주의사항 */}
-        <section className="glass-small rounded-2xl p-8 border-2 border-red-200">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">거래 시 주의사항</h2>
-          <ul className="space-y-2 text-gray-700">
-            <li className="flex items-start gap-2">
-              <span className="text-red-500 font-bold">•</span>
-              <span>반드시 공식 카카오톡 채널을 통해서만 거래하세요</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-red-500 font-bold">•</span>
-              <span>본인 아이템만 거래 가능하며, 타인 명의 아이템은 거래 불가합니다</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-red-500 font-bold">•</span>
-              <span>게임 내 직거래로만 진행되며, 외부 사이트나 다른 방법은 사용하지 않습니다</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-red-500 font-bold">•</span>
-              <span>거래 전 반드시 시세를 확인하고 가격에 합의한 후 진행하세요</span>
-            </li>
+      <section id="process" className={styles.section} aria-labelledby="process-title">
+        <div className={styles.container}>
+          <div className={styles.sectionHeading}>
+            <p className={styles.eyebrow}>거래 절차</p><h2 id="process-title">문의부터 거래까지 세 단계입니다</h2><p>각 단계에서 무엇을 확인하는지 미리 살펴보세요.</p>
+          </div>
+          <ol className={styles.steps}>
+            {steps.map((step) => (
+              <li key={step.number} className={styles.step}>
+                <span className={styles.stepNumber}>{step.number}</span>
+                <div><h3>{step.title}</h3><p>{step.description}</p><ul>{step.items.map((item) => <li key={item}><Check size={15} aria-hidden="true" />{item}</li>)}</ul></div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section id="safety" className={`${styles.section} ${styles.safetySection}`} aria-labelledby="safety-title">
+        <div className={`${styles.container} ${styles.safetyGrid}`}>
+          <div className={styles.safetyCopy}>
+            <p className={styles.eyebrow}>안전 거래 확인</p><h2 id="safety-title">거래 전, 상대와 방식을 다시 확인하세요</h2><p>안내받지 않은 연락처나 외부 거래 방식으로 유도한다면 진행하지 마세요.</p>
+          </div>
+          <ul className={styles.safetyList}>
+            <li><span>01</span><div><strong>공식 카카오톡 확인</strong><p>이 페이지에 표시된 링크와 카카오톡 ID를 이용하세요.</p></div></li>
+            <li><span>02</span><div><strong>본인 아이템만 거래</strong><p>타인 명의 아이템은 거래하지 않습니다.</p></div></li>
+            <li><span>03</span><div><strong>게임 내 직거래</strong><p>외부 사이트 결제나 별도 거래 방식을 사용하지 않습니다.</p></div></li>
+            <li><span>04</span><div><strong>가격 합의 후 진행</strong><p>견적과 지급 방식을 확인한 다음 거래하세요.</p></div></li>
           </ul>
-        </section>
-      </div>
+        </div>
+      </section>
 
-      <GuideSEOContent />
-    </div>
-    </>
-  );
+      <section id="servers" className={styles.section} aria-labelledby="servers-title">
+        <div className={styles.container}>
+          <div className={styles.serverHeading}>
+            <div><p className={styles.eyebrow}>지원 서버</p><h2 id="servers-title">메이플스토리 전 서버 상담</h2></div>
+            <p>거래 가능 여부는 아이템과 서버 상황에 따라 상담에서 확인합니다.</p>
+          </div>
+          <ul className={styles.serverList}>{SERVERS.map((server) => <li key={server}>{server}</li>)}</ul>
+          <div className={styles.serverGuide}>
+            <article>
+              <h3>서버와 관계없이 아이템 판매를 상담할 수 있습니다</h3>
+              <p>
+                메이플아이템은 스카니아, 루나, 엘리시움, 크로아를 포함한 메이플스토리 전 서버의
+                장비 아이템 판매 문의를 받고 있습니다. 같은 아이템이라도 서버의 경매장 매물과
+                잠재능력, 추가옵션, 스타포스 상태에 따라 견적이 달라질 수 있습니다.
+              </p>
+            </article>
+            <article>
+              <h3>정확한 견적을 위한 아이템 정보</h3>
+              <p>
+                상담할 때 서버명과 캐릭터 닉네임, 아이템의 전체 옵션이 보이는 스크린샷을 함께 보내주세요.
+                현재 매물과 주요 옵션을 확인한 뒤 구매 가격을 안내하며, 견적을 확인한 다음 판매 여부를
+                결정할 수 있습니다.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className={`${styles.section} ${styles.faqSection}`} aria-labelledby="faq-title">
+        <div className={`${styles.container} ${styles.faqGrid}`}>
+          <div className={styles.faqIntro}><p className={styles.eyebrow}>자주 묻는 질문</p><h2 id="faq-title">문의 전에 많이 확인하는 내용</h2><p>더 궁금한 점은 카카오톡에서 아이템 정보와 함께 물어보세요.</p></div>
+          <div className={styles.faqList}>
+            {faqs.map((faq, index) => <details key={faq.question} open={index === 0}><summary>{faq.question}<span aria-hidden="true" /></summary><p>{faq.answer}</p></details>)}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.ctaSection} aria-labelledby="cta-title">
+        <div className={`${styles.container} ${styles.cta}`}>
+          <div><p className={styles.eyebrow}>판매 상담</p><h2 id="cta-title">준비한 정보를 보내고 견적을 확인하세요</h2><p>가격을 확인한 뒤 거래 여부를 결정할 수 있습니다.</p></div>
+          <div className={styles.ctaActions}>
+            <a href={KAKAO_LINK} target="_blank" rel="noreferrer"><MessageCircle size={18} aria-hidden="true" /> 카카오톡 상담 시작</a>
+            <span>카카오톡 ID <strong>{KAKAO_ID}</strong></span>
+          </div>
+        </div>
+      </section>
+
+      <aside className={styles.notice} aria-label="상표 안내"><AlertTriangle size={17} aria-hidden="true" />메이플스토리는 넥슨코리아의 등록 상표이며, 메이플아이템은 넥슨코리아와 제휴 또는 관계가 없습니다.</aside>
+    </main>
+  )
 }

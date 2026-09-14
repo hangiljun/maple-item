@@ -1,15 +1,16 @@
 import { ReviewForm } from "@/components/reviews/review-form";
 
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 export default function WriteReviewPage() {
   return (
-    <div className="min-h-screen py-24 bg-white">
-      <div className="rvw max-w-2xl mx-auto px-4 sm:px-6">
-        <Link href="/reviews" className="rvw-d-back">← 목록으로</Link>
-        <h1 style={{ fontSize: "24px", fontWeight: 600, letterSpacing: "-0.02em", margin: "8px 0 24px" }}>후기 작성</h1>
+    <main className="reviews-page reviews-subpage">
+      <div className="rvw rvw-write-page">
+        <Link href="/reviews" className="rvw-d-back"><ArrowLeft size={16} aria-hidden="true" /> 이용후기 목록</Link>
+        <div className="rvw-write-head"><span>이용 경험 공유</span><h1>후기 작성</h1><p>거래 과정에서 느낀 점을 솔직하게 남겨주세요.</p></div>
         <ReviewForm />
       </div>
-    </div>
+    </main>
   );
 }

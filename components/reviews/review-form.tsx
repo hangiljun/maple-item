@@ -96,15 +96,15 @@ export function ReviewForm() {
   };
 
   return (
-    <Card className="border-2 border-[#FFB800]/30">
+    <Card className="rvw-form-card">
       <CardHeader>
         <CardTitle>판매 후기 남기기</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="rvw-form">
           {/* 닉네임 */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label>
               닉네임
             </label>
             <Input
@@ -118,7 +118,7 @@ export function ReviewForm() {
 
           {/* 후기 내용 */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label>
               후기 내용
             </label>
             <Textarea
@@ -128,14 +128,14 @@ export function ReviewForm() {
               rows={5}
               maxLength={500}
             />
-            <div className="text-right text-sm text-gray-500 mt-1">
+            <div className="rvw-form-count">
               {content.length}/500
             </div>
           </div>
 
           {/* 사진 업로드 */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label>
               판매 인증샷 (선택)
             </label>
 
@@ -150,12 +150,12 @@ export function ReviewForm() {
                 />
                 <label
                   htmlFor="image-upload"
-                  className="flex items-center justify-center gap-2 w-full px-4 py-8 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#FFB800] hover:bg-gray-50 transition"
+                  className="rvw-upload"
                 >
-                  <span className="text-gray-600">클릭해서 이미지 업로드</span>
+                  <span>클릭해서 이미지 업로드</span>
                 </label>
-                <p className="text-xs text-gray-500 mt-2">
-                  * 최대 5MB, JPG/PNG 파일만 가능
+                <p className="rvw-form-help">
+                  최대 5MB, 이미지 파일만 등록할 수 있습니다.
                 </p>
               </div>
             ) : (
@@ -168,7 +168,7 @@ export function ReviewForm() {
                 <button
                   type="button"
                   onClick={removeImage}
-                  className="absolute top-2 right-2 px-3 py-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition text-sm"
+                  className="rvw-image-remove"
                 >
                   삭제
                 </button>
@@ -181,7 +181,7 @@ export function ReviewForm() {
             type="submit"
             variant="primary"
             size="large"
-            className="w-full"
+            className="rvw-form-submit"
             disabled={uploading}
           >
             {uploading ? "업로드 중..." : "후기 등록하기"}

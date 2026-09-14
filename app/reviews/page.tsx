@@ -6,6 +6,7 @@ import { ReviewsPagination } from "@/components/reviews/reviews-pagination";
 import { ReviewsList } from "@/components/reviews/reviews-list";
 import { ReviewSort } from "@/components/reviews/review-sort";
 import { ReviewsSEOContent } from "@/components/sections/reviews-seo-content";
+import { ArrowRight, MessageCircle, PenLine } from "lucide-react";
 
 const REVIEWS_PER_PAGE = 10;
 
@@ -45,12 +46,19 @@ export default async function ReviewsPage({ searchParams }: Props) {
   const startNumber = total - startIndex;
 
   return (
-    <div className="min-h-screen py-24 bg-white">
-      <div className="rvw max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="rvw-head">
-          <h1>거래후기</h1>
-          <p>실제 이용자분들이 남긴 거래 후기입니다.</p>
+    <main className="reviews-page">
+      <section className="rvw-hero">
+        <div className="rvw rvw-container rvw-hero-inner">
+          <div className="rvw-head">
+            <span>실제 거래 경험</span>
+            <h1>이용후기</h1>
+            <p>메이플아이템을 이용한 판매자분들이 직접 남긴 후기입니다.</p>
+          </div>
+          <div className="rvw-hero-note"><strong>{total}</strong><span>등록된 이용후기</span></div>
         </div>
+      </section>
+
+      <div className="rvw rvw-container rvw-content">
 
         <div className="rvw-bar">
           <div className="cnt">전체 <b>{total}</b>건</div>
@@ -67,18 +75,16 @@ export default async function ReviewsPage({ searchParams }: Props) {
             <input name="q" defaultValue={q} placeholder="검색어를 입력하세요" />
             <button type="submit">검색</button>
           </form>
-          <Link href="/reviews/write" className="rvw-write">글쓰기</Link>
+          <Link href="/reviews/write" className="rvw-write"><PenLine size={16} aria-hidden="true" /> 후기 작성</Link>
         </div>
 
         <section className="rvw-kko">
-          <h2>지금 바로 거래해보세요</h2>
-          <p>빠르고 안전한 거래를 경험하고, 여러분도 후기를 남겨주세요.</p>
-          <a href={KAKAO_LINK} target="_blank" rel="noreferrer">💬 카카오톡으로 문의하기</a>
-          <div className="id">카카오톡 ID · <b>{KAKAO_ID}</b></div>
+          <div><span>판매 상담</span><h2>내 아이템도 견적을 확인해보세요</h2><p>서버와 아이템 옵션을 보내주시면 현재 매물을 확인해 안내합니다.</p></div>
+          <div className="rvw-kko-action"><a href={KAKAO_LINK} target="_blank" rel="noreferrer"><MessageCircle size={18} aria-hidden="true" /> 카카오톡으로 문의 <ArrowRight size={16} aria-hidden="true" /></a><div className="id">카카오톡 ID · <b>{KAKAO_ID}</b></div></div>
         </section>
 
         <ReviewsSEOContent />
       </div>
-    </div>
+    </main>
   );
 }
