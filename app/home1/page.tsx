@@ -59,27 +59,24 @@ const priceCategories = [
     key: 'armor',
     label: '방어구류',
     items: [
-      { name: '무제련 방어구', desc: '모자, 상의, 하의, 신발, 장갑, 망토 등 강화 전 상태', rate: '시세 95%' },
-      { name: '스타포스 강화 방어구', desc: '10성 이상 강화된 모자, 상의, 하의, 신발, 장갑', rate: '시세 90%' },
-      { name: '레어 세트 방어구', desc: '에테르넬, 아케인, 앱솔랩스, 카루타 등', rate: '시세 85~90%' },
+      { name: '방어구', desc: '에테르넬, 아케인, 앱솔랩스, 카루타 등', rate: '시세 80~85%' },
+      { name: '23성 이상 스타포스 방어구', desc: '', rate: '가격 조정' },
     ],
   },
   {
     key: 'accessory',
     label: '악세서리류',
     items: [
-      { name: '일반 장신구', desc: '반지, 펜던트, 귀고리, 벨트, 눈장식, 얼굴장식', rate: '시세 90%' },
-      { name: '잠재능력 우수 장신구', desc: '유니크 이상 잠재능력, 추가옵션 보유', rate: '시세 88%' },
-      { name: '레어 장신구', desc: '칠흑 아이템, 여명 세트, 가디언 엔젤링 등', rate: '시세 85%' },
+      { name: '스텟 장신구', desc: '반지, 펜던트, 귀고리, 벨트, 눈장식, 얼굴장식', rate: '시세 80~85%' },
+      { name: '드랍 · 메소 획득량 장신구', desc: '반지, 펜던트, 귀고리, 벨트, 눈장식, 얼굴장식', rate: '시세 85~90%' },
     ],
   },
   {
     key: 'weapon',
     label: '무기류',
     items: [
-      { name: '무제련 무기 · 보조무기', desc: '스타포스 강화 전 상태', rate: '시세 95%' },
-      { name: '스타포스 강화 무기', desc: '17성 이상 강화된 무기, 보조무기', rate: '시세 90%' },
-      { name: '엠블렘 · 방패', desc: '직업별 엠블렘, 아케인셰이드 방패 등', rate: '시세 88%' },
+      { name: '보조무기 · 엠블렘', desc: '각종 직업별 보조무기, 미트라 엠블렘 등', rate: '시세 80~85%' },
+      { name: '아케인 무기류', desc: '', rate: '시세 80%' },
     ],
   },
 ]
@@ -131,7 +128,7 @@ function PriceGuideModal({ open, onClose }: { open: boolean; onClose: () => void
             <li key={item.name} className={styles.modalItem}>
               <div>
                 <strong>{item.name}</strong>
-                <p>{item.desc}</p>
+                {item.desc && <p>{item.desc}</p>}
               </div>
               <span className={styles.modalRate}>{item.rate}</span>
             </li>
