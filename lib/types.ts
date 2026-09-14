@@ -10,6 +10,8 @@
   helpful: boolean;
 }
 
+import type { Timestamp } from 'firebase/firestore';
+
 export interface NewsPost {
   id: string;
   category: string;
@@ -30,8 +32,8 @@ export interface NewsPost {
   contentSize?: "sm" | "base" | "lg" | "xl" | "2xl";
   image?: string; // 대표 이미지 URL (선택)
   // Firestore 타임스탬프
-  createdAt?: any; // Firestore Timestamp
-  updatedAt?: any; // Firestore Timestamp
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
 }
 
 export interface TextStyle {

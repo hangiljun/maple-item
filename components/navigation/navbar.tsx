@@ -9,13 +9,13 @@ import { KAKAO_LINK } from "@/lib/constants";
 
 export function Navbar() {
   const pathname = usePathname();
+  if (pathname?.startsWith('/admin')) return null;
+  return <NavbarContent key={pathname} />;
+}
+
+function NavbarContent() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Admin 페이지에서는 Navbar 숨기기
-  if (pathname?.startsWith('/admin')) {
-    return null;
-  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,13 +28,11 @@ export function Navbar() {
 
   // 모바일 메뉴 열릴 때 body 스크롤 방지
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    if (!mobileMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = previousOverflow;
     };
   }, [mobileMenuOpen]);
 
@@ -119,6 +117,8 @@ export function Navbar() {
             className="md:hidden text-foreground"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="메뉴"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="site-mobile-menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {mobileMenuOpen ? (
@@ -133,7 +133,7 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200">
+        <div id="site-mobile-menu" className="md:hidden bg-white border-t border-gray-200">
           <ul className="flex flex-col p-4 space-y-3">
             <li>
               <Link

@@ -29,6 +29,43 @@ interface TipTapEditorProps {
   label?: string;
 }
 
+interface ToolbarButtonProps {
+  onClick: () => void;
+  active?: boolean;
+  disabled?: boolean;
+  children: React.ReactNode;
+  title: string;
+}
+
+  function ToolbarButton({ onClick, active, disabled, children, title }: ToolbarButtonProps) {
+    const handleClick = (e: React.MouseEvent) => {
+      e.preventDefault();
+      // 에디터에 즉시 focus를 주고 명령 실행
+      if (!disabled) {
+        onClick();
+      }
+    };
+
+    return (
+      <button
+        type="button"
+        onClick={handleClick}
+        onMouseDown={(e) => e.preventDefault()}
+        disabled={disabled}
+        title={title}
+        className={`p-2 rounded transition ${
+          active
+            ? 'bg-[#FFB800] text-white'
+            : disabled
+            ? 'text-gray-300 cursor-not-allowed'
+            : 'text-gray-700 hover:bg-gray-100'
+        }`}
+      >
+        {children}
+      </button>
+    );
+  };
+
 export function TipTapEditor({ value, onChange, label = "본문" }: TipTapEditorProps) {
   const [uploading, setUploading] = useState(false);
 
@@ -207,34 +244,6 @@ export function TipTapEditor({ value, onChange, label = "본문" }: TipTapEditor
     return null;
   }
 
-  const ToolbarButton = ({ onClick, active, disabled, children, title }: any) => {
-    const handleClick = (e: React.MouseEvent) => {
-      e.preventDefault();
-      // 에디터에 즉시 focus를 주고 명령 실행
-      if (editor && !disabled) {
-        onClick();
-      }
-    };
-
-    return (
-      <button
-        type="button"
-        onClick={handleClick}
-        onMouseDown={(e) => e.preventDefault()}
-        disabled={disabled}
-        title={title}
-        className={`p-2 rounded transition ${
-          active
-            ? 'bg-[#FFB800] text-white'
-            : disabled
-            ? 'text-gray-300 cursor-not-allowed'
-            : 'text-gray-700 hover:bg-gray-100'
-        }`}
-      >
-        {children}
-      </button>
-    );
-  };
 
   return (
     <div>

@@ -32,7 +32,11 @@ export default function AdminReviewsPage() {
       return;
     }
     // Firestore에서 후기 불러오기
-    loadReviews();
+    let active = true;
+    getAllReviews().then(data => {
+      if (active) setReviews(data);
+    }).catch(error => { console.error('후기 불러오기 실패:', error); });
+    return () => { active = false; };
   }, [isAdmin, authLoading, router]);
 
   const handleDelete = async (id: string) => {

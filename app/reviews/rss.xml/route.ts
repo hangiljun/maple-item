@@ -1,5 +1,6 @@
 import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import type { Review } from '@/lib/types';
 
 export const dynamic = 'force-dynamic'; // 매 요청마다 동적 생성
 export const revalidate = 0; // 캐시 사용 안 함
@@ -38,7 +39,7 @@ export async function GET() {
   const reviews = snapshot.docs.map(doc => ({
     id: doc.id,
     ...doc.data()
-  })) as any[];
+  })) as Review[];
 
   const items = reviews;
 

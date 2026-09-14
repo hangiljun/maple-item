@@ -6,6 +6,7 @@ import { getAllPosts, getAllReviews } from "@/lib/posts";
 import { MessageSquare, FileText, TrendingUp, LogOut, Edit, Trash2, Pin, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { FirebaseError } from 'firebase/app';
 
 export default function AdminPage() {
   const [email, setEmail] = useState("");
@@ -44,8 +45,8 @@ export default function AdminPage() {
       await login(email, password);
       setError("");
       // useAuth 훅이 자동으로 상태 갱신
-    } catch (error: any) {
-      const errorCode = error?.code || '';
+    } catch (error: unknown) {
+      const errorCode = error instanceof FirebaseError ? error.code : '';
       setError(getAuthErrorMessage(errorCode));
       setPassword("");
     }

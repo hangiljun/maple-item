@@ -944,6 +944,13 @@
   font-size: 20px;
 }
 
+.modalWarning {
+  margin-top: 8px;
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .modalClose {
   flex: 0 0 auto;
   display: grid;

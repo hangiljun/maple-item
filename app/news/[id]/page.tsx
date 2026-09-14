@@ -1,260 +1,56 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Metadata } from 'next';
-import { getPost, getAllPosts, getAdjacentPosts } from '@/lib/posts';
 import Link from 'next/link';
+import Image from 'next/image';
 import sanitizeHtml from 'sanitize-html';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { getPost, getAdjacentPosts } from '@/lib/posts';
+import { MarkdownContent } from '../article-content';
+import { KAKAO_LINK } from '@/lib/constants';
+import styles from '../news.module.css';
+import { plainText } from '../news-utils';
 
-// ISR: 60초마다 재생성
 export const revalidate = 60;
-
-type Props = {
-  params: Promise<{ id: string }>;
-};
-
+type Props = { params: Promise<{ id: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-
-  try {
-    const post = await getPost(id);
-
-    if (!post) {
-      return {
-        title: '게시글을 찾을 수 없습니다',
-      };
-    }
-
-    const description = (post.content || '').substring(0, 160) || post.title;
-
-    return {
-      title: `${post.title} | 메이플아이템 소식`,
-      description: description,
-      openGraph: {
-        title: post.title,
-        description: description,
-        images: post.image ? [post.image] : [],
-        type: 'article',
-      },
-    };
-  } catch (error) {
-    console.error('메타데이터 생성 실패:', error);
-    return {
-      title: '게시글을 찾을 수 없습니다',
-    };
-  }
-}
-
-export async function generateStaticParams() {
-  const posts = await getAllPosts();
-  return posts.map((post) => ({
-    id: post.id,
-  }));
-}
-
-export default async function NewsPostPage({ params }: Props) {
-  const { id } = await params;
-
-  let post;
-  try {
-    post = await getPost(id);
-  } catch (error) {
-    console.error('게시글 조회 실패:', error);
-    notFound();
-  }
-
-  if (!post) {
-    notFound();
-  }
-
-  // HTML 판별: 블록 태그로 시작하는 경우만 HTML로 간주 (마크다운 오판 방지)
-  const isHTML = post.content ? /^\s*<(p|div|h[1-6]|ul|ol|table|blockquote|img)[\s>]/i.test(post.content) : false;
-
-  // 이전/다음 글 직접 조회 (Firestore 쿼리 최적화)
-  const { prevPost, nextPost } = post.createdAt ? await getAdjacentPosts(post) : { prevPost: null, nextPost: null };
-
-  // 분류 배지 스타일
-  const getCategoryBadgeClass = (category: string) => {
-    switch (category) {
-      case "이벤트":
-        return "bg-[#FAEEDA] text-[#854F0B] border-[#FAEEDA]";
-      case "시세정보":
-        return "bg-[#E6F1FB] text-[#0C447C] border-[#E6F1FB]";
-      case "공지":
-      default:
-        return "bg-white text-gray-700 border-gray-300";
-    }
+  const post = await getPost(id);
+  if (!post) notFound();
+  const description = post.excerpt || plainText(post.content || '').slice(0, 160);
+  const url = `https://mapleitem.co.kr/news/${encodeURIComponent(post.id)}`;
+  return {
+    title: post.title,
+    description,
+    alternates: { canonical: url },
+    openGraph: { title: post.title, description, url, type: 'article', images: [post.image || '/og-image.png'] },
+    twitter: { card: 'summary_large_image', title: post.title, description, images: [post.image || '/og-image.png'] },
   };
-
-  // Article Schema.org 구조화 데이터
+}
+export default async function ArticlePage({ params }: Props) {
+  const { id } = await params;
+  const post = await getPost(id);
+  if (!post) notFound();
+  const { prevPost, nextPost } = await getAdjacentPosts(post);
+  const isHTML = /^\s*<(p|div|h[1-6]|ul|ol|table|blockquote|img)[\s>]/i.test(post.content || '');
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: post.title,
-    datePublished: post.date || new Date().toISOString().split('T')[0],
-    dateModified: post.date || new Date().toISOString().split('T')[0],
-    image: post.image || 'https://mapleitem.co.kr/logo.png',
-    author: {
-      '@type': 'Organization',
-      name: '메이플아이템'
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: '메이플아이템',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://mapleitem.co.kr/logo.png'
-      }
-    },
-    description: (post.content || post.title).substring(0, 160),
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `https://mapleitem.co.kr/news/${post.id}`
-    }
+    description: post.excerpt || plainText(post.content || '').slice(0, 160),
+    datePublished: post.createdAt?.toDate?.()?.toISOString() || post.date,
+    dateModified: post.updatedAt?.toDate?.()?.toISOString() || post.date,
+    image: post.image || 'https://mapleitem.co.kr/og-image.png',
+    author: { '@type': 'Organization', name: '메이플아이템' },
+    publisher: { '@type': 'Organization', name: '메이플아이템' },
+    mainEntityOfPage: `https://mapleitem.co.kr/news/${encodeURIComponent(post.id)}`,
   };
-
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-      />
-      <div className="min-h-screen py-24 bg-white">
-        {/* 읽기 폭 제한 */}
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          {/* 뒤로가기 */}
-          <Link
-            href="/news"
-            className="inline-block text-gray-600 hover:text-gray-900 mb-6 transition text-sm"
-          >
-            ← 목록으로
-          </Link>
-
-          {/* 게시글 */}
-          <article>
-            {/* 헤더 */}
-            <header className="mb-8">
-              {/* 메타 */}
-              <div className="flex items-center gap-2 mb-4">
-                {post.category && (
-                  <span className={`px-3 py-1 rounded-lg text-sm font-medium border ${getCategoryBadgeClass(post.category)}`}>
-                    {post.category}
-                  </span>
-                )}
-                {post.date && (
-                  <span className="text-sm text-gray-500">{post.date}</span>
-                )}
-              </div>
-
-              {/* 제목 */}
-              <h1 className="article-title">
-                {post.title}
-              </h1>
-
-              {/* 대표 이미지 */}
-              {post.image && (
-                <div className="mb-8 rounded-xl overflow-hidden">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full max-h-[500px] object-cover"
-                  />
-                </div>
-              )}
-            </header>
-
-            {/* 본문 */}
-            <div className="prose max-w-none article-prose">
-              {/* HTML 렌더 (기존 글 호환) vs 마크다운 렌더 (신규 글) */}
-              {post.content ? (
-                isHTML ? (
-                  /* 기존 HTML 글: sanitize 후 렌더 */
-                  <div className="overflow-x-auto">
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: sanitizeHtml(post.content, {
-                          allowedTags: [
-                            'p', 'br', 'strong', 'em', 'u', 's',
-                            'h2', 'h3',
-                            'ul', 'ol', 'li',
-                            'a',
-                            'img',
-                            'table', 'thead', 'tbody', 'tr', 'th', 'td',
-                            'blockquote', 'code', 'pre',
-                            'hr'
-                          ],
-                          allowedAttributes: {
-                            'a': ['href', 'target', 'rel'],
-                            'img': ['src', 'alt', 'width', 'height'],
-                            '*': ['class', 'style']
-                          },
-                          disallowedTagsMode: 'discard',
-                          selfClosing: ['img', 'br', 'hr'],
-                          allowedSchemes: ['http', 'https', 'mailto'],
-                          allowedSchemesByTag: {
-                            img: ['http', 'https', 'data']
-                          }
-                        })
-                      }}
-                    />
-                  </div>
-                ) : (
-                  /* 마크다운 글: ReactMarkdown + remarkGfm 직접 렌더 */
-                  <div className="overflow-x-auto">
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      components={{ h1: (props) => <h2 {...props} /> }}
-                    >
-                      {post.content}
-                    </ReactMarkdown>
-                  </div>
-                )
-              ) : (
-                <p className="text-gray-500">본문이 없습니다.</p>
-              )}
-            </div>
-          </article>
-
-          {/* 하단 네비게이션 */}
-          <div className="mt-12 pt-8 border-t border-gray-200">
-            {/* 이전/다음 글 */}
-            {(prevPost || nextPost) && (
-              <div className="grid grid-cols-2 gap-4 mb-8">
-                <div>
-                  {prevPost && (
-                    <Link href={`/news/${prevPost.id}`} className="block text-sm">
-                      <span className="text-gray-500 mb-1 block">← 이전 글</span>
-                      <span className="text-gray-900 hover:text-[#FFB800] transition line-clamp-1">
-                        {prevPost.title}
-                      </span>
-                    </Link>
-                  )}
-                </div>
-                <div className="text-right">
-                  {nextPost && (
-                    <Link href={`/news/${nextPost.id}`} className="block text-sm">
-                      <span className="text-gray-500 mb-1 block">다음 글 →</span>
-                      <span className="text-gray-900 hover:text-[#FFB800] transition line-clamp-1">
-                        {nextPost.title}
-                      </span>
-                    </Link>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* 목록으로 버튼 */}
-            <div className="text-center">
-              <Link
-                href="/news"
-                className="inline-block px-6 py-3 bg-[#FFB800] text-white rounded-xl hover:bg-[#FF9500] transition font-medium"
-              >
-                목록으로
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+  return <div className={styles.articleContainer}><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema).replace(/</g, '\\u003c') }} /><Link href="/news" className={styles.back}>← 소식 목록</Link><article>
+    <header className={styles.articleHeader}><div className={styles.meta}><span className={styles.badge}>{post.category}</span><time dateTime={post.date}>{post.date}</time><span>메이플아이템</span></div><h1>{post.title}</h1>{post.excerpt && <p>{post.excerpt}</p>}</header>
+    {post.image && <div className={styles.cover}><Image src={post.image} alt={post.title} width={800} height={480} unoptimized /></div>}
+    {isHTML ? <div className={styles.prose} dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content, {
+      allowedTags: ['p','br','strong','em','u','s','del','h2','h3','h4','h5','h6','ul','ol','li','a','img','table','thead','tbody','tr','th','td','blockquote','code','pre','hr'],
+      allowedAttributes: { a: ['href','title'], img: ['src','alt'], th: ['colspan','rowspan'], td: ['colspan','rowspan'], ol: ['start'] },
+      allowedSchemes: ['http','https','mailto'],
+      transformTags: { h1: 'h2' },
+    }) }} /> : <MarkdownContent content={post.content || ''} />}
+  </article><aside className={styles.articleCta}><div><h2>아이템 판매를 생각하고 계신가요?</h2><p>서버와 아이템 정보를 보내주시면 상담을 도와드립니다.</p></div><a href={KAKAO_LINK} target="_blank" rel="noreferrer" className={styles.primary}>판매 상담하기 ↗</a></aside><nav className={styles.adjacent} aria-label="이전 다음 소식">{prevPost && <Link href={`/news/${prevPost.id}`}><span>이전 소식</span><strong>{prevPost.title}</strong></Link>}{nextPost && <Link href={`/news/${nextPost.id}`}><span>다음 소식</span><strong>{nextPost.title}</strong></Link>}</nav><Link href="/news" className={styles.secondary}>전체 소식 보기</Link></div>;
 }

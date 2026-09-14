@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createReview } from '@/lib/posts';
+import type { Review } from '@/lib/types';
 
 export async function submitReview(data: {
   author: string;
@@ -10,7 +11,7 @@ export async function submitReview(data: {
   server?: string;
 }) {
   try {
-    const reviewData: any = {
+    const reviewData: Omit<Review, 'id'> = {
       author: data.author,
       content: data.content,
       date: new Date().toISOString().split('T')[0],

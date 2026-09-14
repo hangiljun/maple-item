@@ -19,6 +19,7 @@ import {
 } from "./actions";
 import Link from "next/link";
 import type { NewsPost } from "@/lib/types";
+import { FirebaseError } from 'firebase/app';
 
 export default function AdminPostsPage() {
   const router = useRouter();
@@ -54,7 +55,11 @@ export default function AdminPostsPage() {
       router.push("/admin");
       return;
     }
-    loadPosts();
+    let active = true;
+    getAllPosts().then(data => {
+      if (active) setPosts(data);
+    }).catch(error => { console.error('게시글 로드 실패:', error); });
+    return () => { active = false; };
   }, [isAdmin, loading, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -85,7 +90,7 @@ export default function AdminPostsPage() {
         imageUrl = await uploadImage(imageFile, 'posts');
       }
 
-      const postData: any = {
+      const postData: Omit<NewsPost, 'id'> = {
         category,
         icon: category === "이벤트" ? "Sparkles" : category === "시세정보" ? "TrendingUp" : "AlertCircle",
         title,
@@ -198,11 +203,11 @@ export default function AdminPostsPage() {
         await revalidateNewsPostAction(id);
 
         await loadPosts();
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error('게시글 삭제 실패:', error);
-        console.error('에러 코드:', error?.code);
-        console.error('에러 메시지:', error?.message);
-        alert(`게시글 삭제에 실패했습니다.\n에러: ${error?.message || error}`);
+        console.error('에러 코드:', error instanceof FirebaseError ? error.code : 'unknown');
+        const message = error instanceof Error ? error.message : String(error);
+        alert(`게시글 삭제에 실패했습니다.\n에러: ${message}`);
       }
     }
   };

@@ -106,7 +106,10 @@ function PriceGuideModal({ open, onClose }: { open: boolean; onClose: () => void
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalBox} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="카테고리별 구매 시세">
         <div className={styles.modalHead}>
-          <h3>카테고리별 구매 시세</h3>
+          <div>
+            <h3>카테고리별 구매 시세</h3>
+            <p className={styles.modalWarning}>아이템 가격은 조정될 수 있으니 카카오톡으로 문의 먼저 주세요.</p>
+          </div>
           <button type="button" className={styles.modalClose} onClick={onClose} aria-label="닫기">
             <X size={20} aria-hidden="true" />
           </button>
