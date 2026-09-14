@@ -147,6 +147,26 @@ function PriceGuideModal({ open, onClose }: { open: boolean; onClose: () => void
   )
 }
 
+function useUpdatedAtLabel() {
+  const [label, setLabel] = useState('')
+
+  useEffect(() => {
+    function update() {
+      const now = new Date()
+      const month = now.getMonth() + 1
+      const date = now.getDate()
+      const hours = String(now.getHours()).padStart(2, '0')
+      const minutes = String(now.getMinutes()).padStart(2, '0')
+      setLabel(`${month}월 ${date}일 ${hours}:${minutes} 기준`)
+    }
+    update()
+    const timer = window.setInterval(update, 60000)
+    return () => window.clearInterval(timer)
+  }, [])
+
+  return label
+}
+
 function useLatestReviews(count: number) {
   const [reviews, setReviews] = useState<Review[]>([])
   const [loaded, setLoaded] = useState(false)
@@ -240,6 +260,7 @@ function HeroLeadForm() {
 export default function HomePreviewPage() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [priceModalOpen, setPriceModalOpen] = useState(false)
+  const updatedAtLabel = useUpdatedAtLabel()
   const { reviews, loaded: reviewsLoaded } = useLatestReviews(3)
 
   return (
@@ -307,7 +328,7 @@ export default function HomePreviewPage() {
             <div className={styles.heroCopy}>
               <div className={styles.statusBadge}>
                 <span className={styles.statusDot} />
-                시세 업데이트 · 9월 11일 14:00 기준
+                {updatedAtLabel ? `시세 업데이트 · ${updatedAtLabel}` : '시세 업데이트'}
               </div>
               <h1>
                 메이플 아이템 정리,
