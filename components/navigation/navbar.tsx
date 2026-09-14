@@ -1,205 +1,102 @@
-﻿"use client";
+'use client'
 
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { KAKAO_LINK } from "@/lib/constants";
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+import { ArrowRight, Menu, X } from 'lucide-react'
+import { KAKAO_LINK } from '@/lib/constants'
+import styles from './navbar.module.css'
+
+const NAV_LINKS = [
+  { href: '/', label: '홈' },
+  { href: '/guide', label: '이용가이드' },
+  { href: '/reviews', label: '후기게시판' },
+  { href: '/news', label: '소식정보' },
+  { href: '/contact', label: '문의하기' },
+]
 
 export function Navbar() {
-  const pathname = usePathname();
-  if (pathname?.startsWith('/admin')) return null;
-  return <NavbarContent key={pathname} />;
+  const pathname = usePathname()
+  if (pathname?.startsWith('/admin')) return null
+  return <NavbarContent key={pathname} />
 }
 
 function NavbarContent() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false)
 
+  // 모바일 메뉴 열릴 때 배경 스크롤 방지
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 100);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // 모바일 메뉴 열릴 때 body 스크롤 방지
-  useEffect(() => {
-    if (!mobileMenuOpen) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    if (!menuOpen) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
     return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [mobileMenuOpen]);
+      document.body.style.overflow = previousOverflow
+    }
+  }, [menuOpen])
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-shadow duration-200 ${
-        scrolled ? "shadow-sm" : ""
-      } bg-white/95 backdrop-blur-sm border-b border-gray-200`}
-    >
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-4 flex items-center justify-between gap-4 sm:gap-8">
-        <Link href="/" className="flex items-center gap-3" aria-label="메이플아이템 홈으로 이동">
+    <nav className={styles.nav}>
+      <div className={styles.inner}>
+        <Link href="/" className={styles.brand} aria-label="메이플아이템 홈으로 이동">
           <Image
             src="/logo.png"
             alt="메이플아이템 로고"
-            width={180}
-            height={45}
-            className="h-10 w-auto"
+            width={150}
+            height={38}
+            className={styles.brandLogo}
             priority
             quality={90}
           />
         </Link>
 
-        <ul className="hidden md:flex list-none gap-8 flex-1 justify-center">
-          <li>
-            <Link
-              href="/"
-              className="font-medium text-foreground hover:text-[#FFB800] transition-colors"
-            >
-              홈
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/guide"
-              className="font-medium text-foreground hover:text-[#FFB800] transition-colors"
-            >
-              이용가이드
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/reviews"
-              className="font-medium text-foreground hover:text-[#FFB800] transition-colors"
-            >
-              후기게시판
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/news"
-              className="font-medium text-foreground hover:text-[#FFB800] transition-colors"
-            >
-              소식정보
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/contact"
-              className="font-medium text-foreground hover:text-[#FFB800] transition-colors"
-            >
-              문의하기
-            </Link>
-          </li>
+        <ul className={styles.desktopNav}>
+          {NAV_LINKS.map((link) => (
+            <li key={link.href}>
+              <Link href={link.href}>{link.label}</Link>
+            </li>
+          ))}
         </ul>
 
-        <div className="flex items-center gap-4">
+        <a
+          href={KAKAO_LINK}
+          target="_blank"
+          rel="noreferrer"
+          className={`${styles.button} ${styles.desktopCta}`}
+        >
+          상담 시작하기 <ArrowRight size={16} />
+        </a>
+
+        <button
+          type="button"
+          className={styles.mobileMenuButton}
+          aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
+          aria-expanded={menuOpen}
+          aria-controls="site-mobile-menu"
+          onClick={() => setMenuOpen((prev) => !prev)}
+        >
+          {menuOpen ? <X /> : <Menu />}
+        </button>
+      </div>
+
+      {menuOpen && (
+        <nav id="site-mobile-menu" className={styles.mobileNav} aria-label="모바일 메뉴">
+          {NAV_LINKS.map((link) => (
+            <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}>
+              {link.label}
+            </Link>
+          ))}
           <a
             href={KAKAO_LINK}
             target="_blank"
-            rel="noopener noreferrer"
-            className="hidden md:inline-flex"
+            rel="noreferrer"
+            className={`${styles.button} ${styles.mobileCta}`}
+            onClick={() => setMenuOpen(false)}
           >
-            <Button
-              variant="primary"
-              as="span"
-            >
-              판매하기
-            </Button>
+            상담 시작하기 <ArrowRight size={16} />
           </a>
-
-          <button
-            className="md:hidden text-foreground"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="메뉴"
-            aria-expanded={mobileMenuOpen}
-            aria-controls="site-mobile-menu"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {mobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div id="site-mobile-menu" className="md:hidden bg-white border-t border-gray-200">
-          <ul className="flex flex-col p-4 space-y-3">
-            <li>
-              <Link
-                href="/"
-                className="block py-2 font-medium text-foreground hover:text-[#FFB800] transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                홈
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/guide"
-                className="block py-2 font-medium text-foreground hover:text-[#FFB800] transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                이용가이드
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/reviews"
-                className="block py-2 font-medium text-foreground hover:text-[#FFB800] transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                후기게시판
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/news"
-                className="block py-2 font-medium text-foreground hover:text-[#FFB800] transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                소식정보
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/contact"
-                className="block py-2 font-medium text-foreground hover:text-[#FFB800] transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                문의하기
-              </Link>
-            </li>
-            <li className="pt-2">
-              <a
-                href={KAKAO_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Button
-                  variant="primary"
-                  as="span"
-                  className="w-full"
-                >
-                  판매하기
-                </Button>
-              </a>
-            </li>
-          </ul>
-        </div>
+        </nav>
       )}
     </nav>
-  );
+  )
 }

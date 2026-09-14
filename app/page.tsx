@@ -1,80 +1,56 @@
-﻿import dynamic from "next/dynamic";
-
-import type { Metadata } from 'next';
+import type { Metadata } from 'next'
+import { HomeContent } from './home-content'
 
 export const metadata: Metadata = {
-  title: '메이플 급처템 구매 - 실시간 시세 정산',
-  description: '메이플스토리 급처템을 경매장 실시간 시세 기준으로 빠르고 안전하게 구매합니다. 카카오톡 문의 시 평균 10분 내 정산 완료, 게임 내 직거래로 안전하게. 스카니아·루나·크로아 등 전 월드 지원, 365일 24시간 문의 가능.',
+  title: '메이플 아이템 정리 - 경매장 시세 기준 구매',
+  description: '메이플스토리 아이템을 경매장 실시간 시세 기준으로 투명하게 구매합니다. 장비 한 개부터 통판매까지 카카오톡 상담으로 빠르고 안전하게. 스카니아·루나·크로아 등 전 월드 지원, 365일 24시간 문의 가능.',
   alternates: {
-    canonical: 'https://mapleitem.co.kr'
+    canonical: 'https://mapleitem.co.kr',
   },
   openGraph: {
-    title: '메이플 급처템 구매 - 실시간 시세 정산',
-    description: '메이플스토리 급처템 빠르고 안전하게 구매. 실시간 시세 확인 후 카톡 정산.',
+    title: '메이플 아이템 정리 - 경매장 시세 기준 구매',
+    description: '경매장 시세 기준으로 투명하게. 장비 한 개부터 통판매까지 카톡 상담으로 빠르고 안전하게 정리하세요.',
     url: 'https://mapleitem.co.kr',
     images: [
       {
         url: '/og-image.png',
         width: 1424,
         height: 752,
-        alt: '메이플아이템'
-      }
-    ]
+        alt: '메이플아이템',
+      },
+    ],
   },
   twitter: {
-    title: '메이플 급처템 구매 - 실시간 시세 정산',
-    description: '메이플스토리 급처템 빠르고 안전하게 구매. 실시간 시세 확인 후 카톡 정산.'
-  }
-};
-
-import { HeroSection } from "@/components/hero/hero-section";
-import { AdvantagesSection } from "@/components/sections/advantages-section";
-
-const ProcessSection = dynamic(() => import("@/components/sections/process-section").then(mod => ({ default: mod.ProcessSection })), {
-  loading: () => <div className="h-96" />,
-});
-
-const ServersSection = dynamic(() => import("@/components/sections/servers-section").then(mod => ({ default: mod.ServersSection })), {
-  loading: () => <div className="h-96" />,
-});
-
-const ReviewsSection = dynamic(() => import("@/components/sections/reviews-section").then(mod => ({ default: mod.ReviewsSection })), {
-  loading: () => <div className="h-96" />,
-});
-
-const CTASection = dynamic(() => import("@/components/sections/cta-section").then(mod => ({ default: mod.CTASection })), {
-  loading: () => <div className="h-48" />,
-});
-
-const SEOContent = dynamic(() => import("@/components/sections/seo-content").then(mod => ({ default: mod.SEOContent })), {
-  loading: () => <div className="h-96" />,
-});
+    title: '메이플 아이템 정리 - 경매장 시세 기준 구매',
+    description: '경매장 시세 기준으로 투명하게. 장비 한 개부터 통판매까지 카톡 상담으로 빠르고 안전하게 정리하세요.',
+  },
+}
 
 export default function Home() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: '메이플아이템',
-    description: '메이플스토리 급처템 구매 서비스',
+    description: '메이플스토리 아이템 정리 및 구매 상담 서비스',
     url: 'https://mapleitem.co.kr',
     telephone: 'kakao:han8246',
     priceRange: '₩₩₩',
     address: {
       '@type': 'PostalAddress',
       addressCountry: 'KR',
-      addressLocality: '대한민국'
+      addressLocality: '대한민국',
     },
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       opens: '00:00',
-      closes: '23:59'
+      closes: '23:59',
     },
     areaServed: {
       '@type': 'Country',
-      name: 'South Korea'
-    }
-  };
+      name: 'South Korea',
+    },
+  }
 
   return (
     <>
@@ -82,13 +58,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <HeroSection />
-      <AdvantagesSection />
-      <ProcessSection />
-      <ServersSection />
-      <ReviewsSection />
-      <CTASection />
-      <SEOContent />
+      <HomeContent />
     </>
-  );
+  )
 }

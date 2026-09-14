@@ -1,0 +1,54 @@
+/*
+  우측 하단 플로팅 카카오톡 버튼.
+  데스크톱에서는 헤더의 상담 시작하기 버튼이 항상 보이므로 숨기고,
+  모바일 화면(≤760px)에서만 떠 있는 CTA로 노출합니다.
+*/
+
+.floatingChat {
+  --primary: #2c9fd6;
+  --primary-hover: #1f84b3;
+  --primary-foreground: #ffffff;
+
+  position: fixed;
+  right: 25px;
+  bottom: 23px;
+  z-index: 30;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 17px;
+  color: var(--primary-foreground);
+  background: var(--primary);
+  border-radius: 999px;
+  box-shadow: 0 10px 28px rgba(44, 159, 214, 0.35);
+  font-family: "Pretendard Variable", Pretendard, "SUIT Variable", SUIT, "Noto Sans KR", sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  animation: floatingChatFloat 3s ease-in-out infinite;
+}
+
+.floatingChat:hover {
+  background: var(--primary-hover);
+}
+
+@keyframes floatingChatFloat {
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@media (max-width: 760px) {
+  .floatingChat {
+    display: flex;
+    right: 15px;
+    bottom: max(15px, env(safe-area-inset-bottom));
+    min-height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floatingChat {
+    animation: none;
+  }
+}
