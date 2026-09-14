@@ -26,7 +26,7 @@ export function CTASection() {
                 href={KAKAO_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block bg-[#FFB800] text-white px-12 py-5 rounded-lg font-black text-2xl hover:bg-[#FF9500] transition shadow-sm"
+                className="inline-block bg-[#2C9FD6] text-white px-12 py-5 rounded-lg font-black text-2xl hover:bg-[#1F84B3] transition shadow-sm"
               >
                 지금 바로 팔러가기
                 <span className="block text-sm font-medium mt-1 opacity-90">

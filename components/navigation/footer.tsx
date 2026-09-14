@@ -1,115 +1,16 @@
-﻿"use client";
-
+"use client";
+import { ArrowUpRight, MessageCircle } from "lucide-react";
 import { SITE_NAME, KAKAO_LINK, KAKAO_ID } from "@/lib/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-export function Footer() {
-  const pathname = usePathname();
-
-  // Admin 페이지에서는 Footer 숨기기
-  if (pathname?.startsWith('/admin')) {
-    return null;
-  }
-
-  return (
-    <footer className="bg-gray-900 text-gray-300 py-16 border-t border-gray-800">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-12 mb-12">
-          {/* 브랜드 */}
-          <div>
-            <div className="mb-4">
-              <span className="font-heading text-xl font-semibold text-[#FFB800]">
-                {SITE_NAME}
-              </span>
-            </div>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              메이플아이템은 메이플스토리 유저들이 급처템을 안전하고 빠르게 처분할 수 있는 사이트 입니다.
-              <br />
-              안전한 시스템으로 사기 걱정 없이 안심하고 아이템을 구매할 수 있습니다.
-            </p>
-          </div>
-
-          {/* 빠른 링크 */}
-          <div>
-            <h3 className="font-heading font-bold text-lg mb-4">빠른 링크</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/" className="text-slate-400 hover:text-[#FFB800] transition">
-                  홈
-                </Link>
-              </li>
-              <li>
-                <Link href="/guide" className="text-slate-400 hover:text-[#FFB800] transition">
-                  이용가이드
-                </Link>
-              </li>
-              <li>
-                <Link href="/reviews" className="text-slate-400 hover:text-[#FFB800] transition">
-                  후기게시판
-                </Link>
-              </li>
-              <li>
-                <Link href="/news" className="text-slate-400 hover:text-[#FFB800] transition">
-                  소식정보
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-slate-400 hover:text-[#FFB800] transition">
-                  문의하기
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* 고객지원 */}
-          <div>
-            <h3 className="font-heading font-bold text-lg mb-4">고객지원</h3>
-            <ul className="space-y-3 text-sm">
-              <li>
-                <div className="text-slate-300">카카오톡</div>
-                <a
-                  href={KAKAO_LINK}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-slate-400 hover:text-[#FFB800] transition"
-                >
-                  {KAKAO_ID}
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* 운영시간 */}
-          <div>
-            <h3 className="font-heading font-bold text-lg mb-4">운영시간</h3>
-            <ul className="space-y-2 text-sm text-slate-400">
-              <li className="text-[#FFB800] font-bold text-lg">365일 24시간</li>
-              <li className="mt-3">연중무휴</li>
-              <li>언제든지 문의 가능</li>
-              <li className="text-[#FFB800] font-semibold mt-3">빠른 응답</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="border-t border-slate-700 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-slate-500 text-sm">
-              © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
-            </p>
-            <div className="flex gap-4">
-              <a
-                href={KAKAO_LINK}
-                target="_blank"
-                rel="noreferrer"
-                className="px-4 py-2 rounded-full bg-slate-800 hover:bg-[#FFB800] transition text-sm"
-              >
-                카카오톡
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
+import styles from "./footer.module.css";
+const links=[{href:"/",label:"홈"},{href:"/guide",label:"이용가이드"},{href:"/reviews",label:"후기게시판"},{href:"/news",label:"소식정보"},{href:"/contact",label:"문의하기"}];
+export function Footer(){
+ const pathname=usePathname(); if(pathname?.startsWith("/admin")) return null;
+ return <footer className={styles.footer}><div className={styles.inner}>
+  <div className={styles.top}><div className={styles.brand}><strong>{SITE_NAME}</strong><p>메이플스토리 아이템을 판매하려는 분들을 위한 구매 상담 서비스입니다.</p></div>
+  <a href={KAKAO_LINK} target="_blank" rel="noreferrer" className={styles.contact}><MessageCircle size={18} aria-hidden="true"/><span><small>365일 24시간 문의 접수</small>카카오톡 상담하기</span><ArrowUpRight size={18} aria-hidden="true"/></a></div>
+  <div className={styles.middle}><nav aria-label="푸터 메뉴">{links.map(link=><Link key={link.href} href={link.href}>{link.label}</Link>)}</nav><div className={styles.info}><span>카카오톡 ID</span><a href={KAKAO_LINK} target="_blank" rel="noreferrer">{KAKAO_ID}</a></div></div>
+  <div className={styles.bottom}><p>© {new Date().getFullYear()} {SITE_NAME}. All rights reserved.</p></div>
+ </div></footer>;
 }

@@ -78,7 +78,7 @@ export function StatCard({ number, label }: StatCardProps) {
       whileHover={{ y: -4 }}
       className="glass-small rounded-2xl p-6 text-center transition-transform"
     >
-      <div className="font-heading text-3xl font-bold text-[#FFB800] mb-1">
+      <div className="font-heading text-3xl font-bold text-[#2C9FD6] mb-1">
         {displayNumber}
       </div>
       <div className="text-sm text-foreground/70">{label}</div>

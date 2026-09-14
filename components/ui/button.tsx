@@ -11,9 +11,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "primary", size = "default", as = "button", children, ...props }, ref) => {
     const baseClasses = cn(
       "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all duration-200",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB800] focus-visible:ring-offset-2",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2C9FD6] focus-visible:ring-offset-2",
       {
-        "bg-[#FFB800] text-white shadow-sm hover:bg-[#FF9500] hover:shadow-md hover:-translate-y-0.5 active:translate-y-0":
+        "bg-[#2C9FD6] text-white shadow-sm hover:bg-[#1F84B3] hover:shadow-md hover:-translate-y-0.5 active:translate-y-0":
           variant === "primary",
         "bg-white border-2 border-gray-300 text-gray-900 hover:bg-gray-50 hover:border-gray-400 hover:-translate-y-0.5 hover:shadow-sm":
           variant === "secondary",

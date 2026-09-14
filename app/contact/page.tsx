@@ -1,139 +1,58 @@
-import React from "react";
-import { KAKAO_LINK, KAKAO_ID } from "@/lib/constants";
+import Link from 'next/link'
+import { ArrowRight, MessageCircle } from 'lucide-react'
+import { KAKAO_LINK, KAKAO_ID } from '@/lib/constants'
+import styles from './contact.module.css'
+
+const questions = [
+  ['시세만 확인해도 되나요?', '네. 안내받은 가격을 확인한 뒤 판매 여부를 자유롭게 결정할 수 있습니다.'],
+  ['사진에는 어떤 정보가 보여야 하나요?', '아이템 이름과 잠재능력, 추가옵션, 스타포스 등 상세 옵션이 보이도록 전체 화면을 보내주세요. 여러 아이템이라면 각각의 사진을 함께 보내주시면 됩니다.'],
+  ['언제 문의할 수 있나요?', '365일 24시간 문의를 남길 수 있습니다. 상담이 진행 중이면 답변이 늦어질 수 있으니 아이템 정보를 먼저 보내주세요.'],
+  ['가격을 확인한 다음에는 어떻게 하나요?', '가격에 합의하면 거래 시간과 캐릭터를 확인하고 게임 내 직거래로 진행합니다. 자세한 과정은 이용가이드에서 확인할 수 있습니다.'],
+]
 
 export default function ContactPage() {
-  return (
-    <div className="max-w-4xl mx-auto px-4 py-12 pt-24">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-black text-gray-900 mb-4">문의하기</h1>
-        <p className="text-xl text-gray-600">
-          메이플아이템 거래 및 상담 문의는 카카오톡으로 간편하게!
-        </p>
-      </div>
-
-      {/* Main Contact Card */}
-      <div className="bg-white rounded-3xl p-8 md:p-12 mb-12 shadow-sm border-2 border-[#FFB800]">
-        <div className="text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#FFB800]/10 border border-[#FFB800] rounded-full mb-6">
-            <span className="text-sm font-medium text-[#FFB800]">실시간 상담 가능</span>
-          </div>
-
-          <h2 className="text-3xl font-black mb-4 text-gray-900">카카오톡으로 간편하게 문의하세요</h2>
-          <p className="text-gray-600 text-lg mb-8">
-            아이템 스크린샷과 서버 정보만 보내주시면<br />
-            바로 시세 확인 후 가격을 안내드립니다
-          </p>
-
-          <a
-            href={KAKAO_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-[#FFB800] text-white px-10 py-4 rounded-full font-black text-xl hover:bg-[#FF9500] transition shadow-sm mb-6"
-          >
-            카카오톡 문의하기
-          </a>
-
-          <div className="text-gray-600 text-sm">
-            카카오톡 ID: <span className="font-bold text-gray-900">{KAKAO_ID}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Info Grid */}
-      <div className="grid md:grid-cols-2 gap-6 mb-12">
-        {/* 운영시간 */}
-        <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-[#FFB800]/20">
+  return <div className={styles.page}>
+    <section className={styles.hero}>
+      <div className={styles.container}>
+        <p className={styles.eyebrow}>아이템 판매 상담</p>
+        <div className={styles.heroGrid}>
           <div>
-            <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-3">운영시간</h3>
-              <div className="space-y-2 text-gray-700">
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-[#FFB800] rounded-full"></div>
-                  <span className="font-bold text-lg text-[#FFB800]">365일 24시간</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-                  <span>연중무휴 운영</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-                  <span>평균 응답: 1분 이내</span>
-                </div>
-              </div>
-            </div>
+            <h1>팔고 싶은 아이템,<br />카카오톡으로 보내주세요.</h1>
+            <p className={styles.lead}>서버와 아이템 옵션을 확인하고 구매 가격을 안내합니다.<br />견적을 받은 뒤 판매 여부를 결정하세요.</p>
+            <p className={styles.hours}>365일 24시간 문의 접수</p>
           </div>
-        </div>
-
-        {/* 문의 방법 */}
-        <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-[#FFB800]/20">
-          <div>
-            <div className="flex-1">
-              <h3 className="text-xl font-bold text-gray-900 mb-3">문의 방법</h3>
-              <div className="space-y-2 text-gray-700">
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-                  <span>아이템 스크린샷 전송</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-                  <span>서버 정보 알려주기</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-                  <span>시세 확인 및 가격 안내</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <aside className={styles.contact} aria-labelledby="contact-channel">
+            <MessageCircle size={28} aria-hidden="true" />
+            <h2 id="contact-channel">카카오톡 상담</h2>
+            <p>아래 버튼을 누르면 상담 채팅방으로 연결됩니다.</p>
+            <a className={styles.primary} href={KAKAO_LINK} target="_blank" rel="noopener noreferrer">카카오톡으로 문의하기 <ArrowRight size={18} aria-hidden="true" /></a>
+            <div className={styles.id}><span>카카오톡 ID</span><strong>{KAKAO_ID}</strong></div>
+          </aside>
         </div>
       </div>
+    </section>
 
-      {/* FAQ */}
-      <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-[#FFB800]/20">
-        <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">자주 묻는 질문</h3>
-        <div className="space-y-4">
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <div className="font-semibold text-gray-900 mb-2">Q. 문의 시 필요한 정보는 무엇인가요?</div>
-            <div className="text-gray-700">A. 아이템 스크린샷(상세 옵션 포함)과 서버 정보만 있으면 됩니다. 추가로 거래 가능 시간대를 알려주시면 더욱 빠른 거래가 가능합니다.</div>
-          </div>
-
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <div className="font-semibold text-gray-900 mb-2">Q. 시세 확인만 하고 거래 안 해도 되나요?</div>
-            <div className="text-gray-700">A. 네, 가능합니다. 시세 확인 후 거래 여부는 자유롭게 결정하실 수 있습니다. 부담 없이 문의해주세요.</div>
-          </div>
-
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <div className="font-semibold text-gray-900 mb-2">Q. 응답은 얼마나 빨리 오나요?</div>
-            <div className="text-gray-700">A. 평균 1분 이내에 응답드리며, 바로 시세 확인 후 가격을 안내드립니다.</div>
-          </div>
-
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <div className="font-semibold text-gray-900 mb-2">Q. 거래는 어떻게 진행되나요?</div>
-            <div className="text-gray-700">A. 가격 합의 후 게임 내에서 직접 만나 안전하게 거래합니다. 거래 완료 후 신속하게 정산해드립니다.</div>
-          </div>
-        </div>
+    <section className={styles.section} aria-labelledby="prepare-title">
+      <div className={styles.container}>
+        <div className={styles.heading}><div><p className={styles.eyebrow}>문의 전 준비</p><h2 id="prepare-title">이 정보를 함께 보내주세요</h2></div><p>정보를 한 번에 보내주시면<br />아이템을 확인하기 수월합니다.</p></div>
+        <dl className={styles.prepare}>
+          <div><dt>서버 이름</dt><dd>판매할 아이템이 있는 서버를 알려주세요.</dd></div>
+          <div><dt>아이템 상세 사진</dt><dd>아이템 이름과 전체 옵션이 보이는 스크린샷을 보내주세요.</dd></div>
+          <div><dt>거래 가능한 시간 <span>선택</span></dt><dd>게임에 접속할 수 있는 시간대를 알려주시면 일정을 조율합니다.</dd></div>
+        </dl>
+        <p className={styles.note}>상담은 이 페이지의 카카오톡 링크를 이용해주세요. 별도의 문의 양식을 작성할 필요는 없습니다.</p>
       </div>
+    </section>
 
-      {/* Bottom CTA */}
-      <div className="mt-12 text-center">
-        <p className="text-gray-600 mb-4">
-          지금 바로 카카오톡으로 문의하시면<br />
-          <span className="font-bold text-[#FFB800]">평균 약 10분 내 처리</span>됩니다
-        </p>
-        <a
-          href={KAKAO_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-8 py-3 bg-[#FFB800] text-white font-bold rounded-full hover:bg-[#FF9500] transition shadow-lg"
-        >
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/>
-            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/>
-          </svg>
-          카카오톡으로 문의하기
-        </a>
+    <section className={styles.faqSection} aria-labelledby="faq-title">
+      <div className={styles.faqGrid}>
+        <div><p className={styles.eyebrow}>자주 묻는 질문</p><h2 id="faq-title">문의 전에<br />궁금한 점이 있다면</h2><Link href="/guide" className={styles.textLink}>전체 이용가이드 <ArrowRight size={16} aria-hidden="true" /></Link></div>
+        <div className={styles.questions}>{questions.map(([q, a]) => <details key={q}><summary>{q}</summary><p>{a}</p></details>)}</div>
       </div>
-    </div>
-  );
+    </section>
+    <nav className={styles.related} aria-label="관련 안내">
+      <Link href="/guide"><div><span>처음 판매하시나요?</span><h2>거래 절차 알아보기</h2></div><ArrowRight size={22} aria-hidden="true" /></Link>
+      <Link href="/reviews"><div><span>다른 판매자의 경험</span><h2>이용후기 살펴보기</h2></div><ArrowRight size={22} aria-hidden="true" /></Link>
+    </nav>
+  </div>
 }

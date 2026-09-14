@@ -25,6 +25,6 @@ export default function NewsLayout({ children }: { children: React.ReactNode }) 
       <a href={KAKAO_LINK} target="_blank" rel="noreferrer" className={styles.primary}>판매 상담 <ArrowUpRight size={16} aria-hidden="true" /></a>
     </div></header>
     <main id="news-main" className={styles.main}>{children}</main>
-    <footer className={styles.footer}><div className={styles.container}><strong>메이플아이템</strong><p>메이플스토리 아이템을 판매하려는 분들을 위한 매입 상담 서비스입니다.</p><div><Link href="/guide">이용가이드</Link><Link href="/contact">문의하기</Link><span>© {new Date().getFullYear()} 메이플아이템</span></div></div></footer>
+    <footer className={styles.footer}><div className={styles.container}><strong>메이플아이템</strong><p>메이플스토리 아이템을 판매하려는 분들을 위한 구매 상담 서비스입니다.</p><div><Link href="/guide">이용가이드</Link><Link href="/contact">문의하기</Link><span>© {new Date().getFullYear()} 메이플아이템</span></div></div></footer>
   </div>;
 }

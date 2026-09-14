@@ -192,7 +192,7 @@ function useLatestReviews(count: number) {
 const faqs: [string, string][] = [
   ['사진은 어떻게 보내면 되나요?', '장비창이나 아이템 상세 옵션이 보이도록 캡처해 카카오톡 오픈채팅으로 보내주세요. 부족한 내용은 상담 중에 안내해드립니다.'],
   ['견적을 받으면 꼭 판매해야 하나요?', '아닙니다. 견적과 거래 조건을 확인한 뒤 결정하시면 됩니다. 상담과 견적은 부담 없이 받아보세요.'],
-  ['메소나 드롭템도 매입하나요?', '서버와 수량, 거래 가능 여부를 확인한 뒤 매입 가능 품목과 조건을 안내해드립니다.'],
+  ['메소나 드롭템도 구매하나요?', '서버와 수량, 거래 가능 여부를 확인한 뒤 구매 가능 품목과 조건을 안내해드립니다.'],
 ]
 
 function HeroLeadForm() {
@@ -335,7 +335,7 @@ export function HomeContent() {
             <article className={styles.scenarioCard}>
               <span className={styles.scenarioNumber}>03</span>
               <h3>얼마인지부터 확인</h3>
-              <p>매입 가능 여부와 금액이 먼저 궁금할 때</p>
+              <p>구매 가능 여부와 금액이 먼저 궁금할 때</p>
               <button type="button" onClick={() => setPriceModalOpen(true)}>
                 시세 확인하기 <ArrowRight size={16} />
               </button>
@@ -424,7 +424,7 @@ export function HomeContent() {
                 </tr>
                 <tr>
                   <td data-label="아이템">캐시 아이템</td>
-                  <td data-label="세부 내용" className={styles.notAvailable}>캐시 아이템은 구매하면 교환할 수 없어 매입이 어렵습니다.</td>
+                  <td data-label="세부 내용" className={styles.notAvailable}>캐시 아이템은 구매하면 교환할 수 없어 구매가 어렵습니다.</td>
                   <td data-label="구매 여부" className={styles.notAvailable}><X aria-hidden="true" /><span>구매 불가</span></td>
                 </tr>
               </tbody>

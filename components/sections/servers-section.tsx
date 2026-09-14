@@ -13,7 +13,7 @@ export function ServersSection() {
           {SERVERS.map((server, i) => (
             <div
               key={i}
-              className="glass-small rounded-xl p-4 text-center font-bold shadow-sm hover:shadow-md hover:border-[#FFB800]/50 hover:text-[#FFB800] transition hover:-translate-y-1 cursor-pointer"
+              className="glass-small rounded-xl p-4 text-center font-bold shadow-sm hover:shadow-md hover:border-[#2C9FD6]/50 hover:text-[#197DAC] transition hover:-translate-y-1 cursor-pointer"
             >
               {server}
             </div>

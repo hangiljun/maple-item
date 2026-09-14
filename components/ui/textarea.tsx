@@ -11,7 +11,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         className={cn(
           "flex min-h-[120px] w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-base transition-colors",
           "placeholder:text-gray-400",
-          "focus:border-[#FFB800] focus:outline-none focus:ring-2 focus:ring-[#FFB800]/20",
+          "focus:border-[#2C9FD6] focus:outline-none focus:ring-2 focus:ring-[#2C9FD6]/20",
           "disabled:cursor-not-allowed disabled:opacity-50",
           "resize-none",
           className

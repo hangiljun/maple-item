@@ -8,7 +8,7 @@ export default function NotFound() {
       <div className="text-center">
         {/* 404 애니메이션 */}
         <div className="mb-8">
-          <div className="text-9xl font-black text-[#FFB800] mb-4">
+          <div className="text-9xl font-black text-[#2C9FD6] mb-4">
             404
           </div>
           <Search className="mx-auto text-gray-400 animate-bounce" size={48} />
@@ -44,15 +44,15 @@ export default function NotFound() {
 
         {/* 추천 링크 */}
         <div className="flex gap-4 justify-center text-sm">
-          <Link href="/guide" className="text-gray-600 hover:text-[#FFB800] transition">
+          <Link href="/guide" className="text-gray-600 hover:text-[#197DAC] transition">
             이용가이드
           </Link>
           <span className="text-gray-400">•</span>
-          <Link href="/news" className="text-gray-600 hover:text-[#FFB800] transition">
+          <Link href="/news" className="text-gray-600 hover:text-[#197DAC] transition">
             소식정보
           </Link>
           <span className="text-gray-400">•</span>
-          <Link href="/reviews" className="text-gray-600 hover:text-[#FFB800] transition">
+          <Link href="/reviews" className="text-gray-600 hover:text-[#197DAC] transition">
             후기게시판
           </Link>
         </div>

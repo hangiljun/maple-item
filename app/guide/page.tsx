@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { AlertTriangle, ArrowRight, Check, CircleCheck, Clock3, MessageCircle } from 'lucide-react'
+import { ArrowRight, Check, CircleCheck, Clock3, MessageCircle } from 'lucide-react'
 import { KAKAO_ID, KAKAO_LINK, SERVERS } from '@/lib/constants'
 import styles from './guide.module.css'
 
@@ -159,7 +159,6 @@ export default function GuidePage() {
         </div>
       </section>
 
-      <aside className={styles.notice} aria-label="상표 안내"><AlertTriangle size={17} aria-hidden="true" />메이플스토리는 넥슨코리아의 등록 상표이며, 메이플아이템은 넥슨코리아와 제휴 또는 관계가 없습니다.</aside>
     </main>
   )
 }

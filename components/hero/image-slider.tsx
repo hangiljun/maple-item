@@ -96,7 +96,7 @@ export function ImageSlider() {
                 onClick={() => goToSlide(index)}
                 className={`w-2 h-2 rounded-full transition-all ${
                   index === currentIndex
-                    ? "bg-[#FFB800] w-6"
+                    ? "bg-[#2C9FD6] w-6"
                     : "bg-white/30 hover:bg-white/50"
                 }`}
                 aria-label={`${index + 1}번째 이미지로 이동`}

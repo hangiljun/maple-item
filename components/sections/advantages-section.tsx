@@ -4,7 +4,7 @@ export function AdvantagesSection() {
     <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-left mb-16">
-          <span className="text-[#FFB800] font-bold text-sm uppercase tracking-wider">저희의 특징</span>
+          <span className="text-[#197DAC] font-bold text-sm uppercase tracking-wider">저희의 특징</span>
           <h2 className="text-4xl font-black text-gray-900 mt-2 mb-4">빠르고 합리적인 거래</h2>
           <p className="text-gray-600 text-lg">믿을 수 있는 아이템 구매 서비스</p>
         </div>
@@ -20,19 +20,19 @@ export function AdvantagesSection() {
             </p>
             <ul className="space-y-3">
               <li className="flex items-center gap-3 text-gray-700">
-                <svg className="w-5 h-5 text-[#FFB800]" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-[#2C9FD6]" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                 </svg>
                 <span>신속한 답변</span>
               </li>
               <li className="flex items-center gap-3 text-gray-700">
-                <svg className="w-5 h-5 text-[#FFB800]" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-[#2C9FD6]" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                 </svg>
                 <span>실시간 시세 확인</span>
               </li>
               <li className="flex items-center gap-3 text-gray-700">
-                <svg className="w-5 h-5 text-[#FFB800]" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-[#2C9FD6]" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                 </svg>
                 <span>빠른 정산</span>
@@ -50,19 +50,19 @@ export function AdvantagesSection() {
             </p>
             <ul className="space-y-3">
               <li className="flex items-center gap-3 text-gray-700">
-                <svg className="w-5 h-5 text-[#FFB800]" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-[#2C9FD6]" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                 </svg>
                 <span>경매장 시세 실시간 확인</span>
               </li>
               <li className="flex items-center gap-3 text-gray-700">
-                <svg className="w-5 h-5 text-[#FFB800]" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-[#2C9FD6]" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                 </svg>
                 <span>옵션별 세부 평가</span>
               </li>
               <li className="flex items-center gap-3 text-gray-700">
-                <svg className="w-5 h-5 text-[#FFB800]" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-[#2C9FD6]" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                 </svg>
                 <span>투명한 거래</span>

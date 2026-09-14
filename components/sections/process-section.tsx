@@ -41,9 +41,9 @@ export function ProcessSection() {
     <section className="py-20 bg-white">
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-left mb-12">
-          <span className="text-[#FFB800] font-bold text-sm uppercase tracking-wider">간편한 거래 프로세스</span>
+          <span className="text-[#197DAC] font-bold text-sm uppercase tracking-wider">간편한 거래 프로세스</span>
           <h2 className="text-4xl font-black text-gray-900 mt-2 mb-4">3단계 거래 프로세스</h2>
-          <p className="text-gray-600 text-lg">투명하고 안전한 거래, <span className="font-bold text-[#FFB800]">평균 10분 소요</span></p>
+          <p className="text-gray-600 text-lg">투명하고 안전한 거래, <span className="font-bold text-[#197DAC]">평균 10분 소요</span></p>
         </div>
 
         {/* Timeline Progress Bar */}
@@ -53,13 +53,13 @@ export function ProcessSection() {
               {steps.map((item, i) => (
                 <div key={i} className="flex-1 flex items-center">
                   <div className="flex flex-col items-center flex-1">
-                    <div className="w-12 h-12 rounded-full bg-[#FFB800] flex items-center justify-center text-white font-bold mb-2">
+                    <div className="w-12 h-12 rounded-full bg-[#2C9FD6] flex items-center justify-center text-white font-bold mb-2">
                       {item.step}
                     </div>
                     <div className="text-xs font-medium text-gray-600 text-center">
                       {item.title}
                     </div>
-                    <div className="text-xs text-[#FFB800] font-semibold mt-1">
+                    <div className="text-xs text-[#197DAC] font-semibold mt-1">
                       {item.time}
                     </div>
                   </div>
@@ -85,8 +85,8 @@ export function ProcessSection() {
             >
               <div className="glass rounded-xl p-8 border-2 border-gray-200">
                 {/* Time Badge */}
-                <div className="inline-flex items-center px-4 py-2 bg-[#FFB800]/10 border border-[#FFB800] rounded-full mb-3">
-                  <span className="text-sm font-bold text-[#FFB800]">약 {item.time}</span>
+                <div className="inline-flex items-center px-4 py-2 bg-[#2C9FD6]/10 border border-[#2C9FD6] rounded-full mb-3">
+                  <span className="text-sm font-bold text-[#197DAC]">약 {item.time}</span>
                 </div>
 
                 <div className="text-6xl font-black text-gray-900 mb-2">{item.step}</div>
