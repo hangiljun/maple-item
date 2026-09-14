@@ -7,12 +7,12 @@ import { FloatingKakaoButton } from '@/components/floating-kakao-button'
 
 // 여기 나열된 경로는 공식 사이트 헤더/푸터/플로팅 버튼 없이
 // 완전히 독립된 화면으로 렌더링됩니다.
-// /home: 별개의 비공개 미리보기 페이지
+// /home: 별개의 비공개 미리보기 페이지, /news: 자체 헤더·푸터를 쓰는 소식 페이지
 const STANDALONE_PATH_PREFIXES = ['/home']
 
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? ''
-  const isStandalone = STANDALONE_PATH_PREFIXES.some((prefix) => pathname.startsWith(prefix))
+  const isStandalone = STANDALONE_PATH_PREFIXES.some((prefix) => pathname.startsWith(prefix)) || pathname === '/news' || pathname.startsWith('/news/')
 
   if (isStandalone) {
     return <>{children}</>
