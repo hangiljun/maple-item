@@ -53,6 +53,103 @@ const steps = [
   },
 ]
 
+// 시세 확인 팝업에 쓰이는 카테고리별 구매 비율 (예시 수치 · 실제 운영 기준으로 교체 필요)
+const priceCategories = [
+  {
+    key: 'armor',
+    label: '방어구류',
+    items: [
+      { name: '무제련 방어구', desc: '모자, 상의, 하의, 신발, 장갑, 망토 등 강화 전 상태', rate: '시세 95%' },
+      { name: '스타포스 강화 방어구', desc: '10성 이상 강화된 모자, 상의, 하의, 신발, 장갑', rate: '시세 90%' },
+      { name: '레어 세트 방어구', desc: '에테르넬, 아케인, 앱솔랩스, 카루타 등', rate: '시세 85~90%' },
+    ],
+  },
+  {
+    key: 'accessory',
+    label: '악세서리류',
+    items: [
+      { name: '일반 장신구', desc: '반지, 펜던트, 귀고리, 벨트, 눈장식, 얼굴장식', rate: '시세 90%' },
+      { name: '잠재능력 우수 장신구', desc: '유니크 이상 잠재능력, 추가옵션 보유', rate: '시세 88%' },
+      { name: '레어 장신구', desc: '칠흑 아이템, 여명 세트, 가디언 엔젤링 등', rate: '시세 85%' },
+    ],
+  },
+  {
+    key: 'weapon',
+    label: '무기류',
+    items: [
+      { name: '무제련 무기 · 보조무기', desc: '스타포스 강화 전 상태', rate: '시세 95%' },
+      { name: '스타포스 강화 무기', desc: '17성 이상 강화된 무기, 보조무기', rate: '시세 90%' },
+      { name: '엠블렘 · 방패', desc: '직업별 엠블렘, 아케인셰이드 방패 등', rate: '시세 88%' },
+    ],
+  },
+]
+
+function PriceGuideModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [activeTab, setActiveTab] = useState(0)
+
+  useEffect(() => {
+    if (!open) return
+    const original = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => {
+      document.body.style.overflow = original
+      window.removeEventListener('keydown', handleKey)
+    }
+  }, [open, onClose])
+
+  if (!open) return null
+
+  const category = priceCategories[activeTab]
+
+  return (
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modalBox} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="카테고리별 구매 시세">
+        <div className={styles.modalHead}>
+          <h3>카테고리별 구매 시세</h3>
+          <button type="button" className={styles.modalClose} onClick={onClose} aria-label="닫기">
+            <X size={20} aria-hidden="true" />
+          </button>
+        </div>
+        <div className={styles.modalTabs}>
+          {priceCategories.map((c, i) => (
+            <button
+              key={c.key}
+              type="button"
+              className={`${styles.modalTab} ${i === activeTab ? styles.modalTabActive : ''}`}
+              onClick={() => setActiveTab(i)}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+        <ul className={styles.modalList}>
+          {category.items.map((item) => (
+            <li key={item.name} className={styles.modalItem}>
+              <div>
+                <strong>{item.name}</strong>
+                <p>{item.desc}</p>
+              </div>
+              <span className={styles.modalRate}>{item.rate}</span>
+            </li>
+          ))}
+        </ul>
+        <a
+          href={kakaoUrl}
+          target="_blank"
+          rel="noreferrer"
+          className={`${styles.button} ${styles.buttonPrimary} ${styles.buttonFull}`}
+        >
+          카톡으로 정확한 시세 문의하기 <ArrowRight size={16} />
+        </a>
+      </div>
+    </div>
+  )
+}
+
 function useLatestReviews(count: number) {
   const [reviews, setReviews] = useState<Review[]>([])
   const [loaded, setLoaded] = useState(false)
@@ -145,6 +242,7 @@ function HeroLeadForm() {
 
 export default function HomePreviewPage() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [priceModalOpen, setPriceModalOpen] = useState(false)
   const { reviews, loaded: reviewsLoaded } = useLatestReviews(3)
 
   return (
@@ -269,9 +367,9 @@ export default function HomePreviewPage() {
               <span className={styles.scenarioNumber}>03</span>
               <h3>얼마인지부터 확인</h3>
               <p>매입 가능 여부와 금액이 먼저 궁금할 때</p>
-              <a href={kakaoUrl} target="_blank" rel="noreferrer">
+              <button type="button" onClick={() => setPriceModalOpen(true)}>
                 시세 확인하기 <ArrowRight size={16} />
-              </a>
+              </button>
             </article>
           </div>
         </div>
@@ -492,6 +590,8 @@ export default function HomePreviewPage() {
         <MessageCircle size={18} />
         <span>카톡으로 상담하기</span>
       </a>
+
+      <PriceGuideModal open={priceModalOpen} onClose={() => setPriceModalOpen(false)} />
     </main>
   )
 }
