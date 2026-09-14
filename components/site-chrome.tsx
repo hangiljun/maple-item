@@ -12,7 +12,7 @@ const STANDALONE_PATH_PREFIXES = ['/home']
 
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? ''
-  const isStandalone = STANDALONE_PATH_PREFIXES.some((prefix) => pathname.startsWith(prefix)) || pathname === '/news' || pathname.startsWith('/news/')
+  const isStandalone = STANDALONE_PATH_PREFIXES.some((prefix) => pathname.startsWith(prefix))
 
   if (isStandalone) {
     return <>{children}</>

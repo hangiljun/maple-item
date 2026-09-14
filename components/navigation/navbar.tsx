@@ -42,8 +42,8 @@ function NavbarContent() {
           <Image
             src="/logo.png"
             alt="메이플아이템 로고"
-            width={150}
-            height={38}
+            width={180}
+            height={45}
             className={styles.brandLogo}
             priority
             quality={90}
