@@ -15,6 +15,7 @@ import { getLatestReviews } from '@/lib/posts'
 import type { Review } from '@/lib/types'
 import { KAKAO_LINK } from '@/lib/constants'
 import { HomeSeoContent } from './home-seo-content'
+import { HomeNewsSection, type HomeNewsItem } from './home-news-section'
 import styles from './page.module.css'
 
 // 상시 오픈 14개 월드 + 챌린저스 전체 월드
@@ -255,7 +256,7 @@ function HeroLeadForm() {
   )
 }
 
-export function HomeContent() {
+export function HomeContent({ latestNews = [] }: { latestNews?: HomeNewsItem[] }) {
   const [priceModalOpen, setPriceModalOpen] = useState(false)
   const updatedAtLabel = useUpdatedAtLabel()
   const { reviews, loaded: reviewsLoaded } = useLatestReviews(3)
@@ -485,6 +486,8 @@ export function HomeContent() {
           </div>
         </div>
       </section>
+
+      <HomeNewsSection posts={latestNews} />
 
       <section id="reviews" className={`${styles.section} ${styles.sectionAlt}`}>
         <div className={styles.container}>

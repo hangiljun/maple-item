@@ -1,5 +1,32 @@
 import type { Metadata } from 'next'
+import { getAllPosts } from '@/lib/posts'
 import { HomeContent } from './home-content'
+import type { HomeNewsItem } from './home-news-section'
+
+// 메인 "메이플 소식" 섹션 갱신 주기 (소식 게시판과 동일)
+export const revalidate = 60
+
+const HOME_NEWS_COUNT = 5
+
+// 최신 소식 5개 — 제목·분류·날짜·대표 이미지만 클라이언트로 넘김
+async function getLatestNews(): Promise<HomeNewsItem[]> {
+  try {
+    const posts = await getAllPosts()
+    return [...posts]
+      .sort((a, b) => `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`))
+      .slice(0, HOME_NEWS_COUNT)
+      .map((post) => ({
+        id: post.id,
+        title: post.title,
+        category: post.category,
+        date: post.date,
+        ...(post.image ? { image: post.image } : {}),
+      }))
+  } catch (error) {
+    console.error('메인 소식 불러오기 실패:', error)
+    return []
+  }
+}
 
 export const metadata: Metadata = {
   title: '메이플 아이템 정리 - 경매장 시세 기준 구매',
@@ -26,7 +53,9 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Home() {
+export default async function Home() {
+  const latestNews = await getLatestNews()
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
@@ -58,7 +87,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <HomeContent />
+      <HomeContent latestNews={latestNews} />
     </>
   )
 }
