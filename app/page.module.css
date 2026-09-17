@@ -653,9 +653,10 @@
 
 .newsLayout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
-  gap: 40px;
-  align-items: stretch;
+  /* 오른쪽 사진 칸은 가로형(1200×630 대표 이미지 기준) */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 44px;
+  align-items: center;
 }
 
 .newsList {
@@ -673,7 +674,7 @@
   display: flex;
   align-items: center;
   gap: 18px;
-  padding: 24px 4px;
+  padding: 19px 4px;
 }
 
 .newsNum {
@@ -720,24 +721,39 @@
 .newsVisual {
   position: relative;
   display: block;
-  min-height: 320px;
+  aspect-ratio: 1200 / 630;
   overflow: hidden;
   background: #e7f3fb;
   border: 1px solid var(--border);
   border-radius: 14px;
 }
 
-.newsVisualImg {
-  object-fit: cover;
+.newsSlide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
   opacity: 0;
-  transition: opacity 0.35s ease, transform 0.5s ease;
+  transition: opacity 0.35s ease;
 }
 
-.newsVisualImgActive {
+.newsSlideActive {
   opacity: 1;
 }
 
-.newsVisual:hover .newsVisualImgActive {
+/* 비율이 다른 사진의 빈 공간을 채우는 흐린 배경 */
+.newsSlideBackdrop {
+  object-fit: cover;
+  filter: blur(22px) brightness(0.9);
+  transform: scale(1.2);
+}
+
+/* 사진 전체가 보이도록 자르지 않음 */
+.newsSlideImg {
+  object-fit: contain;
+  transition: transform 0.5s ease;
+}
+
+.newsVisual:hover .newsSlideActive .newsSlideImg {
   transform: scale(1.03);
 }
 
@@ -1179,8 +1195,11 @@
   }
   .newsVisual {
     order: -1;
-    min-height: 0;
-    aspect-ratio: 16 / 9;
+    width: 100%;
+  }
+  /* 모바일은 사진 칸이 낮아 제목이 사진을 가리므로 캡션 숨김 (바로 아래 목록에 같은 제목이 강조됨) */
+  .newsCaption {
+    display: none;
   }
   .newsItem {
     gap: 12px;

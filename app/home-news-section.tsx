@@ -60,17 +60,20 @@ export function HomeNewsSection({ posts }: { posts: HomeNewsItem[] }) {
           </ol>
 
           <Link href={`/news/${active.id}`} className={styles.newsVisual} tabIndex={-1} aria-hidden="true">
-            {posts.map((post, index) => (
-              <Image
-                key={post.id}
-                src={post.image || FALLBACK_IMAGE}
-                alt=""
-                fill
-                sizes="(max-width: 760px) 100vw, 500px"
-                unoptimized
-                className={`${styles.newsVisualImg} ${index === activeIndex ? styles.newsVisualImgActive : ''}`}
-              />
-            ))}
+            {posts.map((post, index) => {
+              const src = post.image || FALLBACK_IMAGE
+              return (
+                <span
+                  key={post.id}
+                  className={`${styles.newsSlide} ${index === activeIndex ? styles.newsSlideActive : ''}`}
+                >
+                  {/* 뒤: 같은 사진을 흐리게 깔아 여백 채우기 */}
+                  <Image src={src} alt="" fill sizes="600px" unoptimized className={styles.newsSlideBackdrop} />
+                  {/* 앞: 사진 전체를 자르지 않고 표시 */}
+                  <Image src={src} alt="" fill sizes="(max-width: 760px) 100vw, 600px" unoptimized className={styles.newsSlideImg} />
+                </span>
+              )
+            })}
             <span className={styles.newsCaption}>
               <small>
                 {active.category} · {active.date}

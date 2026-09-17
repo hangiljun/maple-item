@@ -39,6 +39,8 @@ export default function AdminPostsPage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [uploading, setUploading] = useState(false);
+  // 업로드한 대표 이미지의 실제 크기 (규격 안내용)
+  const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(null);
 
   const loadPosts = async () => {
     try {
@@ -147,6 +149,7 @@ export default function AdminPostsPage() {
     setPinned(false);
     setImageFile(null);
     setImagePreview("");
+    setImageSize(null);
     setEditingPost(null);
     setShowEditor(false);
   };
@@ -161,6 +164,7 @@ export default function AdminPostsPage() {
     setFeatured(post.featured);
     setPinned(post.pinned);
     setImagePreview(post.image || "");
+    setImageSize(null);
     setImageFile(null);
     setShowEditor(true);
   };
@@ -191,6 +195,7 @@ export default function AdminPostsPage() {
   const removeImage = () => {
     setImageFile(null);
     setImagePreview("");
+    setImageSize(null);
   };
 
   const handleDelete = async (id: string) => {
@@ -418,6 +423,17 @@ export default function AdminPostsPage() {
                   대표 이미지 (선택)
                 </label>
 
+                {/* 대표 이미지 규격 안내 */}
+                <div className="mb-3 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-xs leading-relaxed text-gray-700">
+                  <p className="mb-1 text-sm font-semibold text-sky-800">권장 규격: 가로 1200 × 세로 630px (JPG, 300KB 안팎)</p>
+                  <ul className="list-disc space-y-0.5 pl-4">
+                    <li>메인 페이지 &lsquo;메이플 소식&rsquo; 칸, 글 상세 상단, 카카오톡·SNS 공유 미리보기에 같은 사진이 쓰여요.</li>
+                    <li>1200×630 비율이면 메인 칸에 꽉 차요. 다른 비율도 잘리지는 않고, 남는 공간이 흐린 배경으로 채워져요.</li>
+                    <li>PC 메인에서는 사진 아래쪽에 글 제목이 겹쳐요. 사진 속 글자는 위쪽이나 가운데에 넣어주세요.</li>
+                    <li>사진은 자동으로 줄어들지 않아요. 용량이 크면 메인이 느려지니 압축 후 올려주세요. (최대 5MB)</li>
+                  </ul>
+                </div>
+
                 {!imagePreview ? (
                   <div>
                     <input
@@ -435,15 +451,22 @@ export default function AdminPostsPage() {
                       <span className="text-gray-400">클릭해서 이미지 업로드</span>
                     </label>
                     <p className="text-xs text-gray-500 mt-2">
-                      * 최대 5MB, JPG/PNG 파일만 가능
+                      * 최대 5MB, JPG/PNG 파일만 가능 · 권장 1200×630px
                     </p>
                   </div>
                 ) : (
                   <div className="relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element -- 업로드 전 로컬 미리보기(data URL) */}
                     <img
                       src={imagePreview}
                       alt="미리보기"
-                      className="w-full h-64 object-cover rounded-xl"
+                      className="w-full h-64 object-contain rounded-xl bg-gray-100"
+                      onLoad={(e) =>
+                        setImageSize({
+                          width: e.currentTarget.naturalWidth,
+                          height: e.currentTarget.naturalHeight,
+                        })
+                      }
                     />
                     <button
                       type="button"
@@ -452,6 +475,22 @@ export default function AdminPostsPage() {
                     >
                       <X size={20} />
                     </button>
+                    {imageSize && (
+                      <p
+                        className={`mt-2 text-xs ${
+                          Math.abs(imageSize.width / imageSize.height - 1200 / 630) < 0.1
+                            ? "text-emerald-600"
+                            : "text-amber-600"
+                        }`}
+                      >
+                        올린 사진: {imageSize.width}×{imageSize.height}px
+                        {Math.abs(imageSize.width / imageSize.height - 1200 / 630) < 0.1
+                          ? " · 권장 비율(1200×630)과 맞아요."
+                          : " · 권장 비율(1200×630)과 달라서 메인에서는 남는 공간이 흐린 배경으로 채워져요."}
+                        {imageFile && imageFile.size > 500 * 1024 &&
+                          ` 용량이 ${(imageFile.size / 1024 / 1024).toFixed(1)}MB라 메인 로딩이 느려질 수 있어요.`}
+                      </p>
+                    )}
                   </div>
                 )}
               </div>
