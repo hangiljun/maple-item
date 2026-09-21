@@ -12,7 +12,7 @@ const questions = [
 
 export default function ContactPage() {
   return <div className={styles.page}>
-    <section className={styles.hero}>
+    <section data-maple-hero="wide" className={styles.hero}>
       <div className={styles.container}>
         <p className={styles.eyebrow}>아이템 판매 상담</p>
         <div className={styles.heroGrid}>

@@ -249,3 +249,32 @@ h1, h2, h3, h4, h5, h6 {
 .rvw-d-body img{display:block;width:100%;border-radius:12px;border:1px solid #EBEBE8;margin:20px 0}
 .rvw-d-like{display:flex;justify-content:center;margin:12px 0 28px}
 .rvw-d-like span{border:1px solid #EBEBE8;background:#fff;border-radius:12px;padding:12px 24px;font-size:14px;font-weight:600;color:#171717}
+
+/* Shared artwork for public page headings; repeated attribute keeps module backgrounds from overriding it. */
+[data-maple-hero][data-maple-hero] {
+  background-color: #f5faff;
+  background-image:
+    linear-gradient(to bottom, rgba(245, 250, 255, .35), rgba(245, 250, 255, .45) 65%, #fff),
+    url('/images/hero-maple-sky-v2.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+[data-maple-hero="compact"][data-maple-hero] {
+  padding: clamp(24px, 4vw, 48px);
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 820px) {
+  [data-maple-hero][data-maple-hero] {
+    background-image:
+      linear-gradient(to bottom, rgba(245, 250, 255, .65), rgba(245, 250, 255, .82) 360px, #fff 540px),
+      url('/images/hero-maple-sky-mobile-v2.webp');
+    background-size: 100% 100%, auto 540px;
+    background-position: center, left top;
+  }
+  [data-maple-hero="compact"][data-maple-hero] {
+    padding: 24px 16px;
+    background-size: 100% 100%, auto 360px;
+  }
+}

@@ -47,7 +47,7 @@ export default async function ReviewsPage({ searchParams }: Props) {
 
   return (
     <main className="reviews-page">
-      <section className="rvw-hero">
+      <section data-maple-hero="wide" className="rvw-hero">
         <div className="rvw rvw-container rvw-hero-inner">
           <div className="rvw-head">
             <span>실제 거래 경험</span>

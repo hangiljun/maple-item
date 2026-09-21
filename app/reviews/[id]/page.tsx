@@ -93,6 +93,7 @@ export default async function ReviewPage({ params }: Props) {
       <main className="reviews-page reviews-subpage">
         <article className="rvw rvw-detail">
           <Link href="/reviews" className="rvw-d-back"><ArrowLeft size={16} aria-hidden="true" /> 이용후기 목록</Link>
+          <header data-maple-hero="compact">
           <div className="rvw-d-meta">
             {review.server && <span className="rvw-srv">{review.server}</span>}
             <span>거래완료</span>
@@ -102,6 +103,7 @@ export default async function ReviewPage({ params }: Props) {
             <span>작성자 {review.author}</span>
             <span>{review.date}</span>
           </div>
+          </header>
           <div className="rvw-d-body">
             {review.content}
             {review.image && <img src={review.image} alt="거래 인증샷" />}

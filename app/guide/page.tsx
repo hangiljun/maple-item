@@ -51,7 +51,7 @@ export default function GuidePage() {
     <main className={styles.page}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }} />
 
-      <section className={styles.hero} aria-labelledby="guide-title">
+      <section data-maple-hero="wide" className={styles.hero} aria-labelledby="guide-title">
         <div className={styles.container}>
           <nav className={styles.anchorNav} aria-label="이용가이드 바로가기">
             <a href="#process">거래 절차</a><a href="#safety">안전 확인</a><a href="#servers">지원 서버</a><a href="#faq">자주 묻는 질문</a>

@@ -44,7 +44,7 @@ export default async function ArticlePage({ params }: Props) {
     mainEntityOfPage: `https://mapleitem.co.kr/news/${encodeURIComponent(post.id)}`,
   };
   return <div className={styles.articleContainer}><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema).replace(/</g, '\\u003c') }} /><Link href="/news" className={styles.back}>← 소식 목록</Link><article>
-    <header className={styles.articleHeader}><div className={styles.meta}><span className={styles.badge}>{post.category}</span><time dateTime={post.date}>{post.date}</time><span>메이플아이템</span></div><h1>{post.title}</h1>{post.excerpt && <p>{post.excerpt}</p>}</header>
+    <header data-maple-hero="compact" className={styles.articleHeader}><div className={styles.meta}><span className={styles.badge}>{post.category}</span><time dateTime={post.date}>{post.date}</time><span>메이플아이템</span></div><h1>{post.title}</h1>{post.excerpt && <p>{post.excerpt}</p>}</header>
     {post.image && <div className={styles.cover}><Image src={post.image} alt={post.title} width={800} height={480} unoptimized /></div>}
     {isHTML ? <div className={styles.prose} dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content, {
       allowedTags: ['p','br','strong','em','u','s','del','h2','h3','h4','h5','h6','ul','ol','li','a','img','table','thead','tbody','tr','th','td','blockquote','code','pre','hr'],
