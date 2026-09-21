@@ -179,11 +179,14 @@
 
 .heroGlow {
   position: absolute;
-  width: 560px;
-  height: 560px;
-  right: 2%;
-  top: -20%;
-  background: radial-gradient(circle, rgba(44, 159, 214, 0.14), transparent 66%);
+  inset: 0;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(to bottom, rgba(245, 250, 255, 0.12) 65%, var(--bg)),
+    url('/images/hero-maple-sky-v2.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   pointer-events: none;
 }
 
@@ -383,6 +386,7 @@
 }
 
 .templateCard {
+  min-width: 0;
   padding: 27px;
   background: var(--card);
   border: 1px solid var(--border);
@@ -418,6 +422,7 @@
 }
 
 .formField {
+  min-width: 0;
   display: grid;
   gap: 6px;
   color: var(--muted-strong);
@@ -426,6 +431,8 @@
 }
 
 .formField input {
+  min-width: 0;
+  width: 100%;
   min-height: 44px;
   padding: 10px 12px;
   color: var(--fg);
@@ -1119,6 +1126,14 @@
   .hero {
     min-height: 610px;
   }
+  /* Keep the scenery visible without stretching it over the stacked form. */
+  .heroGlow {
+    background-image:
+      linear-gradient(to bottom, rgba(245, 250, 255, 0.55), rgba(245, 250, 255, 0.72) 360px, var(--bg) 540px),
+      url('/images/hero-maple-sky-mobile-v2.webp');
+    background-size: 100% 100%, auto 540px;
+    background-position: center, left top;
+  }
   .heroContent {
     padding: 58px 0 64px;
     grid-template-columns: 1fr;
@@ -1317,6 +1332,12 @@
 }
 
 @media (max-width: 420px) {
+  .templateCard {
+    padding: 20px;
+  }
+  .templateCard button {
+    word-break: keep-all;
+  }
   .hero h1 {
     font-size: 34px;
   }
