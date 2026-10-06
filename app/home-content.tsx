@@ -62,10 +62,10 @@ const priceCategories = [
   },
   {
     key: 'weapon',
-    label: '무기류',
+    label: '보조무기·엠블렘',
     items: [
-      { name: '보조무기 · 엠블렘', desc: '각종 직업별 보조무기, 미트라 엠블렘 등', rate: '시세 80~85%' },
-      { name: '무기류', desc: '아케인, 에테르넬, 카루타', rate: '시세 80%' },
+      { name: '보조무기', desc: '각종 직업별 보조무기', rate: '시세 80~85%' },
+      { name: '엠블렘', desc: '미트라 엠블렘 등', rate: '시세 80~85%' },
     ],
   },
 ]
