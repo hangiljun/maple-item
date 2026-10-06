@@ -1,4 +1,6 @@
-﻿export function GuideSEOContent() {
+import { SERVERS, SERVER_SUPPORT_TEXT } from "@/lib/constants";
+
+export function GuideSEOContent() {
   return (
     <section className="py-16 bg-gradient-to-b from-background to-muted/20">
       <div className="container mx-auto px-4 max-w-6xl">
@@ -28,53 +30,13 @@
 
           <div className="bg-card rounded-lg p-8 mb-12 shadow-sm">
             <h3 className="text-2xl font-semibold mb-6 text-card-foreground text-center">전서버 아이템 모두 구매</h3>
-            <p className="text-center text-lg font-medium text-primary mb-6">메이플스토리 모든 서버의 아이템을 구매합니다</p>
+            <p className="text-center text-lg font-medium text-primary mb-6">{SERVER_SUPPORT_TEXT}</p>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-center">
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">스카니아</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">베라</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">루나</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">제니스</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">크로아</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">아케인</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">노바</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">레드</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">이노시스</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">유니온</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">엘리시움</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">오로라</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">챌린저스</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">에오스</p>
-              </div>
-              <div className="p-3 bg-muted/50 rounded-lg">
-                <p className="font-semibold text-primary">헬리오스</p>
-              </div>
+              {SERVERS.map((server) => (
+                <div key={server} className="p-3 bg-muted/50 rounded-lg">
+                  <p className="font-semibold text-primary">{server}</p>
+                </div>
+              ))}
             </div>
           </div>
 

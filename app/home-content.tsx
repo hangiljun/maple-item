@@ -13,17 +13,10 @@ import {
 } from 'lucide-react'
 import { getLatestReviews } from '@/lib/posts'
 import type { Review } from '@/lib/types'
-import { KAKAO_LINK } from '@/lib/constants'
+import { KAKAO_LINK, SERVERS, SERVER_SUPPORT_TEXT } from '@/lib/constants'
 import { HomeSeoContent } from './home-seo-content'
 import { HomeNewsSection, type HomeNewsItem } from './home-news-section'
 import styles from './page.module.css'
-
-// 상시 오픈 14개 월드 + 챌린저스 전체 월드
-const servers = [
-  '스카니아', '베라', '루나', '제니스', '크로아', '유니온', '엘리시움', '이노시스',
-  '레드', '오로라', '아케인', '노바', '에오스', '핼리오스',
-  '챌린저스1', '챌린저스2', '챌린저스3', '챌린저스4',
-]
 
 const steps = [
   {
@@ -477,10 +470,10 @@ export function HomeContent({ latestNews = [] }: { latestNews?: HomeNewsItem[] }
             <h2>
               전체 월드 <span className={styles.goldText}>어디서든</span> 거래 가능합니다.
             </h2>
-            <span>일반 서버 14개 + 챌린저스 전체 · 총 {servers.length}개 월드</span>
+            <span>{SERVER_SUPPORT_TEXT}</span>
           </div>
           <div className={styles.serverTags}>
-            {servers.map((server) => (
+            {SERVERS.map((server) => (
               <span key={server}>{server}</span>
             ))}
           </div>

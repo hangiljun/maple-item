@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { ArrowRight, Check, CircleCheck, Clock3, MessageCircle } from 'lucide-react'
-import { KAKAO_ID, KAKAO_LINK, SERVERS } from '@/lib/constants'
+import { KAKAO_ID, KAKAO_LINK, SERVERS, SERVER_SUPPORT_TEXT } from '@/lib/constants'
 import styles from './guide.module.css'
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ const steps = [
 
 const faqs = [
   { question: '견적을 받은 뒤 꼭 판매해야 하나요?', answer: '아니요. 안내받은 가격을 확인한 뒤 판매 여부를 자유롭게 결정할 수 있습니다.' },
-  { question: '어떤 서버에서 거래할 수 있나요?', answer: `현재 안내 중인 ${SERVERS.length}개 서버에서 거래할 수 있습니다. 서버별 거래 가능 여부는 상담 시 한 번 더 확인해드립니다.` },
+  { question: '어떤 서버에서 거래할 수 있나요?', answer: `${SERVER_SUPPORT_TEXT} 거래 일정은 상담에서 조율합니다.` },
   { question: '시세는 어떻게 확인하나요?', answer: '현재 경매장 매물과 아이템의 주요 옵션을 함께 확인해 구매 가격을 안내합니다.' },
   { question: '거래는 얼마나 걸리나요?', answer: '아이템과 접속 상황에 따라 달라질 수 있습니다. 정보 확인이 빠르게 끝나면 문의부터 거래까지 평균 약 10분 정도가 걸립니다.' },
   { question: '거래 가능한 시간이 정해져 있나요?', answer: '문의는 365일 24시간 남길 수 있습니다. 답변과 실제 거래 시간은 상담에서 조율합니다.' },
@@ -116,7 +116,7 @@ export default function GuidePage() {
         <div className={styles.container}>
           <div className={styles.serverHeading}>
             <div><p className={styles.eyebrow}>지원 서버</p><h2 id="servers-title">메이플스토리 전 서버 상담</h2></div>
-            <p>거래 가능 여부는 아이템과 서버 상황에 따라 상담에서 확인합니다.</p>
+            <p>{SERVER_SUPPORT_TEXT}</p>
           </div>
           <ul className={styles.serverList}>{SERVERS.map((server) => <li key={server}>{server}</li>)}</ul>
           <div className={styles.serverGuide}>
