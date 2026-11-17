@@ -20,6 +20,7 @@ const nunito = Nunito({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://mapleitem.co.kr'),
+  icons: { icon: '/favicon.ico?v=ice-maple' },
   title: {
     default: "메이플 급처템 구매 - 실시간 시세 정산 | 메이플아이템",
     template: "%s | 메이플아이템"
